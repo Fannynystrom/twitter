@@ -1,15 +1,8 @@
-import CssBaseline from "@mui/material/CssBaseline";
+import Navbar from "../../components/Navbar";
 function Homepage() {
   return (
     <div>
-      <CssBaseline />
-      <Header />
-      <Hero />
-      <Section />
-      <AboutUs />
-      <Testimonial />
-      <ContactUs />
-      <Footer />
+      <Navbar />
     </div>
   );
 }

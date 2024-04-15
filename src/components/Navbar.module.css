@@ -1,0 +1,45 @@
+/* Navbar.module.css */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
+
+:root {
+  --primary-color: black; /* primary500 */
+  --text-color: #fff; /* white */
+  --hover-color: #f5ddbc; /* primary200, för hover-effekter */
+  --nav-height: 4rem; /* Anpassad höjd baserad på ditt tema */
+  --border-radius: 0.25rem; /* Från ditt tema */
+  --box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.navbar {
+  background-color: var(--primary-color);
+  box-shadow: var(--box-shadow);
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--nav-height);
+  font-family: "Open Sans", sans-serif;
+  text-transform: uppercase;
+}
+
+.navLink {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: clamp(1rem, 2vw, 2rem); /* Extra small heading */
+  transition: background-color var(--transition);
+  color: white;
+  text-shadow: 1px 1px 4px #000000;
+
+  /* Stil för att visa en visuell feedback när användaren hovrar över en länk */
+}
+
+.navLink:hover,
+.navLink:focus {
+  background-color: var(--hover-color);
+  text-shadow: none;
+  color: var(--primary-color);
+}
+
+/* Lägg till extra stilar här baserat på ditt behov */
