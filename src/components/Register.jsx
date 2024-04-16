@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import "loginRegister.css"
+import React, { useState } from "react";
 
-const LoginForm = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const RegisterForm = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  // lägg till logik
+    // Implementera registreringslogiken här
   };
 
   return (
     <div className="form-container">
-      <h2>Login</h2>
+      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Username:</label>
@@ -32,10 +32,19 @@ const LoginForm = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <div>
+          <label>Confirm Password:</label>
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Register</button>
       </form>
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
