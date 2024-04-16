@@ -13,12 +13,43 @@ html {
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: 300;
 
-  color-scheme: light dark;
+  /* GRÖNA FÄRGERNA */
+  --light-green-1: #f3f4e7; /* Lightest */
+  --light-green-2: #c5cab9;
+  --dark-green-3: #89937e;
+  --dark-green-4: #314528;
+
+  /* KONTRASTFÄRGER */
+  --brownish: #6d412a;
+  --beigeish: #cdac79;
+
   color: rgba(0, 0, 0, 0.87);
-  background-color: white;
+  background-color: var(--light-green-1);
+
+  --border-radius: 0.25rem;
+  --letter-spacing: 2px;
+  --transition: 0.3s ease-in-out all;
+
+  /* box shadow*/
+  --shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-2: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-3: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-4: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
+
+body {
+  background-color: var(--light-green-1);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 300;
+  line-height: 1;
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
@@ -32,6 +63,9 @@ html {
 .header {
   grid-area: hd;
 }
+.logo {
+}
+
 .footer {
   grid-area: ft;
   background-color: black;
