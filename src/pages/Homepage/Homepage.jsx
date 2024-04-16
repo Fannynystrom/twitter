@@ -40,7 +40,7 @@ function Homepage() {
   }
 
   function SearchBar() {
-    return <div className="searchBox"></div>;
+    return <div className={styles.searchBox}>SÖKFÄLT</div>;
   }
 
   function Trending() {
@@ -72,7 +72,7 @@ function Homepage() {
         </div>
       </div>
       <div className="sidebar">
-        <div className={styles.searchBox}>Sökruta</div>
+        <SearchBar />
         <Trending />
       </div>
       <div className="footer">FOOTER</div>
