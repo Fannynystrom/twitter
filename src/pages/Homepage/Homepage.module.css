@@ -27,7 +27,7 @@
 .tweetForm button {
   margin-top: 10px;
   padding: 8px 20px;
-  background-color: black;
+  background-color: var(--dark-green-4);
   color: #fff;
   border: none;
   border-radius: 5px;

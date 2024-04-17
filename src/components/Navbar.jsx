@@ -1,12 +1,13 @@
 import styles from "./Navbar.module.css";
 import "../index.css";
+import logotype from "../assets/logotype_dark.svg";
 
 function Navbar() {
   return (
     <nav className="header">
       <div className={styles.container}>
         <div className={styles.logo}>
-          <h1>Twitterish</h1>
+          <img src={logotype} alt="woofer_logo" />
         </div>
         <div className={styles.menu}>
           <ul>

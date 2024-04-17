@@ -2,13 +2,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: black;
+  background-color: var(--dark-green-4);
   padding: 10px 20px;
 }
 
-.logo h1 {
-  color: #fff;
-  margin: 0;
+.logo img {
+  height: auto;
+  width: auto;
+  max-height: 72px;
+  max-width: 250px;
 }
 
 .menu ul {
@@ -24,8 +26,10 @@
 
 .menu ul li a {
   color: #fff;
+  font-weight: 300;
   text-decoration: none;
-  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .menu ul li a:hover {
