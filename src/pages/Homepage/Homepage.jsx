@@ -59,7 +59,6 @@ function Homepage() {
 
   return (
     <div className="wrapper">
-      <Navbar />
       <div className="content">
         <div className={styles.tweetFeedContainer}>
           <div className={styles.tweetFeed}>
