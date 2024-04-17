@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { registerUser } from "./API/RegisterAPI.jsx"; // Importera registerUser-funktionen
+import { registerUser } from "../API/RegisterAPI"; // Importera registerUser-funktionen
 import "./loginRegister.css";
 
 const RegisterForm = () => {
