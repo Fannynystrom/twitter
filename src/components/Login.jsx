@@ -1,13 +1,26 @@
 import React, { useState } from "react";
 import "./loginRegister.css";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../apiComponents/LoginAPI";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implementera autentiseringslogiken här
+
+    const userData = { username, password };
+
+    try {
+      const response = await loginUser(userData);
+      navigate("/");
+      console.log("Du är inloggad!");
+    } catch (error) {
+      console.error("Något gick fel:", error);
+    }
   };
 
   return (

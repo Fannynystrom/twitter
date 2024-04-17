@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { registerUser } from "./API/RegisterAPI.jsx"; // Importera registerUser-funktionen
 import "./loginRegister.css";
 
 const RegisterForm = () => {
@@ -6,9 +7,23 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implementera registreringslogiken här
+    if (password !== confirmPassword) {
+      alert("Lösenorden matchar inte.");
+      return;
+    }
+
+    const userData = { username, password };
+
+    try {
+      const response = await registerUser(userData);
+      console.log("Användaren har registrerats:", response);
+      // Lägg till logik för att hantera lyckad registrering
+    } catch (error) {
+      console.error("Ett fel uppstod vid registrering:", error);
+      // Lägg till logik för att hantera fel vid registrering
+    }
   };
 
   return (
