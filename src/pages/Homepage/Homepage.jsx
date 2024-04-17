@@ -5,6 +5,7 @@ import "../../index.css";
 
 function Homepage() {
   function CreateTweet() {
+    console.log("hejhej");
     return (
       <div className={styles.createTweetBox}>
         <div className={styles.profileImg} />
