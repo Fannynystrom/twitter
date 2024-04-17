@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./loginRegister.css";
+
 
 const RegisterForm = () => {
   const [username, setUsername] = useState("");
