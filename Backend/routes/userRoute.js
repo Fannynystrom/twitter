@@ -7,7 +7,6 @@ const router = express.Router();
 // Route för inloggning
 router.post('/login', async (req, res) => {
   try {
-    // Läs in användardata från request body
     const { username, password } = req.body;
 
     // Hitta användaren i databasen
