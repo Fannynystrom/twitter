@@ -35,7 +35,7 @@ const PORT = process.env.PORT || 3000;
 
 
   
-app.use("/api/users", userRoute);
+app.use("/api", userRoute);
 
 app.listen(PORT, () => {
 console.log(`Servern körs på http://localhost:${PORT}`);
