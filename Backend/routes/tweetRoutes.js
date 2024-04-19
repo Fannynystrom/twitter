@@ -25,6 +25,30 @@ router.post('/', async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   });
+
+router.post('/likes/:id', async (req, res) => {
+  try {
+    const tweet = await TwitterPost.findById(req.params.id);
+    tweet.likes += 1; // ökar likeeees
+    await tweet.save();
+    res.json(tweet);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+  router.delete('/:id', async (req, res) => {
+    try {
+      const result = await TwitterPost.findByIdAndDelete(req.params.id);
+      if (!result) {
+        return res.status(404).send('Tweet not found');
+      }
+      res.status(200).send('Tweet deleted');
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
   
   
 

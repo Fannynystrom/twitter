@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createTweet } from '../API/TweetApi';  // Justera sökvägen baserat på din projektsstruktur
+import { createTweet } from '../API/TweetApi';  
 import styles from "../pages/Homepage/Homepage.module.css";
 
 function CreateTweet({ addTweet }) {
@@ -12,8 +12,8 @@ function CreateTweet({ addTweet }) {
     }
     try {
       const response = await createTweet(content);
-      addTweet(response);  // Funktionen för att lägga till den nya tweeten i listan i HomePage
-      setContent('');  // Rensar textfältet efter en tweet har skapats
+      addTweet(response);  // matchar med funktionen i homepage så tweeten syns där
+      setContent('');  // rensar boxen efter tweeten har skapats
     } catch (error) {
       console.error('Fel när tweet skulle skapas:', error);
     }
@@ -21,7 +21,7 @@ function CreateTweet({ addTweet }) {
 
   return (
     <div className={styles.createTweetBox}>
-      <div className={styles.profileImg} /> {/* Om du har en profilbild, säkerställ att denna är korrekt hanterad */}
+      <div className={styles.profileImg} /> 
       <div className={styles.createInput}>
         <textarea
           placeholder="Skriv din tweet här"

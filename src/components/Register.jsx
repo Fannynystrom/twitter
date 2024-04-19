@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { registerUser } from "../API/RegisterAPI"; // Importera registerUser-funktionen
+import { registerUser } from "../API/RegisterAPI"; 
 import "./loginRegister.css";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ const RegisterForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState(""); // Lägg till för att visa felmeddelanden
+  const [error, setError] = useState(""); 
   const navigate = useNavigate();
 
 
@@ -28,7 +28,7 @@ const RegisterForm = () => {
       setPassword("");
       setConfirmPassword("");
       setError("");
-      navigate("/"); // eller vart du nu vill dirigera användaren efter registrering
+      navigate("/"); 
     } catch (error) {
       setError("Ett fel uppstod vid registrering: " + error.response.data.message);
     }

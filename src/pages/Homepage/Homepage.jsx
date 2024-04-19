@@ -5,8 +5,7 @@ import "../../index.css";
 import CreateTweet from "../../components/CreateTweets";
 import TweetPost from "../../components/TweetPost";
 
-import { getTweets } from '../../API/TweetApi';  // Justera sökvägen
-
+import { getTweets } from '../../API/TweetApi';  
 function Homepage() {
   const [tweets, setTweets] = useState([]); 
 
@@ -22,8 +21,21 @@ function Homepage() {
     fetchTweets();
   }, []);
 
+//lägger tweet på homepage
   const addTweet = (newTweet) => {
     setTweets(prevTweets => [...prevTweets, newTweet]);
+  };
+//raderar på homepage
+const removeTweet = (id) => {
+    setTweets(tweets => tweets.filter(tweet => tweet._id !== id));
+  };
+//likeeees
+  const onLike = (updatedTweet) => {
+    setTweets(tweets =>
+      tweets.map(tweet =>
+        tweet._id === updatedTweet._id ? updatedTweet : tweet
+      )
+    );
   };
 
   
@@ -99,7 +111,7 @@ function Homepage() {
           <div className={styles.tweetFeed}>
           <CreateTweet addTweet={addTweet} />
       {tweets.map((tweet, index) => (
-        <TweetPost key={index} tweet={tweet} />
+        <TweetPost key={tweet._id} tweet={tweet} onLike={onLike} onDelete={removeTweet} />
       ))}
           </div>
         </div>
