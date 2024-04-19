@@ -1,28 +1,36 @@
 import React, { useState } from "react";
 import { registerUser } from "../API/RegisterAPI"; // Importera registerUser-funktionen
 import "./loginRegister.css";
+import { useNavigate } from "react-router-dom";
+
 
 const RegisterForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(""); // Lägg till för att visa felmeddelanden
+  const navigate = useNavigate();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Lösenorden matchar inte.");
+      setError("Lösenorden matchar inte.");
       return;
     }
 
-    const userData = { username, password };
 
     try {
-      const response = await registerUser(userData);
-      console.log("Användaren har registrerats:", response);
-      // Lägg till logik för att hantera lyckad registrering
+      const userData = { username, password };
+      await registerUser(userData);
+      // Nollställ formuläret
+      setUsername("");
+      setPassword("");
+      setConfirmPassword("");
+      setError("");
+      navigate("/"); // eller vart du nu vill dirigera användaren efter registrering
     } catch (error) {
-      console.error("Ett fel uppstod vid registrering:", error);
-      // Lägg till logik för att hantera fel vid registrering
+      setError("Ett fel uppstod vid registrering: " + error.response.data.message);
     }
   };
 

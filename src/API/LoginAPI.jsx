@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/login";
+const API_URL = "http://localhost:3000/api/users/login";
 
 export const loginUser = async (userData) => {
   try {
@@ -11,5 +11,3 @@ export const loginUser = async (userData) => {
   }
 };
 
-console.log("Carro är bäst <3333");
-console.log("Carro är sämst<33333");

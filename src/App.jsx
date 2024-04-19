@@ -6,6 +6,7 @@ import RegisterForm from "./components/Register.jsx";
 import "./index.css";
 import Navbar from "./components/Navbar.jsx";
 
+
 function App() {
   return (
     <Router>
