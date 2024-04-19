@@ -2,10 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import axios from 'axios';
 
 import userRoute from "./routes/userRoute.js";
-
+import tweetRoutes from './routes/tweetRoutes.js'; 
 
 const app = express();
 app.use(express.json());
@@ -17,10 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 // =============================MongoDB======================================================
     const mongoUri = process.env.MONGODB_URI;
-      const twitterPostSchema = new mongoose.Schema({
-              content: String,
-            });
-    const TwitterPost = mongoose.model('TwitterPost', twitterPostSchema);
+
 
     mongoose.connect(mongoUri)
         .then(() => console.log('Ansluten till MongoDB'))
@@ -36,6 +32,7 @@ const PORT = process.env.PORT || 3000;
 
   
 app.use("/api/users", userRoute);
+app.use("/api/tweets", tweetRoutes); 
 
 app.listen(PORT, () => {
 console.log(`Servern körs på http://localhost:${PORT}`);

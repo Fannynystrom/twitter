@@ -8,6 +8,7 @@
 .tweetFeedContainer {
   display: flex;
   justify-content: center;
+
 }
 
 .tweetForm {

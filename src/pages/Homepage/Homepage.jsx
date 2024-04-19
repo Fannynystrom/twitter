@@ -1,43 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Homepage.module.css";
 import Navbar from "../../components/Navbar";
 import "../../index.css";
+import CreateTweet from "../../components/CreateTweets";
+import TweetPost from "../../components/TweetPost";
+
+import { getTweets } from '../../API/TweetApi';  // Justera sökvägen
 
 function Homepage() {
-  function CreateTweet() {
-    return (
-      <div className={styles.createTweetBox}>
-        <div className={styles.profileImg} />
-        <div className={styles.createInput}>
-          <textarea placeholder="Skriv din tweet här" />
-        </div>
-        <button>Tweet</button>
-      </div>
-    );
-  }
+  const [tweets, setTweets] = useState([]); 
 
-  function TweetPost() {
-    return (
-      <div className={styles.tweetBox}>
-        <div className="tweetHeader">
-          <h3>Laban Labansson</h3> <em>@laban</em>
-        </div>
-        <div className={styles.tweetBody}>
-          <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.
-          </p>
-        </div>
-        <div className={styles.tweetButtons}>
-          <button>Gilla</button>
-          <button>Kommentera</button>
-          <button>Retweeta</button>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    const fetchTweets = async () => {
+      try {
+        const loadedTweets = await getTweets();
+        setTweets(loadedTweets);
+      } catch (error) {
+        console.error('Fel när tweets skulle hämtas:', error);
+      }
+    };
+    fetchTweets();
+  }, []);
+
+  const addTweet = (newTweet) => {
+    setTweets(prevTweets => [...prevTweets, newTweet]);
+  };
+
+  
 
   function SearchBar() {
     return <div className={styles.searchBox}>SÖKFÄLT</div>;
@@ -108,11 +97,10 @@ function Homepage() {
       <div className="content">
         <div className={styles.tweetFeedContainer}>
           <div className={styles.tweetFeed}>
-            <CreateTweet />
-            <TweetPost />
-            <TweetPost />
-            <TweetPost />
-            <TweetPost />
+          <CreateTweet addTweet={addTweet} />
+      {tweets.map((tweet, index) => (
+        <TweetPost key={index} tweet={tweet} />
+      ))}
           </div>
         </div>
       </div>
