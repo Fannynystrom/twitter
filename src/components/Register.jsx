@@ -8,6 +8,9 @@ const RegisterForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState(""); 
   const navigate = useNavigate();
 
@@ -18,22 +21,31 @@ const RegisterForm = () => {
       setError("Lösenorden matchar inte.");
       return;
     }
-
-
+  
+    const userData = {
+      username,
+      password,
+      firstName,
+      lastName,
+      email,
+    };
+  
     try {
-      const userData = { username, password };
       await registerUser(userData);
-      // Nollställ formuläret
+      //nollställer formuläret
       setUsername("");
+      setFirstName("");
+      setLastName("");
+      setEmail("");
       setPassword("");
       setConfirmPassword("");
       setError("");
-      navigate("/"); 
+      navigate("/login"); 
     } catch (error) {
       setError("Ett fel uppstod vid registrering: " + error.response.data.message);
     }
   };
-
+  
   return (
     <div className="container">
       <div className="form-container">
@@ -45,6 +57,33 @@ const RegisterForm = () => {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Firstname:</label>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Lastname:</label>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
