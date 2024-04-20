@@ -17,8 +17,10 @@ const LoginForm = () => {
 
     try {
       const response = await loginUser(userData);
+      localStorage.setItem('isAuthenticated', 'true');
       navigate("/");
       console.log("Du är inloggad!");
+
     } catch (error) {
       console.error("Något gick fel:", error);
     }
