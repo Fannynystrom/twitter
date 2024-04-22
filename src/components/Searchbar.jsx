@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchType, setSearchType] = useState('username'); // Default search type
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchType, setSearchType] = useState("username"); // Default search type
   const [searchResults, setSearchResults] = useState([]);
 
   const handleChange = (event) => {
@@ -53,6 +53,3 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
-
-
-
