@@ -4,10 +4,12 @@ import Navbar from "../../components/Navbar";
 import "../../index.css";
 import CreateTweet from "../../components/CreateTweets";
 import TweetPost from "../../components/TweetPost";
+import { getTweets } from '../../API/TweetApi'; 
 
-import { getTweets } from '../../API/TweetApi';  
+
 function Homepage() {
   const [tweets, setTweets] = useState([]); 
+  const [likedNotification, setLikedNotification] = useState(false); 
 
   useEffect(() => {
     const fetchTweets = async () => {
@@ -36,6 +38,7 @@ const removeTweet = (id) => {
         tweet._id === updatedTweet._id ? updatedTweet : tweet
       )
     );
+    
   };
 
   
