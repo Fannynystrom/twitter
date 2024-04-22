@@ -40,8 +40,8 @@ const removeTweet = (id) => {
     );
     
   };
-
   
+  console.log('test')
 
   function SearchBar() {
     return <div className={styles.searchBox}>SÖKFÄLT</div>;
