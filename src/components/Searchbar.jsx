@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import 
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchType, setSearchType] = useState('username'); // Default search type
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -19,6 +19,12 @@ const SearchBar = () => {
     // t.ex. anropa en API med den aktuella söktermen och söktypen
     // För närvarande är det bara en stubbe.
     console.log(`Searching for ${searchTerm} with search type ${searchType}`);
+    // Anropa din API och uppdatera sökresultaten baserat på svaret
+    setSearchResults([
+      `Result 1 for ${searchTerm}`,
+      `Result 2 for ${searchTerm}`,
+      `Result 3 for ${searchTerm}`,
+    ]);
   };
 
   return (
@@ -32,15 +38,21 @@ const SearchBar = () => {
         />
         <select value={searchType} onChange={handleTypeChange}>
           <option value="username">Username</option>
-          <option value="author">Author</option>
+          <option value="name">Name</option>
           <option value="hashtag">Hashtag</option>
         </select>
         <button type="submit">Search</button>
       </form>
+      <ul>
+        {searchResults.map((result, index) => (
+          <li key={index}>{result}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
 export default SearchBar;
+
 
 
