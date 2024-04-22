@@ -10,8 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-dotenv.config();
-
+dotenv.config({ path: "../.env" });
 const PORT = process.env.PORT || 3000; 
 
 // =============================MongoDB======================================================
