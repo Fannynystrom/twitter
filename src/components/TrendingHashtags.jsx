@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "../pages/Homepage/Homepage.module.css";
 import axios from "axios";
+import { getTweets } from "../API/TweetApi";
 
 function TrendingHashtags() {
   const [tweets, setTweets] = useState([]);
   const [trendingHashtags, setTrendingHashtags] = useState([]);
+
 
   useEffect(() => {
     const fetchTweets = async () => {
@@ -18,6 +20,20 @@ function TrendingHashtags() {
 
     fetchTweets();
   }, []);
+
+  useEffect(() => {
+    const fetchTrendingHashtags = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/hashtags");
+        setTrendingHashtags(response.data);
+      } catch (error) {
+        console.error("Error fetching trending hashtags:", error);
+      }
+    };
+
+    fetchTrendingHashtags();
+  }, []);
+
 
   const extractHashtags = (tweetText) => {
     const hashtagsRegex = /#(\w+)/g;
@@ -50,7 +66,7 @@ function TrendingHashtags() {
   const getTrendingHashtags = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/hashtags");
-      setTrendingHashtags(response.data.slice(0, 5)); // Hämta de 5 mest populära hashtagsen
+      setTrendingHashtags(response.data.slice(0, 10)); // Hämta de 5 mest populära hashtagsen
     } catch (error) {
       console.error("Error fetching trending hashtags:", error);
     }
@@ -59,6 +75,10 @@ function TrendingHashtags() {
   useEffect(() => {
     getTrendingHashtags();
   }, []);
+
+
+  console.log("trending", trendingHashtags)
+
 
   return (
     <div className={styles.trendingBox}>

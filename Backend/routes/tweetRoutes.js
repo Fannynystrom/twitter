@@ -1,5 +1,6 @@
 import express from 'express';
-import TwitterPost from '../models/tweetModel.js'; 
+import TwitterPost from '../models/tweetModel.js';
+import Hashtag from '../models/hashtagModel.js';
 
 const router = express.Router();
 
@@ -36,17 +37,34 @@ const saveHashtags = async (hashtags) => {
   }
 };
 
+const getTopHashtags = async () => {
+  try {
+    const hashtags = await Hashtag.find({}).sort({ count: -1 }).limit(5); // Sortera efter count och ta de 5 mest använda hashtaggar
+    return hashtags;
+  } catch (error) {
+    console.error("Error fetching top hashtags:", error);
+    return [];
+  }
+};
 
-  
 
-  router.get('/', async (req, res) => {
-    try {
-      const tweets = await TwitterPost.find({}).sort({ createdAt: -1 });  
-      res.status(200).json(tweets);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  });
+router.get('/', async (req, res) => {
+  try {
+    const tweets = await TwitterPost.find({}).sort({ createdAt: -1 });
+    res.status(200).json(tweets);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.get('/hashtags', async (req, res) => {
+  try {
+    const topHashtags = await getTopHashtags();
+    res.status(200).json(topHashtags);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 router.post('/likes/:id', async (req, res) => {
   try {
@@ -60,19 +78,19 @@ router.post('/likes/:id', async (req, res) => {
 });
 
 
-  router.delete('/:id', async (req, res) => {
-    try {
-      const result = await TwitterPost.findByIdAndDelete(req.params.id);
-      if (!result) {
-        return res.status(404).send('Tweet not found');
-      }
-      res.status(200).send('Tweet deleted');
-    } catch (error) {
-      res.status(500).json({ message: error.message });
+router.delete('/:id', async (req, res) => {
+  try {
+    const result = await TwitterPost.findByIdAndDelete(req.params.id);
+    if (!result) {
+      return res.status(404).send('Tweet not found');
     }
-  });
-  
-  
+    res.status(200).send('Tweet deleted');
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 
 
 
