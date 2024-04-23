@@ -1,8 +1,10 @@
-// controllers/searchController.js
-import User from "./models/userModel.js";
-import TwitterPost from "./models/tweetModel.js";
+import express from "express";
+import User from "../models/userModel.js";
+import TwitterPost from "../models/tweetModel.js";
 
-export const search = async (req, res) => {
+const router = express.Router();
+
+router.post("/api/search", async (req, res) => {
   const { searchTerm } = req.body;
 
   try {
@@ -29,4 +31,6 @@ export const search = async (req, res) => {
     console.error("Error searching:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-};
+});
+
+export default router;

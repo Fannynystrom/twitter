@@ -38,10 +38,9 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
-import { search } from "./searchController.js"; // Importera sökfunktionen
-
 import userRoute from "./routes/userRoute.js";
 import tweetRoutes from "./routes/tweetRoutes.js";
+import searchRoute from "./routes/searchRoute.js"; 
 
 const app = express();
 app.use(express.json());
@@ -58,8 +57,7 @@ mongoose
   .then(() => console.log("Ansluten till MongoDB"))
   .catch((err) => console.error("Kunde inte ansluta till MongoDB", err));
 
-// Sökendpoint
-app.post("/api/search", search); // Lägg till en POST-endpoint för sökning
+
 
 //==============================Routes=====================================================
 app.get("/", (req, res) => {
@@ -68,6 +66,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/users", userRoute);
 app.use("/api/tweets", tweetRoutes);
+app.use("/api/search", searchRoute);
 
 // Lyssna på porten
 app.listen(PORT, () => {
