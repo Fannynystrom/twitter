@@ -1,10 +1,13 @@
 import express from "express";
 import User from "../models/userModel.js";
 import TwitterPost from "../models/tweetModel.js";
+import tweetRouter from "./tweetRoutes.js";
 
 const router = express.Router();
 
-router.post("/api/search", async (req, res) => {
+router.use("/api/tweets", tweetRouter);
+
+router.post("/", async (req, res) => {
   const { searchTerm } = req.body;
 
   try {
