@@ -1,30 +1,24 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchType, setSearchType] = useState("username"); // Default search type
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState({ users: [], posts: [] });
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleTypeChange = (event) => {
-    setSearchType(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Här kan du implementera söklogik baserat på vald söktyp
-    // t.ex. anropa en API med den aktuella söktermen och söktypen
-    // För närvarande är det bara en stubbe.
-    console.log(`Searching for ${searchTerm} with search type ${searchType}`);
-    // Anropa din API och uppdatera sökresultaten baserat på svaret
-    setSearchResults([
-      `Result 1 for ${searchTerm}`,
-      `Result 2 for ${searchTerm}`,
-      `Result 3 for ${searchTerm}`,
-    ]);
+
+    try {
+      const response = await axios.post("/api/search", { searchTerm });
+
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error("Error searching:", error);
+    }
   };
 
   return (
@@ -34,20 +28,26 @@ const SearchBar = () => {
           type="text"
           value={searchTerm}
           onChange={handleChange}
-          placeholder="Search Twitter"
+          placeholder="Search"
         />
-        <select value={searchType} onChange={handleTypeChange}>
-          <option value="username">Username</option>
-          <option value="name">Name</option>
-          <option value="hashtag">Hashtag</option>
-        </select>
         <button type="submit">Search</button>
       </form>
-      <ul>
-        {searchResults.map((result, index) => (
-          <li key={index}>{result}</li>
-        ))}
-      </ul>
+      <div>
+        <h2>Users</h2>
+        <ul>
+          {searchResults.users.map((user, index) => (
+            <li key={index}>{user.username}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2>Posts</h2>
+        <ul>
+          {searchResults.posts.map((post, index) => (
+            <li key={index}>{post.content}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

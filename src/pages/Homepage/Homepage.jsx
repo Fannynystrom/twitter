@@ -59,7 +59,7 @@ const removeTweet = (id) => {
       </div>
       <div className="sidebar">
         <SearchBar />
-        <TrendingHashtags />
+        {/* <TrendingHashtags /> */}
       </div>
       <div className="footer">FOOTER</div>
     </div>
