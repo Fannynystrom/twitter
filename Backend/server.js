@@ -5,6 +5,7 @@ import cors from "cors";
 
 import userRoute from "./routes/userRoute.js";
 import tweetRoutes from "./routes/tweetRoutes.js";
+import hashtagRoutes from "./routes/hashtagRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -29,6 +30,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/users", userRoute);
 app.use("/api/tweets", tweetRoutes);
+app.use("/api/hashtags", hashtagRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Servern körs på http://localhost:${PORT}`);

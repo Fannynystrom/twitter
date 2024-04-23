@@ -9,12 +9,34 @@ router.post('/', async (req, res) => {
   try {
     const { content } = req.body;
     const newTweet = new TwitterPost({ content });
+    newTweet.hashtags = TwitterPost.extractHashtags(content);
     await newTweet.save();
+    await saveHashtags(newTweet.hashtags)
     res.status(201).json(newTweet);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
+
+// test
+const saveHashtags = async (hashtags) => {
+  try {
+    for (const tag of hashtags) {
+      const existingHashtag = await Hashtag.findOne({ tag });
+      if (existingHashtag) {
+        existingHashtag.count++;
+        await existingHashtag.save();
+      } else {
+        const newHashtag = new Hashtag({ tag, count: 1 });
+        await newHashtag.save();
+      }
+    }
+  } catch (error) {
+    console.error("Error saving hashtag:", error);
+  }
+};
+
+
   
 
   router.get('/', async (req, res) => {
