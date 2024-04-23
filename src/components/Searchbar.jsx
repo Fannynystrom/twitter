@@ -1,30 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+const SEARCH_URL = "http://localhost:3000/api/search";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchType, setSearchType] = useState("username"); // Default search type
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState({ users: [], tweets: [] });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
+    console.log(searchTerm);
   };
 
-  const handleTypeChange = (event) => {
-    setSearchType(event.target.value);
-  };
+  useEffect(() => {
+    console.log("Updaterad sökterm:", searchTerm);
+  }, [searchTerm]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Här kan du implementera söklogik baserat på vald söktyp
-    // t.ex. anropa en API med den aktuella söktermen och söktypen
-    // För närvarande är det bara en stubbe.
-    console.log(`Searching for ${searchTerm} with search type ${searchType}`);
-    // Anropa din API och uppdatera sökresultaten baserat på svaret
-    setSearchResults([
-      `Result 1 for ${searchTerm}`,
-      `Result 2 for ${searchTerm}`,
-      `Result 3 for ${searchTerm}`,
-    ]);
+    setIsLoading(true);
+    setError("");
+    try {
+      const response = await axios.post(SEARCH_URL, { searchTerm });
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error("Error searching:", error);
+      setError("Failed to find results. Please try again.");
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -34,20 +39,29 @@ const SearchBar = () => {
           type="text"
           value={searchTerm}
           onChange={handleChange}
-          placeholder="Search Twitter"
+          placeholder="Search"
         />
-        <select value={searchType} onChange={handleTypeChange}>
-          <option value="username">Username</option>
-          <option value="name">Name</option>
-          <option value="hashtag">Hashtag</option>
-        </select>
-        <button type="submit">Search</button>
+        <button type="submit" disabled={isLoading}>
+          Search
+        </button>
       </form>
-      <ul>
-        {searchResults.map((result, index) => (
-          <li key={index}>{result}</li>
-        ))}
-      </ul>
+      {error && <p>{error}</p>}
+      <div>
+        <h2>Users</h2>
+        <ul>
+          {searchResults.users.map((user, index) => (
+            <li key={index}>{user.username}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2>Posts</h2>
+        <ul>
+          {searchResults.tweets.map((tweet, index) => (
+            <li key={index}>{tweet.content}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
