@@ -10,7 +10,7 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     // Hitta användaren i databasen
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username: username });
     if (!user) {
       return res.status(404).json({ message: "Användaren hittades inte" });
     }
@@ -20,13 +20,12 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Fel lösenord" });
     }
 
-    res.status(200).json({ message: "Inloggning lyckades" });
+    res.status(200).json(user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Något gick fel vid inloggningen" });
   }
 });
-
 
 router.post("/register", async (req, res) => {
   try {
@@ -34,10 +33,18 @@ router.post("/register", async (req, res) => {
 
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      return res.status(400).json({ message: "Användarnamnet eller e-postadressen är redan upptagen" });
+      return res.status(400).json({
+        message: "Användarnamnet eller e-postadressen är redan upptagen",
+      });
     }
 
-    const newUser = new User({ username, password, firstName, lastName, email });
+    const newUser = new User({
+      username,
+      password,
+      firstName,
+      lastName,
+      email,
+    });
     await newUser.save();
 
     res.status(201).json({ message: "Användaren skapades framgångsrikt" });
@@ -46,7 +53,5 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ message: "Något gick fel vid registreringen" });
   }
 });
-
-
 
 export default router;

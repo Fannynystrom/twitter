@@ -7,9 +7,9 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ }
+  email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
 });
 
-const User = mongoose.model("users", UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 export default User;

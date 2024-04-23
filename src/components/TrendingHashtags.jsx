@@ -94,11 +94,6 @@ function TrendingHashtags() {
 
 export default TrendingHashtags;
 
-
-
-
-
-
 // import { useEffect, useState } from "react";
 // import styles from "../pages/Homepage/Homepage.module.css";
 
