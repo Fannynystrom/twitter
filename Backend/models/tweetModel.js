@@ -1,17 +1,25 @@
 // models/tweetModel.js
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const twitterPostSchema = new mongoose.Schema({
-  content: String,
-  likes: {
-    type: Number,
-    default: 0,
+const twitterPostSchema = new mongoose.Schema(
+  {
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    content: String,
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  createdAt: {  
-    type: Date,
-    default: Date.now  
-  }}, { timestamps: true });
+  { timestamps: true }
+);
 
-const TwitterPost = mongoose.model('TwitterPost', twitterPostSchema);
+const TwitterPost = mongoose.model("TwitterPost", twitterPostSchema);
 
 export default TwitterPost;
