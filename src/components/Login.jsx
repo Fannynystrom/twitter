@@ -14,14 +14,15 @@ const LoginForm = () => {
     e.preventDefault();
 
     const userData = { username, password };
-    console.log(userData)
+    console.log(userData);
 
     try {
       const response = await loginUser(userData);
-      localStorage.setItem('isAuthenticated', 'true');
+      // localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem("user", JSON.stringify(response));
       navigate("/");
+      console.log(response);
       console.log("Du är inloggad!");
-
     } catch (error) {
       console.error("Något gick fel:", error);
     }
@@ -51,8 +52,9 @@ const LoginForm = () => {
             />
           </div>
           <button type="submit">Login</button>
-          <button type="button" onClick={() => navigate("/register")}>Registrera dig</button>  
-
+          <button type="button" onClick={() => navigate("/register")}>
+            Registrera dig
+          </button>
         </form>
       </div>
     </div>
