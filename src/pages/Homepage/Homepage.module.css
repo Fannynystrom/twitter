@@ -8,7 +8,6 @@
 .tweetFeedContainer {
   display: flex;
   justify-content: center;
-
 }
 
 .tweetForm {
@@ -37,30 +36,6 @@
 
 .tweetFeed {
   margin-top: 2rem;
-}
-
-.tweetBox {
-  border: 1px solid black;
-  padding: 1rem;
-  margin-top: 1rem;
-  background-color: #00000015;
-}
-
-.createTweetBox {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border: 1px solid black;
-}
-
-.tweetBody {
-  padding-top: 2rem;
-  padding-bottom: 1rem;
-}
-
-.tweetButtons button {
-  margin: 0.5rem;
-  padding: 0.5rem;
 }
 
 .sidebar {

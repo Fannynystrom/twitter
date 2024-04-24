@@ -1,25 +1,11 @@
 import React, { useState, useContext } from "react";
 import { createTweet } from "../API/TweetApi";
-import styles from "../pages/Homepage/Homepage.module.css";
+import styles from "./CreateTweet.module.css";
 import { UserContext } from "../context/UserContext";
 
 function CreateTweet({ addTweet }) {
   const [content, setContent] = useState("");
   const { user } = useContext(UserContext);
-
-  // const handleTweetCreation = async () => {
-  //   if (!content.trim()) {
-  //     alert("Din tweet kan inte vara tom.");
-  //     return;
-  //   }
-  //   try {
-  //     const response = await createTweet(content);
-  //     addTweet(response); // matchar med funktionen i homepage så tweeten syns där
-  //     setContent(""); // rensar boxen efter tweeten har skapats
-  //   } catch (error) {
-  //     console.error("Fel när tweet skulle skapas:", error);
-  //   }
-  // };
 
   const handleTweetCreation = async () => {
     if (!content.trim()) {
@@ -42,16 +28,29 @@ function CreateTweet({ addTweet }) {
 
   return (
     <div className={styles.createTweetBox}>
-      <div className={styles.profileImg} />
-      <div className={styles.createInput}>
-        <textarea
-          placeholder="Skriv din tweet här"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </div>
-      <button onClick={handleTweetCreation}>Tweet</button>
+      <div className={styles.profileImg}></div>
+      <textarea
+        className={styles.tweetInput}
+        placeholder="Skriv din tweet här"
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+      />
+      <button className={styles.tweetButton} onClick={handleTweetCreation}>
+        Tweet
+      </button>
     </div>
+
+    // <div className={styles.createTweetBox}>
+    //   <div className={styles.profileImg} />
+    //   <div className={styles.createInput}>
+    //     <textarea
+    //       placeholder="Skriv din tweet här"
+    //       value={content}
+    //       onChange={(e) => setContent(e.target.value)}
+    //     />
+    //   </div>
+    //   <button onClick={handleTweetCreation}>Tweet</button>
+    // </div>
   );
 }
 

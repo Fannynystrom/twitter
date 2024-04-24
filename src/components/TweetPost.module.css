@@ -1,0 +1,131 @@
+.createTweetBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.tweetBox {
+  border: 1px solid #e1e8ed;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: #fff;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.tweetHeader {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+.tweetHeader h3 {
+  font-size: 0.9rem;
+  line-height: 1.3125;
+  font-weight: bold;
+  margin-right: 1rem;
+  color: #314528;
+}
+
+.tweetHeader em {
+  color: #89937e;
+  font-size: 0.75rem;
+  padding-left: 1rem;
+}
+
+.tweetHeaderContent {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.tweetMetadata,
+.tweetRelativeTime {
+  display: inline; /* Gör texten inline */
+  margin-left: 10px;
+  color: #89937e;
+}
+
+.tweetHeader em,
+.tweetRelativeTime {
+  font-size: 0.8rem;
+  font-weight: 100;
+}
+
+.tweetBody {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+/* .tweetBody {
+  font-size: 15px;
+  color: #14171a;
+  border-bottom: 1px solid #e1e8ed;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+} */
+
+.tweetButtons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.tweetButtons button {
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  margin: 0;
+  color: #89937e;
+  color: #c5cab9;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tweetButtons button:hover {
+  text-decoration: underline;
+}
+
+.tweetButtons span {
+  color: #89937e;
+  font-size: 14px;
+}
+
+/* Lägg till extra generell styling för att få det att se mer modernt och fräscht ut */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button:focus,
+button:active {
+  outline: none;
+}
+
+/* Media query för responsivitet
+@media (max-width: 768px) {
+  .tweetBox {
+    padding: 0.5rem;
+  }
+
+  .tweetHeader h3,
+  .tweetHeader em,
+  .tweetDate,
+  .tweetBody {
+    font-size: smaller;
+  }
+} */
+
+.profileImg {
+  margin-right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #89937e;
+}

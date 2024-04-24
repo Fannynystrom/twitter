@@ -63,8 +63,6 @@ body {
 .header {
   grid-area: hd;
 }
-.logo {
-}
 
 h2 {
   color: #6d412a;
