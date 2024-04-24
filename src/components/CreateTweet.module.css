@@ -42,3 +42,15 @@
   background-color: #89937e;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
+
+.charCount {
+  align-self: flex-end;
+  margin-right: 1rem;
+  color: #89937e;
+  font-size: 0.6em;
+}
+
+.charCountWarning {
+  color: red;
+  font-weight: bold;
+}

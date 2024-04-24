@@ -4,27 +4,37 @@ import styles from "./CreateTweet.module.css";
 import { UserContext } from "../context/UserContext";
 
 function CreateTweet({ addTweet }) {
+  const maxTweetLength = 140;
   const [content, setContent] = useState("");
   const { user } = useContext(UserContext);
+
+  const handleContentChange = (e) => {
+    setContent(e.target.value.substring(0, maxTweetLength));
+  };
 
   const handleTweetCreation = async () => {
     if (!content.trim()) {
       alert("Din tweet kan inte vara tom.");
       return;
     }
-    // if (!user) {
-    //   alert("You must be logged in to post a tweet.");
-    //   return;
-    // }
+    if (!user) {
+      alert("You must be logged in to post a tweet.");
+      return;
+    }
     try {
       const userData = JSON.parse(localStorage.getItem("user"));
-      // Call the addTweet function with content and user ID
+
       await addTweet(content, userData._id);
-      setContent(""); // Clear the text area after the tweet is created
+      setContent("");
     } catch (error) {
       console.error("Fel när tweet skulle skapas:", error);
     }
   };
+
+  const charCountClass =
+    content.length > maxTweetLength - 10
+      ? `${styles.charCount} ${styles.charCountWarning}`
+      : styles.charCount;
 
   return (
     <div className={styles.createTweetBox}>
@@ -33,24 +43,16 @@ function CreateTweet({ addTweet }) {
         className={styles.tweetInput}
         placeholder="Skriv din tweet här"
         value={content}
-        onChange={(e) => setContent(e.target.value)}
+        onChange={handleContentChange}
+        maxLength={maxTweetLength}
       />
+      <div className={charCountClass}>
+        {maxTweetLength - content.length} tecken kvar
+      </div>
       <button className={styles.tweetButton} onClick={handleTweetCreation}>
         Tweet
       </button>
     </div>
-
-    // <div className={styles.createTweetBox}>
-    //   <div className={styles.profileImg} />
-    //   <div className={styles.createInput}>
-    //     <textarea
-    //       placeholder="Skriv din tweet här"
-    //       value={content}
-    //       onChange={(e) => setContent(e.target.value)}
-    //     />
-    //   </div>
-    //   <button onClick={handleTweetCreation}>Tweet</button>
-    // </div>
   );
 }
 
