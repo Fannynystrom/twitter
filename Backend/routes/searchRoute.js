@@ -3,9 +3,8 @@ import User from "../models/userModel.js";
 import TwitterPost from "../models/tweetModel.js";
 import tweetRouter from "./tweetRoutes.js";
 
-const router = express.Router();
 
-router.use("/api/tweets", tweetRouter);
+const router = express.Router();
 
 router.post("/", async (req, res) => {
   const { searchTerm } = req.body;
@@ -21,12 +20,9 @@ router.post("/", async (req, res) => {
       ],
     });
 
-    // Sök efter tweets baserat på innehåll och hashtags
+    // Sök efter tweets som innehåller specifika hashtags
     const tweets = await TwitterPost.find({
-      $or: [
-        { content: { $regex: searchTerm, $options: "i" } }, // Sökning på tweet-innehåll
-        { hashtags: searchTerm }, // Sökning på hashtags
-      ],
+      hashtags: searchTerm
     });
 
     res.json({ users, tweets });
@@ -37,3 +33,4 @@ router.post("/", async (req, res) => {
 });
 
 export default router;
+
