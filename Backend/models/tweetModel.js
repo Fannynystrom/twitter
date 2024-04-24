@@ -16,10 +16,19 @@ const twitterPostSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-  },
-  { timestamps: true }
-);
+    hashtags: [{ type: String }],
+    createdAt: {  
+      type: Date,
+      default: Date.now  
+    }
+  }, { timestamps: true });
 
-const TwitterPost = mongoose.model("TwitterPost", twitterPostSchema);
+twitterPostSchema.statics.extractHashtags = function(tweetText) {
+    const hashtagsRegex = /#(\w+)/g;
+    const hashtags = tweetText.match(hashtagsRegex);
+    return hashtags ? hashtags.map(tag => tag.slice(1)) : [];
+};
+
+const TwitterPost = mongoose.model('TwitterPost', twitterPostSchema);
 
 export default TwitterPost;
