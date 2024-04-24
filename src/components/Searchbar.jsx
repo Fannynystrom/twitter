@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import styles from "./Searchbar.module.css";
 
 const SEARCH_URL = "http://localhost:3000/api/search";
 
@@ -33,32 +34,42 @@ const SearchBar = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.searchContainer}>
+      <form onSubmit={handleSubmit} className={styles.searchForm}>
         <input
           type="text"
+          className={styles.searchInput}
           value={searchTerm}
           onChange={handleChange}
           placeholder="Search"
+          disabled={isLoading}
         />
-        <button type="submit" disabled={isLoading}>
+        <button
+          className={styles.searchButton}
+          type="submit"
+          disabled={isLoading}
+        >
           Search
         </button>
       </form>
-      {error && <p>{error}</p>}
-      <div>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.searchResults}>
         <h2>Users</h2>
         <ul>
           {searchResults.users.map((user, index) => (
-            <li key={index}>{user.username}</li>
+            <li key={index} className={styles.resultItem}>
+              {user.username}
+            </li>
           ))}
         </ul>
       </div>
-      <div>
+      <div className={styles.searchResults}>
         <h2>Posts</h2>
         <ul>
           {searchResults.tweets.map((tweet, index) => (
-            <li key={index}>{tweet.content}</li>
+            <li key={index} className={styles.resultItem}>
+              {tweet.content}
+            </li>
           ))}
         </ul>
       </div>

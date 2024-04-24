@@ -1,0 +1,45 @@
+.searchInput {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: calc(100% - 120px); /* Anpassar bredden så att sökknappen får plats */
+}
+
+.searchButton {
+  padding: 10px 20px;
+  border: none;
+  background-color: #314528;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.searchButton:disabled {
+  background-color: #f3f4e7;
+  cursor: not-allowed;
+}
+
+.searchResults {
+  margin: 20px 0;
+}
+
+.searchResults h2 {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.searchResults ul {
+  list-style: none;
+  padding: 0;
+}
+
+.searchResults li {
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.errorMessage {
+  color: red;
+  margin: 20px 0;
+}

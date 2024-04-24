@@ -86,6 +86,7 @@ h2 {
 }
 .sidebar {
   grid-area: sd;
+  padding: 1rem;
 }
 
 ul {
