@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar";
 import "../../index.css";
 
 import SearchBar from "../../components/Searchbar";
-import CreateTweet from "../../components/CreateTweets";
+import CreateTweet from "../../components/CreateTweet";
 import TweetPost from "../../components/TweetPost";
 import TrendingHashtags from "../../components/TrendingHashtags";
 
@@ -29,14 +29,14 @@ function Homepage() {
     fetchTweets();
   }, []);
 
-  //lägger tweet på homepage
+  //tog bort denna pga den sparade aldrig fullständiga tweeten
   // const addTweet = (newTweet) => {
   //   setTweets((prevTweets) => [...prevTweets, newTweet]);
   // };
 
-  // Lägger till kontroller här
+  // En extragrej, bara för att inte allt ska krascha om ingen användare finns
   if (!user) {
-    return <div>Loading user data...</div>; // Eller någon annan indikation på att data laddas eller inte är tillgänglig
+    return <div>Loading user data...</div>;
   }
 
   const addTweet = async (content, userName) => {
@@ -48,38 +48,19 @@ function Homepage() {
     }
   };
 
-  // //raderar på homepage
-  // const removeTweet = (id) => {
-  //   setTweets((tweets) => tweets.filter((tweet) => tweet._id !== id));
-  // };
-  // //likeeees
-  // const onLike = (updatedTweet) => {
-  //   setTweets((tweets) =>
-  //     tweets.map((tweet) =>
-  //       tweet._id === updatedTweet._id ? updatedTweet : tweet
-  //     )
-  //   );
-  // };
-
   return (
     <div className="wrapper">
       <div className="content">
-        <div className={styles.tweetFeedContainer}>
-          <div className={styles.tweetFeed}>
-            <CreateTweet addTweet={addTweet} />
-            {tweets.map((tweet, index) => (
-              <TweetPost
-                key={tweet._id}
-                createdBy={
-                  tweet.createdBy ? tweet.createdBy : "Okänd användare"
-                }
-                tweet={tweet}
-                // onLike={onLike}
-                // onDelete={removeTweet}
-              />
-            ))}
-          </div>
-        </div>
+        <CreateTweet addTweet={addTweet} />
+        {tweets.map((tweet, index) => (
+          <TweetPost
+            key={tweet._id}
+            createdBy={tweet.createdBy ? tweet.createdBy : "Okänd användare"}
+            tweet={tweet}
+            // onLike={onLike}
+            // onDelete={removeTweet}
+          />
+        ))}
       </div>
       <div className="sidebar">
         <SearchBar />
