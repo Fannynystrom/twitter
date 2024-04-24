@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "./Homepage.module.css";
 import Navbar from "../../components/Navbar";
 import "../../index.css";
-
 import SearchBar from "../../components/Searchbar";
 import CreateTweet from "../../components/CreateTweet";
 import TweetPost from "../../components/TweetPost";
@@ -14,7 +13,29 @@ import { UserContext } from "../../context/UserContext";
 function Homepage() {
   const [tweets, setTweets] = useState([]);
   const [likedNotification, setLikedNotification] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, following, setFollowing } = useContext(UserContext);
+
+  const isFollowing = (userId) => following.includes(userId);
+
+  const toggleFollow = (userId, willFollow) => {
+    setFollowing((current) => {
+      return willFollow
+        ? [...current, userId]
+        : current.filter((id) => id !== userId);
+    });
+  };
+
+  const fetchCurrentUser = async () => {
+    try {
+      const response = await axios.get(CURRENT_USER_URL, {
+        withCredentials: true, // Ensuring cookies are sent with the request
+      });
+      console.log("User data fetched:", response.data); // Check what you're actually getting back
+      setUser(response.data);
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchTweets = async () => {
@@ -29,12 +50,6 @@ function Homepage() {
     fetchTweets();
   }, []);
 
-  //tog bort denna pga den sparade aldrig fullständiga tweeten
-  // const addTweet = (newTweet) => {
-  //   setTweets((prevTweets) => [...prevTweets, newTweet]);
-  // };
-
-  // En extragrej, bara för att inte allt ska krascha om ingen användare finns
   if (!user) {
     return <div>Loading user data...</div>;
   }
@@ -52,13 +67,14 @@ function Homepage() {
     <div className="wrapper">
       <div className="content">
         <CreateTweet addTweet={addTweet} />
-        {tweets.map((tweet, index) => (
+        {tweets.map((tweet) => (
           <TweetPost
             key={tweet._id}
-            createdBy={tweet.createdBy ? tweet.createdBy : "Okänd användare"}
             tweet={tweet}
-            // onLike={onLike}
-            // onDelete={removeTweet}
+            // onDelete={removeTweet} // Se till att du har denna funktion definierad
+            // onLike={handleLike} // Se till att du har denna funktion definierad
+            isFollowing={isFollowing(tweet.createdBy._id)}
+            onToggleFollow={toggleFollow}
           />
         ))}
       </div>

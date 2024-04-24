@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
 // Assuming you have a session-based endpoint to get the current user
-const CURRENT_USER_URL = "http://localhost:3000/api/tweets";
+const CURRENT_USER_URL = "http://localhost:3000/api/users";
 
 // Create the context
 export const UserContext = createContext();
@@ -10,6 +10,7 @@ export const UserContext = createContext();
 // Create a provider component
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [following, setFollowing] = useState([]);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -26,44 +27,43 @@ export const UserProvider = ({ children }) => {
     fetchCurrentUser();
   }, []);
 
+  const addFollowing = async (userId) => {
+    try {
+      const response = await axios.post(
+        `${CURRENT_USER_URL}/follow/${userId}`,
+        {},
+        { withCredentials: true }
+      );
+      setFollowing((prev) => [...prev, userId]); // Update context state
+    } catch (error) {
+      console.error("Failed to follow user:", error);
+    }
+  };
+  const removeFollowing = async (userId) => {
+    try {
+      const response = await axios.post(
+        `${CURRENT_USER_URL}/unfollow/${userId}`,
+        {},
+        { withCredentials: true }
+      );
+      setFollowing((prev) => prev.filter((id) => id !== userId)); // Update context state
+    } catch (error) {
+      console.error("Failed to unfollow user:", error);
+    }
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        following,
+        setFollowing,
+        addFollowing,
+        removeFollowing,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
 };
-
-// import React, { createContext, useState, useEffect } from "react";
-// import axios from "axios";
-
-// const API_URL = "http://localhost:3000/api/tweets";
-
-// // Create the context
-// export const UserContext = createContext();
-
-// // Create a provider component
-// export const UserProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-
-//   useEffect(() => {
-//     // Simulate fetching user data from an API
-//     const fetchUser = async () => {
-//       try {
-//         // Simulate an API call
-//         const userData = await fetch("/api/current_user");
-//         const json = await userData.json();
-//         setUser(json);
-//       } catch (error) {
-//         console.error("Error fetching user:", error);
-//       }
-//     };
-
-//     fetchUser();
-//   }, []);
-
-//   return (
-//     <UserContext.Provider value={{ user, setUser }}>
-//       {children}
-//     </UserContext.Provider>
-//   );
-// };

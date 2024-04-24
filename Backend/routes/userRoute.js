@@ -4,6 +4,62 @@ import { useRadioGroup } from "@mui/material";
 
 const router = express.Router();
 
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find().lean();
+    // Hantera fall där createdBy är null
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// POST /api/users/:id/follow
+router.post("/:id/follow", async (req, res) => {
+  const userId = req.user._id; // Antar att req.user._id innehåller ID för den inloggade användaren
+  const targetUserId = req.params.id; // ID för den användare som ska följas
+
+  try {
+    // Lägg till targetUserId till användarens 'following' lista
+    await User.findByIdAndUpdate(userId, {
+      $addToSet: { following: targetUserId },
+    });
+
+    // Lägg till userId till målanvändarens 'followers' lista
+    await User.findByIdAndUpdate(targetUserId, {
+      $addToSet: { followers: userId },
+    });
+
+    res.status(200).send("Successfully followed user.");
+  } catch (error) {
+    console.error("Error following user:", error);
+    res.status(500).send("Error following user.");
+  }
+});
+
+// POST /api/users/:id/unfollow
+router.post("/:id/unfollow", async (req, res) => {
+  const userId = req.user._id;
+  const targetUserId = req.params.id;
+
+  try {
+    // Ta bort targetUserId från användarens 'following' lista
+    await User.findByIdAndUpdate(userId, {
+      $pull: { following: targetUserId },
+    });
+
+    // Ta bort userId från målanvändarens 'followers' lista
+    await User.findByIdAndUpdate(targetUserId, {
+      $pull: { followers: userId },
+    });
+
+    res.status(200).send("Successfully unfollowed user.");
+  } catch (error) {
+    console.error("Error unfollowing user:", error);
+    res.status(500).send("Error unfollowing user.");
+  }
+});
+
 // Route för inloggning
 router.post("/login", async (req, res) => {
   try {

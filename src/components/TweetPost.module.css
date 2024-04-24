@@ -56,6 +56,11 @@
   color: #89937e;
 }
 
+.tweetMetadata {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .tweetHeader em,
 .tweetRelativeTime {
   font-size: 0.8rem;

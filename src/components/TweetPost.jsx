@@ -1,10 +1,10 @@
 import React from "react";
 // import styles from "../pages/Homepage/Homepage.module.css";
 import styles from "./TweetPost.module.css";
-
+import FollowButton from "./FollowButton";
 import { deleteTweet, likeTweet } from "../API/TweetApi";
 
-function TweetPost({ tweet, onDelete, onLike }) {
+function TweetPost({ tweet, onDelete, onLike, isFollowing, onToggleFollow }) {
   const handleLike = async () => {
     try {
       const updatedTweet = await likeTweet(tweet._id);
@@ -55,14 +55,19 @@ function TweetPost({ tweet, onDelete, onLike }) {
     <div className={styles.tweetBox}>
       <div className={styles.tweetHeader}>
         <div className={styles.profileImg}></div>
-        <h3 className={styles.tweetHeaderContent}>
+        <div className={styles.tweetHeaderContent}>
           {tweet.createdBy.firstName} <em>@{tweet.createdBy.username}</em>
-          <div className={styles.tweetMetadata}>
-            <span className={styles.tweetRelativeTime}>
-              &middot; {relativeTime}
-            </span>
-          </div>
-        </h3>
+          <span className={styles.tweetRelativeTime}>
+            &middot; {relativeTime}
+          </span>
+          <span className={styles.tweetMetadata}>
+            <FollowButton
+              userId={tweet.createdBy._id}
+              isFollowing={isFollowing}
+              onToggleFollow={onToggleFollow}
+            />
+          </span>
+        </div>
       </div>
       <div className={styles.tweetBody}>
         <p>{tweet.content}</p>
@@ -75,33 +80,6 @@ function TweetPost({ tweet, onDelete, onLike }) {
         <button onClick={handleDelete}>Radera</button>
       </div>
     </div>
-
-    //   <div className={styles.tweetBox}>
-    //     <div className={styles.tweetHeader}>
-    //       <div className={styles.profileImg}></div>
-    //       <div className={styles.tweetHeaderContent}>
-    //         <h3>{tweet.createdBy.firstName}</h3>
-    //         <em>@{tweet.createdBy.username}</em>
-    //         <div className={styles.tweetMetadata}>
-    //           <span className={styles.tweetRelativeTime}>
-    //             &middot; {relativeTime}
-    //           </span>
-    //         </div>
-    //       </div>
-    //     </div>
-
-    //     <div className={styles.tweetBody}>
-    //       <p>{tweet.content}</p>
-    //     </div>
-
-    //     <div className={styles.tweetButtons}>
-    //       <button onClick={handleLike}>Gilla</button>
-    //       <span>{tweet.likes} likes</span>
-    //       <button>Kommentera</button>
-    //       <button>Retweeta</button>
-    //       <button onClick={handleDelete}>Radera</button>
-    //     </div>
-    //   </div>
   );
 }
 
