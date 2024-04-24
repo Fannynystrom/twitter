@@ -145,7 +145,7 @@ const SearchBar = () => {
         </ul>
       </div>
       <div className={styles.searchResults}>
-        <h2>Posts</h2>
+        <h2>Woofs</h2>
         <ul>
           {searchResults.tweets.map((tweet, index) => (
             <li key={index} className={styles.resultItem}>

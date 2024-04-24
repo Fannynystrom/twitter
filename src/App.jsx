@@ -5,6 +5,7 @@ import LoginForm from "./components/Login.jsx";
 import RegisterForm from "./components/Register.jsx";
 import "./index.css";
 import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
 
 function App() {
   return (
@@ -16,7 +17,9 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
       </Routes>
+      <Footer />
     </Router>
+   
   );
 }
 
