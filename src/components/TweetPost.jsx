@@ -13,6 +13,8 @@ function TweetPost({ tweet, onDelete, onLike, isFollowing, onToggleFollow }) {
       console.error("Error liking tweet:", error);
     }
   };
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   function timeSince(date) {
     const seconds = Math.floor((new Date() - date) / 1000);
@@ -61,11 +63,15 @@ function TweetPost({ tweet, onDelete, onLike, isFollowing, onToggleFollow }) {
             &middot; {relativeTime}
           </span>
           <span className={styles.tweetMetadata}>
-            <FollowButton
-              userId={tweet.createdBy._id}
-              isFollowing={isFollowing}
-              onToggleFollow={onToggleFollow}
-            />
+            {tweet.createdBy.username === user.username ? (
+              ""
+            ) : (
+              <FollowButton
+                userId={tweet.createdBy._id}
+                isFollowing={isFollowing}
+                onToggleFollow={onToggleFollow}
+              />
+            )}
           </span>
         </div>
       </div>
