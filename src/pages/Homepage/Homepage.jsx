@@ -42,7 +42,6 @@ function Homepage() {
       try {
         const loadedTweets = await getTweets();
         setTweets(loadedTweets);
-        console.log(loadedTweets);
       } catch (error) {
         console.error("Fel när tweets skulle hämtas:", error);
       }
@@ -56,8 +55,10 @@ function Homepage() {
 
   const addTweet = async (content, userName) => {
     try {
-      const newTweet = await createTweet(content, userName); // Antag att API förväntar sig användarnamnet som en del av anropet
-      setTweets((prevTweets) => [...prevTweets, newTweet]);
+      const newTweet = await createTweet(content, userName);
+      console.log(newTweet);
+      // Antag att API förväntar sig användarnamnet som en del av anropet
+      setTweets((prevTweets) => [newTweet, ...prevTweets]);
     } catch (error) {
       console.error("Failed to create tweet:", error);
     }

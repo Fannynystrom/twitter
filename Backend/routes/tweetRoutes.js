@@ -1,7 +1,6 @@
-import express from 'express';
-import TwitterPost from '../models/tweetModel.js';
-import Hashtag from '../models/hashtagModel.js';
-
+import express from "express";
+import TwitterPost from "../models/tweetModel.js";
+import Hashtag from "../models/hashtagModel.js";
 
 const router = express.Router();
 
@@ -18,8 +17,6 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-
-
     const tweets = await TwitterPost.find({})
       .populate("createdBy")
       .sort({ createdAt: -1 })
@@ -52,7 +49,8 @@ router.post("/", async (req, res) => {
       hashtags: TwitterPost.extractHashtags(content),
     });
     await newTweet.save();
-    await saveHashtags(newTweet.hashtags)
+    await saveHashtags(newTweet.hashtags);
+    await newTweet.populate("createdBy");
 
     res.status(201).json(newTweet);
   } catch (error) {
@@ -88,8 +86,7 @@ const getTopHashtags = async () => {
   }
 };
 
-
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const tweets = await TwitterPost.find({}).sort({ createdAt: -1 });
     res.status(200).json(tweets);
@@ -98,7 +95,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/hashtags', async (req, res) => {
+router.get("/hashtags", async (req, res) => {
   try {
     const topHashtags = await getTopHashtags();
     res.status(200).json(topHashtags);
@@ -106,7 +103,6 @@ router.get('/hashtags', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 
 router.post("/likes/:id", async (req, res) => {
   try {
@@ -118,7 +114,6 @@ router.post("/likes/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 
 router.delete("/:id", async (req, res) => {
   try {
