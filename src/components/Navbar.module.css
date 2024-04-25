@@ -1,37 +1,55 @@
+/* Navbar.module.css */
 .container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: flex-start;
+  align-items: start;
+  height: 100vh; /* Full height of the viewport */
   background-color: var(--dark-green-4);
-  padding: 10px 20px;
+  padding: 20px 10px; /* More padding on the top and bottom */
+  position: fixed; /* Make it fixed position */
+  left: 0; /* Align it to the left */
+  top: 0; /* Align it to the top */
+  overflow-y: auto; /* Enable scrolling if content is too long */
 }
 
 .logo img {
-  height: auto;
-  width: auto;
-  max-height: 72px;
-  max-width: 250px;
+  max-height: 50px; /* Smaller logo for the sidebar */
+  max-width: 100%; /* Full width within the sidebar */
+  margin-bottom: 20px; /* Space below the logo */
 }
 
 .menu ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  width: 100%; /* Full width */
 }
 
 .menu ul li {
-  display: inline-block;
-  margin-right: 20px;
+  display: block; /* Each item on a new line */
+  margin-bottom: 10px; /* Space between items */
 }
 
-.menu ul li a {
+.menu ul li a,
+.menu ul li button {
   color: #fff;
   font-weight: 300;
   text-decoration: none;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   text-transform: uppercase;
+  display: block; /* Make links full width of list item */
+  padding: 10px; /* Padding for larger click area */
 }
 
-.menu ul li a:hover {
-  text-decoration: underline;
+.menu ul li button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 200px; /* Smaller sidebar on smaller screens */
+  }
 }
