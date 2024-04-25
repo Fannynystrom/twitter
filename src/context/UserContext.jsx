@@ -9,8 +9,16 @@ export const UserContext = createContext();
 
 // Create a provider component
 export const UserProvider = ({ children }) => {
+  const initialUser = JSON.parse(localStorage.getItem("user")) || {
+    following: [],
+  };
+
   const [user, setUser] = useState(null);
   const [following, setFollowing] = useState([]);
+
+  const isFollowing = (userId) => {
+    return following.includes(userId);
+  };
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -23,18 +31,22 @@ export const UserProvider = ({ children }) => {
         console.error("Error fetching current user:", error);
       }
     };
-
     fetchCurrentUser();
   }, []);
 
   const addFollowing = async (userId) => {
+    const user = JSON.parse(localStorage.getItem("user"));
     try {
       const response = await axios.post(
-        `${CURRENT_USER_URL}/follow/${userId}`,
+        `${CURRENT_USER_URL}/${userId}/follow`,
         {},
         { withCredentials: true }
       );
       setFollowing((prev) => [...prev, userId]); // Update context state
+      const updatedUser = { ...user, following: [...user.following, userId] };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      console.log(updatedUser);
     } catch (error) {
       console.error("Failed to follow user:", error);
     }
@@ -42,11 +54,16 @@ export const UserProvider = ({ children }) => {
   const removeFollowing = async (userId) => {
     try {
       const response = await axios.post(
-        `${CURRENT_USER_URL}/unfollow/${userId}`,
+        `${CURRENT_USER_URL}/${userId}/unfollow`,
         {},
         { withCredentials: true }
       );
-      setFollowing((prev) => prev.filter((id) => id !== userId)); // Update context state
+      const newFollowing = following.filter((id) => id !== userId);
+      setFollowing(newFollowing);
+      // Uppdatera även localStorage för att hålla den synkroniserad
+      const updatedUser = { ...user, following: newFollowing };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
     } catch (error) {
       console.error("Failed to unfollow user:", error);
     }
@@ -58,6 +75,7 @@ export const UserProvider = ({ children }) => {
         user,
         setUser,
         following,
+        isFollowing,
         setFollowing,
         addFollowing,
         removeFollowing,

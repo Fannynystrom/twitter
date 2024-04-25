@@ -1,29 +1,23 @@
 import React, { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
-const FollowButton = ({ userId, isFollowing, onToggleFollow }) => {
-  const { user } = useContext(UserContext);
-  if (!user) return null; // Ensure there's a logged-in user
+const FollowButton = ({ userId }) => {
+  const { isFollowing, addFollowing, removeFollowing } =
+    useContext(UserContext);
 
-  const handleFollowClick = async () => {
-    const action = isFollowing ? "unfollow" : "follow";
-    try {
-      await fetch(`/api/users/${userId}/${action}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`, // Assume your user context holds the auth token
-        },
-      });
-      onToggleFollow(userId, !isFollowing); // This function needs to update the state that tracks following status
-    } catch (error) {
-      console.error(`Error updating follow status: ${error}`);
+  const following = isFollowing(userId);
+
+  const handleFollowClick = () => {
+    if (following) {
+      removeFollowing(userId);
+    } else {
+      addFollowing(userId);
     }
   };
 
   return (
     <button onClick={handleFollowClick}>
-      {isFollowing ? "Unfollow" : "Follow"}
+      {following ? "Unfollow" : "Follow"}
     </button>
   );
 };

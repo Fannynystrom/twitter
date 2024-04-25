@@ -16,8 +16,8 @@ router.get("/", async (req, res) => {
 
 // POST /api/users/:id/follow
 router.post("/:id/follow", async (req, res) => {
-  const userId = req.user._id; // Antar att req.user._id innehåller ID för den inloggade användaren
-  const targetUserId = req.params.id; // ID för den användare som ska följas
+  const userId = req.body.userId; // Få användar-ID från request body istället
+  const targetUserId = req.params.id;
 
   try {
     // Lägg till targetUserId till användarens 'following' lista
@@ -39,7 +39,7 @@ router.post("/:id/follow", async (req, res) => {
 
 // POST /api/users/:id/unfollow
 router.post("/:id/unfollow", async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.body.userId; // Få användar-ID från request body istället
   const targetUserId = req.params.id;
 
   try {

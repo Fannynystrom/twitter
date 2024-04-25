@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 // import styles from "../pages/Homepage/Homepage.module.css";
 import styles from "./TweetPost.module.css";
 import FollowButton from "./FollowButton";
 import { deleteTweet, likeTweet } from "../API/TweetApi";
+import { UserContext } from "../context/UserContext";
 
-function TweetPost({ tweet, onDelete, onLike, isFollowing, onToggleFollow }) {
+function TweetPost({ tweet, onDelete, onLike, onToggleFollow }) {
+  const { isFollowing } = useContext(UserContext);
   const handleLike = async () => {
     try {
       const updatedTweet = await likeTweet(tweet._id);
@@ -52,6 +54,7 @@ function TweetPost({ tweet, onDelete, onLike, isFollowing, onToggleFollow }) {
       console.error("Error deleting tweet:", error);
     }
   };
+  const following = isFollowing(tweet.createdBy._id);
 
   return (
     <div className={styles.tweetBox}>
@@ -68,7 +71,7 @@ function TweetPost({ tweet, onDelete, onLike, isFollowing, onToggleFollow }) {
             ) : (
               <FollowButton
                 userId={tweet.createdBy._id}
-                isFollowing={isFollowing}
+                isFollowing={isFollowing(tweet.createdBy._id)}
                 onToggleFollow={onToggleFollow}
               />
             )}
