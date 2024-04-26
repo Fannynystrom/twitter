@@ -7,7 +7,6 @@ function TrendingHashtags() {
   const [tweets, setTweets] = useState([]);
   const [trendingHashtags, setTrendingHashtags] = useState([]);
 
-
   useEffect(() => {
     const fetchTweets = async () => {
       try {
@@ -33,7 +32,6 @@ function TrendingHashtags() {
 
     fetchTrendingHashtags();
   }, []);
-
 
   const extractHashtags = (tweetText) => {
     const hashtagsRegex = /#(\w+)/g;
@@ -76,16 +74,16 @@ function TrendingHashtags() {
     getTrendingHashtags();
   }, []);
 
-
-  console.log("trending", trendingHashtags)
-
+  // console.log("trending", trendingHashtags)
 
   return (
     <div className={styles.trendingBox}>
       <h3>Trending hashtags</h3>
       <ul>
         {trendingHashtags.map((tag, index) => (
-          <li key={index}>#{tag.tag} - {tag.count} posts</li>
+          <li key={index}>
+            #{tag.tag} - {tag.count} posts
+          </li>
         ))}
       </ul>
     </div>
@@ -115,8 +113,6 @@ export default TrendingHashtags;
 //     //   "jag ser verkligen upp till #carro, vilken kvinna!"
 //     // ];
 
-
-
 //     useEffect(() => {
 //         const fetchTweets = async () => {
 //             try {
@@ -129,7 +125,6 @@ export default TrendingHashtags;
 
 //         fetchTweets();
 //     }, []);
-
 
 //     const extractHashtags = (tweetText) => {
 //         return TwitterPost.extractHashtags(tweetText);
@@ -187,7 +182,6 @@ export default TrendingHashtags;
 //       useEffect(() => {
 //         getTrendingHashtags();
 //       }, []);
-    
 
 //     // const trendingHashtags = getTrendingHashtags();
 
