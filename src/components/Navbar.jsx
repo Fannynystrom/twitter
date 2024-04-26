@@ -1,7 +1,7 @@
 import styles from "./Navbar.module.css";
 import "../index.css";
 import logotype from "../assets/logotype_dark.svg";
-import React from "react";
+import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
 
@@ -9,7 +9,8 @@ import { Link, useNavigate } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem('isAuthenticated');
-
+  console.log(isAuthenticated); 
+  
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');
     navigate('/login'); 
@@ -27,8 +28,12 @@ function Navbar() {
             <li>
               <a href="/">Hem</a>
             </li>
+          
             <li>
-              <a href="/">Profil</a>
+           
+                <Link to="/profile">Profil</Link>
+           
+          
             </li>
             <li>
               <a href="/">Upptäck</a>

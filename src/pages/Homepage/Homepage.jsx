@@ -56,7 +56,7 @@ function Homepage() {
 
   const addTweet = async (content, userName) => {
     try {
-      const newTweet = await createTweet(content, userName); // Antag att API förväntar sig användarnamnet som en del av anropet
+      const newTweet = await createTweet(content, userName); 
       setTweets((prevTweets) => [...prevTweets, newTweet]);
     } catch (error) {
       console.error("Failed to create tweet:", error);
