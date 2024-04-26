@@ -5,7 +5,7 @@ import styles from "./Navbar.module.css";
 import logotype from "../assets/logotype_dark.svg";
 import FollowButton from "./FollowButton"; // Importera FollowButton
 import { UserContext } from "../context/UserContext";
-
+import { Link } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
