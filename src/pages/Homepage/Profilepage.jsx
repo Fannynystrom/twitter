@@ -17,7 +17,22 @@ const Profilepage = () => {
   //  localStorage för att hämta inloggad användares ID
   const userId = paramUserId || localStorage.getItem('userId');
 
- 
+  // useEffect(() => {
+  //   if (!user) {
+  //     const fetchData = async () => {
+  //       try {
+  //         const userResponse = await axios.get(`/api/users/${userId}`);
+  //         setProfileUser(userResponse.data);
+  //       } catch (error) {
+  //         console.error('Error fetching data:', error);
+  //       }
+  //     };
+
+  //     fetchData();
+  //   } else {
+  //     setProfileUser(user);
+  //   }
+  // }, [userId, user]);
 
   if (!user) {
     return <div>Loading...</div>;
