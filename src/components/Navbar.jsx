@@ -52,8 +52,9 @@ function Navbar() {
             <li>
               <a href="/">Hem</a>
             </li>
+
             <li>
-              <a href="/">Profil</a>
+              <Link to="/profile">Profil</Link>
             </li>
             <li>
               <a href="/">Upptäck</a>
