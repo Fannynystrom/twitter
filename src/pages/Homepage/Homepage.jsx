@@ -58,14 +58,7 @@ function Homepage() {
       <div className="content">
         <CreateTweet addTweet={addTweet} />
         {tweets.map((tweet) => (
-          <TweetPost
-            key={tweet._id}
-            tweet={tweet}
-            // onDelete={removeTweet} // Se till att du har denna funktion definierad
-            // onLike={handleLike} // Se till att du har denna funktion definierad
-            // isFollowing={isFollowing(tweet.createdBy._id)}
-            // onToggleFollow={toggleFollow}
-          />
+          <TweetPost key={tweet._id} tweet={tweet} />
         ))}
       </div>
       <div className="sidebar">

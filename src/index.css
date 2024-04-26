@@ -91,10 +91,14 @@ h2 {
   padding-top: 1rem;
   font-size: x-large;
 }
+
 .content {
   grid-area: main;
-  padding: 2rem;
+  margin-top: 5em;
+  width: 70%;
+  justify-self: center;
 }
+
 .sidebar {
   grid-area: sd;
   padding: 1rem;

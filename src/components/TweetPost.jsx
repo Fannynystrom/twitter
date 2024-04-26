@@ -7,14 +7,7 @@ import { UserContext } from "../context/UserContext";
 
 function TweetPost({ tweet, onDelete, onLike, onToggleFollow }) {
   const { isFollowing } = useContext(UserContext);
-  const handleLike = async () => {
-    try {
-      const updatedTweet = await likeTweet(tweet._id);
-      onLike(updatedTweet); // uppdaterar state i homepaaaage
-    } catch (error) {
-      console.error("Error liking tweet:", error);
-    }
-  };
+
   const isAuthenticated = localStorage.getItem("isAuthenticated");
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -46,14 +39,6 @@ function TweetPost({ tweet, onDelete, onLike, onToggleFollow }) {
   }
   const relativeTime = timeSince(new Date(tweet.createdAt));
 
-  const handleDelete = async () => {
-    try {
-      await deleteTweet(tweet._id);
-      onDelete(tweet._id);
-    } catch (error) {
-      console.error("Error deleting tweet:", error);
-    }
-  };
   const following = isFollowing(tweet.createdBy._id);
 
   return (
@@ -80,13 +65,6 @@ function TweetPost({ tweet, onDelete, onLike, onToggleFollow }) {
       </div>
       <div className={styles.tweetBody}>
         <p>{tweet.content}</p>
-      </div>
-      <div className={styles.tweetButtons}>
-        <button onClick={handleLike}>Gilla</button>
-        <span>{tweet.likes} likes</span>
-        <button>Kommentera</button>
-        <button>Retweeta</button>
-        <button onClick={handleDelete}>Radera</button>
       </div>
     </div>
   );
