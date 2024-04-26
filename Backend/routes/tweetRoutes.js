@@ -100,8 +100,8 @@ router.get("/tweets/:userId", async (req, res) => {
 
   try {
     const tweets = await TwitterPost.find({ createdBy: userId })
-      .populate("createdBy", "username")  
-      .sort({ createdAt: -1 })
+    .populate("createdBy",  "username firstName lastName")  
+    .sort({ createdAt: -1 })
       .exec();
 
     if (tweets.length > 0) {

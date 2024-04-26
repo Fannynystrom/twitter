@@ -17,7 +17,7 @@ const Profilepage = () => {
 
   //  localStorage för att hämta inloggad användares ID
   const userId = paramUserId || localStorage.getItem("user")._id;
-  console.log("user info", user);
+  //console.log("user info", user);
 
   useEffect(() => {
     if (user && user._id) {
@@ -45,6 +45,7 @@ const Profilepage = () => {
         <h1>
           {user.firstName} <em>@{user.username}</em>
         </h1>
+        
         {tweets.map(tweet => (
         <TweetPost key={tweet._id} tweet={tweet} />
       ))}
