@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
         const response = await axios.get(CURRENT_USER_URL, {
           withCredentials: true, // Ensuring cookies are sent with the request
         });
-        setUser(response.data);
+        // setUser(response.data);
         setFollowing(response.data.following || []);
       } catch (error) {
         console.error("Error fetching current user:", error);

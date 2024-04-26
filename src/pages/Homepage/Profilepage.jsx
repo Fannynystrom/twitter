@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
-import UserProfile from '../../components/UserProfile';
-import axios from 'axios';
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
+import UserProfile from "../../components/UserProfile";
+import axios from "axios";
 import SearchBar from "../../components/Searchbar";
 import TrendingHashtags from "../../components/TrendingHashtags";
 import styles from "./Homepage.module.css";
@@ -15,7 +15,8 @@ const Profilepage = () => {
   const [tweets, setTweets] = useState([]);
 
   //  localStorage för att hämta inloggad användares ID
-  const userId = paramUserId || localStorage.getItem('userId');
+  const userId = paramUserId || localStorage.getItem("user")._id;
+  console.log("user info", user);
 
   // useEffect(() => {
   //   if (!user) {
@@ -41,8 +42,9 @@ const Profilepage = () => {
   return (
     <div className="wrapper">
       <div className="content">
-      <h1>{user.firstName} @{user.username}</h1>
-
+        <h1>
+          {user.firstName} @{user.username}
+        </h1>
       </div>
       <div className="sidebar">
         <SearchBar />

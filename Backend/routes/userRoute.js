@@ -14,6 +14,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).lean();
+    // Hantera fall där createdBy är null
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // POST /api/users/:id/follow
 router.post("/:id/follow", async (req, res) => {
   const userId = req.body.userId; // Få användar-ID från request body istället
@@ -26,7 +36,7 @@ router.post("/:id/follow", async (req, res) => {
         $addToSet: { following: targetUserId },
       },
       { new: true }
-    ).populate("following"); // 'new: true' returnerar dokumentet efter uppdateringen
+    ).populate("following", "username firstName"); // 'new: true' returnerar dokumentet efter uppdateringen
 
     await User.findByIdAndUpdate(targetUserId, {
       $addToSet: { followers: userId },
@@ -70,14 +80,19 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     // Hitta användaren i databasen
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({
+      username: username,
+      password: password,
+    })
+      .select("username firstName following followers")
+      .populate("following", "username firstName");
     if (!user) {
       return res.status(404).json({ message: "Användaren hittades inte" });
     }
 
     // Kontrollera lösenordet (utan hash)
     if (user.password !== password) {
-      return res.status(401).json({ message: "Fel lösenord" });
+      // return res.status(401).json({ message: "Fel lösenord" });
     }
 
     res.status(200).json(user);
