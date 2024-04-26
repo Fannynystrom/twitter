@@ -6,7 +6,6 @@ import SearchBar from "../../components/Searchbar";
 import CreateTweet from "../../components/CreateTweet";
 import TweetPost from "../../components/TweetPost";
 import TrendingHashtags from "../../components/TrendingHashtags";
-
 import { createTweet, getTweets } from "../../API/TweetApi";
 import { UserContext } from "../../context/UserContext";
 

@@ -95,6 +95,30 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/tweets/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const tweets = await TwitterPost.find({ createdBy: userId })
+      .populate("createdBy", "username")  
+      .sort({ createdAt: -1 })
+      .exec();
+
+    if (tweets.length > 0) {
+      console.log(`Found ${tweets.length} tweets for user ${userId}`);
+      res.json(tweets);
+    } else {
+      console.log(`No tweets found for user ${userId}`);
+      res.status(404).send("No tweets found for this user.");
+    }
+  } catch (error) {
+    console.error('Error fetching tweets for user:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
 router.get("/hashtags", async (req, res) => {
   try {
     const topHashtags = await getTopHashtags();

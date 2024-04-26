@@ -41,6 +41,7 @@ app.use("/api/users", userRoute);
 app.use("/api/tweets", tweetRoutes);
 app.use("/api/hashtags", hashtagRoutes);
 app.use("/api/search", searchRoute);
+app.use(tweetRoutes);  
 
 app.listen(PORT, () => {
   console.log(`Servern körs på http://localhost:${PORT}`);
