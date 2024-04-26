@@ -12,21 +12,7 @@ import { UserContext } from "../../context/UserContext";
 
 function Homepage() {
   const [tweets, setTweets] = useState([]);
-  const [likedNotification, setLikedNotification] = useState(false);
   const { user, addFollowing, removeFollowing } = useContext(UserContext);
-
-  // const isFollowing = (userId) => {
-  //   return user && user.following.includes(userId);
-  // };
-
-  // const toggleFollow = (userId) => {
-  //   const currentlyFollowing = isFollowing(userId);
-  //   if (currentlyFollowing) {
-  //     removeFollowing(userId);
-  //   } else {
-  //     addFollowing(userId);
-  //   }
-  // };
 
   useEffect(() => {
     const fetchTweets = async () => {
@@ -40,6 +26,25 @@ function Homepage() {
     fetchTweets();
   }, []);
 
+  //FILTRERA ANVÄNDARE - avvaktar med denna tills vi får profilesidan att fungera
+  // useEffect(() => {
+  //   const fetchTweets = async () => {
+  //     try {
+  //       const loadedTweets = await getTweets();
+  //       // Filtrera tweets för att endast inkludera de från användare som den inloggade användaren följer
+  //       const filteredTweets = loadedTweets.filter((tweet) =>
+  //         user.following.includes(tweet.createdBy._id)
+  //       );
+  //       setTweets(filteredTweets);
+  //     } catch (error) {
+  //       console.error("Error fetching tweets:", error);
+  //     }
+  //   };
+  //   if (user && user.following) {
+  //     fetchTweets();
+  //   }
+  // }, [user]);
+
   if (!user) {
     return <div>Loading user data...</div>;
   }
@@ -52,6 +57,22 @@ function Homepage() {
       console.error("Failed to create tweet:", error);
     }
   };
+
+  //VISA FILTRERAD TWEET - avvaktar med denna
+  // const addTweet = async (content, userName) => {
+  //   try {
+  //     const newTweet = await createTweet(content, userName);
+  //     // Endast lägg till tweet om användaren följer skaparen av tweeten eller om det är användarens egna tweets
+  //     if (
+  //       user.following.includes(newTweet.createdBy._id) ||
+  //       user._id === newTweet.createdBy._id
+  //     ) {
+  //       setTweets((prevTweets) => [newTweet, ...prevTweets]);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to create tweet:", error);
+  //   }
+  // };
 
   return (
     <div className="wrapper">

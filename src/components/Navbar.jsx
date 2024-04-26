@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import logotype from "../assets/logotype_dark.svg";
+import FollowButton from "./FollowButton"; // Importera FollowButton
+import { UserContext } from "../context/UserContext";
 
 function Navbar() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const { user, isFollowing } = useContext(UserContext);
   const isAuthenticated = localStorage.getItem("isAuthenticated");
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -67,12 +70,16 @@ function Navbar() {
             <ul>
               <h4>Woofers</h4>
               <hr />
-              {users.map((userItem) => (
-                <li key={userItem._id} className={styles.userNames}>
-                  {userItem.username}{" "}
-                  {/* Eller något annat attribut du vill visa */}
-                </li>
-              ))}
+              {isAuthenticated &&
+                user &&
+                users.map((userItem) => (
+                  <li key={userItem._id}>
+                    {userItem.username}
+                    {user._id !== userItem._id && !isFollowing(userItem._id) ? (
+                      <FollowButton userId={userItem._id} />
+                    ) : null}
+                  </li>
+                ))}
             </ul>
           </div>
         </div>

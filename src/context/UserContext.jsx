@@ -13,8 +13,8 @@ export const UserProvider = ({ children }) => {
     following: [],
   };
 
-  const [user, setUser] = useState(null);
-  const [following, setFollowing] = useState([]);
+  const [user, setUser] = useState(initialUser);
+  const [following, setFollowing] = useState(initialUser?.following || []);
 
   const isFollowing = (userId) => {
     return following.includes(userId);
@@ -27,30 +27,13 @@ export const UserProvider = ({ children }) => {
           withCredentials: true, // Ensuring cookies are sent with the request
         });
         setUser(response.data);
+        setFollowing(response.data.following || []);
       } catch (error) {
         console.error("Error fetching current user:", error);
       }
     };
     fetchCurrentUser();
   }, []);
-
-  // const addFollowing = async (userId) => {
-  //   const user = JSON.parse(localStorage.getItem("user"));
-  //   try {
-  //     const response = await axios.post(
-  //       `${CURRENT_USER_URL}/${userId}/follow`,
-  //       { userId: user._id },
-  //       { withCredentials: true }
-  //     );
-  //     setFollowing((prev) => [...prev, userId]); // Update context state
-  //     const updatedUser = { ...user, following: [...user.following, userId] };
-  //     localStorage.setItem("user", JSON.stringify(updatedUser));
-  //     setUser(updatedUser);
-  //     console.log(updatedUser);
-  //   } catch (error) {
-  //     console.error("Failed to follow user:", error);
-  //   }
-  // };
 
   const addFollowing = async (userId) => {
     const user = JSON.parse(localStorage.getItem("user"));
