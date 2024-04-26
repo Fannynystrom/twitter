@@ -34,36 +34,61 @@ export const UserProvider = ({ children }) => {
     fetchCurrentUser();
   }, []);
 
+  // const addFollowing = async (userId) => {
+  //   const user = JSON.parse(localStorage.getItem("user"));
+  //   try {
+  //     const response = await axios.post(
+  //       `${CURRENT_USER_URL}/${userId}/follow`,
+  //       { userId: user._id },
+  //       { withCredentials: true }
+  //     );
+  //     setFollowing((prev) => [...prev, userId]); // Update context state
+  //     const updatedUser = { ...user, following: [...user.following, userId] };
+  //     localStorage.setItem("user", JSON.stringify(updatedUser));
+  //     setUser(updatedUser);
+  //     console.log(updatedUser);
+  //   } catch (error) {
+  //     console.error("Failed to follow user:", error);
+  //   }
+  // };
+
   const addFollowing = async (userId) => {
     const user = JSON.parse(localStorage.getItem("user"));
+
     try {
       const response = await axios.post(
         `${CURRENT_USER_URL}/${userId}/follow`,
-        {},
+        { userId: user._id }, // Skicka med userId om det behövs för autentisering/verifiering
         { withCredentials: true }
       );
-      setFollowing((prev) => [...prev, userId]); // Update context state
-      const updatedUser = { ...user, following: [...user.following, userId] };
+
+      // Uppdatera context state och localStorage med den returnerade användaren
+      const updatedUser = response.data;
       localStorage.setItem("user", JSON.stringify(updatedUser));
-      setUser(updatedUser);
-      console.log(updatedUser);
+      setUser(updatedUser); // Antag att setUser är tillgängligt via useContext(UserContext)
+      setFollowing(updatedUser.following); // Uppdatera din following state om nödvändigt
+
+      console.log("Updated user with new following:", updatedUser);
     } catch (error) {
       console.error("Failed to follow user:", error);
     }
   };
+
   const removeFollowing = async (userId) => {
     try {
       const response = await axios.post(
         `${CURRENT_USER_URL}/${userId}/unfollow`,
-        {},
+        { userId: user._id }, // Skicka med userId för verifiering
         { withCredentials: true }
       );
-      const newFollowing = following.filter((id) => id !== userId);
-      setFollowing(newFollowing);
-      // Uppdatera även localStorage för att hålla den synkroniserad
-      const updatedUser = { ...user, following: newFollowing };
+
+      // Uppdatera context state och localStorage med den returnerade användaren
+      const updatedUser = response.data;
       localStorage.setItem("user", JSON.stringify(updatedUser));
-      setUser(updatedUser);
+      setUser(updatedUser); // Antag att setUser är tillgängligt via useContext(UserContext)
+      setFollowing(updatedUser.following); // Uppdatera din following state
+
+      console.log("Updated user after unfollowing:", updatedUser);
     } catch (error) {
       console.error("Failed to unfollow user:", error);
     }

@@ -20,17 +20,19 @@ router.post("/:id/follow", async (req, res) => {
   const targetUserId = req.params.id;
 
   try {
-    // Lägg till targetUserId till användarens 'following' lista
-    await User.findByIdAndUpdate(userId, {
-      $addToSet: { following: targetUserId },
-    });
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $addToSet: { following: targetUserId },
+      },
+      { new: true }
+    ).populate("following"); // 'new: true' returnerar dokumentet efter uppdateringen
 
-    // Lägg till userId till målanvändarens 'followers' lista
     await User.findByIdAndUpdate(targetUserId, {
       $addToSet: { followers: userId },
     });
 
-    res.status(200).send("Successfully followed user.");
+    res.status(200).json(updatedUser); // Skicka tillbaka den uppdaterade användaren
   } catch (error) {
     console.error("Error following user:", error);
     res.status(500).send("Error following user.");
@@ -43,17 +45,19 @@ router.post("/:id/unfollow", async (req, res) => {
   const targetUserId = req.params.id;
 
   try {
-    // Ta bort targetUserId från användarens 'following' lista
-    await User.findByIdAndUpdate(userId, {
-      $pull: { following: targetUserId },
-    });
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { following: targetUserId },
+      },
+      { new: true }
+    ).populate("following"); // 'new: true' returnerar dokumentet efter uppdateringen
 
-    // Ta bort userId från målanvändarens 'followers' lista
     await User.findByIdAndUpdate(targetUserId, {
       $pull: { followers: userId },
     });
 
-    res.status(200).send("Successfully unfollowed user.");
+    res.status(200).json(updatedUser); // Skicka tillbaka den uppdaterade användaren
   } catch (error) {
     console.error("Error unfollowing user:", error);
     res.status(500).send("Error unfollowing user.");
