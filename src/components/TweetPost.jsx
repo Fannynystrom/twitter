@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 // import styles from "../pages/Homepage/Homepage.module.css";
 import styles from "./TweetPost.module.css";
 import FollowButton from "./FollowButton";
 import { deleteTweet, likeTweet } from "../API/TweetApi";
+import { UserContext } from "../context/UserContext";
 
-function TweetPost({ tweet, onDelete, onLike, isFollowing, onToggleFollow }) {
-  const handleLike = async () => {
-    try {
-      const updatedTweet = await likeTweet(tweet._id);
-      onLike(updatedTweet); // uppdaterar state i homepaaaage
-    } catch (error) {
-      console.error("Error liking tweet:", error);
-    }
-  };
+function TweetPost({ tweet, onDelete, onLike, onToggleFollow }) {
+  const { isFollowing } = useContext(UserContext);
+
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   function timeSince(date) {
     const seconds = Math.floor((new Date() - date) / 1000);
@@ -42,14 +39,7 @@ function TweetPost({ tweet, onDelete, onLike, isFollowing, onToggleFollow }) {
   }
   const relativeTime = timeSince(new Date(tweet.createdAt));
 
-  const handleDelete = async () => {
-    try {
-      await deleteTweet(tweet._id);
-      onDelete(tweet._id);
-    } catch (error) {
-      console.error("Error deleting tweet:", error);
-    }
-  };
+  const following = isFollowing(tweet.createdBy._id);
 
   return (
     <div className={styles.tweetBox}>
@@ -61,23 +51,20 @@ function TweetPost({ tweet, onDelete, onLike, isFollowing, onToggleFollow }) {
             &middot; {relativeTime}
           </span>
           <span className={styles.tweetMetadata}>
-            <FollowButton
-              userId={tweet.createdBy._id}
-              isFollowing={isFollowing}
-              onToggleFollow={onToggleFollow}
-            />
+            {tweet.createdBy.username === user.username ? (
+              ""
+            ) : (
+              <FollowButton
+                userId={tweet.createdBy._id}
+                isFollowing={isFollowing(tweet.createdBy._id)}
+                onToggleFollow={onToggleFollow}
+              />
+            )}
           </span>
         </div>
       </div>
       <div className={styles.tweetBody}>
         <p>{tweet.content}</p>
-      </div>
-      <div className={styles.tweetButtons}>
-        <button onClick={handleLike}>Gilla</button>
-        <span>{tweet.likes} likes</span>
-        <button>Kommentera</button>
-        <button>Retweeta</button>
-        <button onClick={handleDelete}>Radera</button>
       </div>
     </div>
   );

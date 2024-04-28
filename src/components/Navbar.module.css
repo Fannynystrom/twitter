@@ -67,4 +67,22 @@
 
 hr {
   margin-top: 1rem;
+  width: 50%;
+}
+
+.profilesList {
+  letter-spacing: 2px;
+  padding-top: 3rem;
+  display: flex;
+  color: white;
+}
+
+.profilesList hr {
+  margin-bottom: 1rem;
+  width: 50%;
+}
+
+.userNames {
+  font-weight: 50;
+  margin-top: 1rem;
 }

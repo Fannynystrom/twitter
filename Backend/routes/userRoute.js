@@ -1,7 +1,6 @@
 import express from "express";
 import User from "../models/userModel.js";
 import { useRadioGroup } from "@mui/material";
-
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -14,23 +13,38 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+
+
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).lean();
+    // Hantera fall där createdBy är null
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // POST /api/users/:id/follow
 router.post("/:id/follow", async (req, res) => {
-  const userId = req.user._id; // Antar att req.user._id innehåller ID för den inloggade användaren
-  const targetUserId = req.params.id; // ID för den användare som ska följas
+  const userId = req.body.userId; // Få användar-ID från request body istället
+  const targetUserId = req.params.id;
 
   try {
-    // Lägg till targetUserId till användarens 'following' lista
-    await User.findByIdAndUpdate(userId, {
-      $addToSet: { following: targetUserId },
-    });
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $addToSet: { following: targetUserId },
+      },
+      { new: true }
+    ).populate("following", "username firstName"); // 'new: true' returnerar dokumentet efter uppdateringen
 
-    // Lägg till userId till målanvändarens 'followers' lista
     await User.findByIdAndUpdate(targetUserId, {
       $addToSet: { followers: userId },
     });
 
-    res.status(200).send("Successfully followed user.");
+    res.status(200).json(updatedUser); // Skicka tillbaka den uppdaterade användaren
   } catch (error) {
     console.error("Error following user:", error);
     res.status(500).send("Error following user.");
@@ -39,21 +53,23 @@ router.post("/:id/follow", async (req, res) => {
 
 // POST /api/users/:id/unfollow
 router.post("/:id/unfollow", async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.body.userId; // Få användar-ID från request body istället
   const targetUserId = req.params.id;
 
   try {
-    // Ta bort targetUserId från användarens 'following' lista
-    await User.findByIdAndUpdate(userId, {
-      $pull: { following: targetUserId },
-    });
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { following: targetUserId },
+      },
+      { new: true }
+    ).populate("following"); // 'new: true' returnerar dokumentet efter uppdateringen
 
-    // Ta bort userId från målanvändarens 'followers' lista
     await User.findByIdAndUpdate(targetUserId, {
       $pull: { followers: userId },
     });
 
-    res.status(200).send("Successfully unfollowed user.");
+    res.status(200).json(updatedUser); // Skicka tillbaka den uppdaterade användaren
   } catch (error) {
     console.error("Error unfollowing user:", error);
     res.status(500).send("Error unfollowing user.");
@@ -66,14 +82,19 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     // Hitta användaren i databasen
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({
+      username: username,
+      password: password,
+    })
+      .select("username firstName following followers")
+      .populate("following", "username firstName");
     if (!user) {
       return res.status(404).json({ message: "Användaren hittades inte" });
     }
 
     // Kontrollera lösenordet (utan hash)
     if (user.password !== password) {
-      return res.status(401).json({ message: "Fel lösenord" });
+      // return res.status(401).json({ message: "Fel lösenord" });
     }
 
     res.status(200).json(user);

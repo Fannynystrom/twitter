@@ -22,8 +22,7 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Use CORS options here
 
 dotenv.config({ path: "../.env" });
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; 
 
 // =============================MongoDB======================================================
 const mongoUri = process.env.MONGODB_URI;
@@ -42,6 +41,7 @@ app.use("/api/users", userRoute);
 app.use("/api/tweets", tweetRoutes);
 app.use("/api/hashtags", hashtagRoutes);
 app.use("/api/search", searchRoute);
+app.use(tweetRoutes);  
 
 app.listen(PORT, () => {
   console.log(`Servern körs på http://localhost:${PORT}`);

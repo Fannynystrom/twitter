@@ -6,36 +6,12 @@ import SearchBar from "../../components/Searchbar";
 import CreateTweet from "../../components/CreateTweet";
 import TweetPost from "../../components/TweetPost";
 import TrendingHashtags from "../../components/TrendingHashtags";
-
 import { createTweet, getTweets } from "../../API/TweetApi";
 import { UserContext } from "../../context/UserContext";
 
 function Homepage() {
   const [tweets, setTweets] = useState([]);
-  const [likedNotification, setLikedNotification] = useState(false);
-  const { user, following, setFollowing } = useContext(UserContext);
-
-  const isFollowing = (userId) => following.includes(userId);
-
-  const toggleFollow = (userId, willFollow) => {
-    setFollowing((current) => {
-      return willFollow
-        ? [...current, userId]
-        : current.filter((id) => id !== userId);
-    });
-  };
-
-  const fetchCurrentUser = async () => {
-    try {
-      const response = await axios.get(CURRENT_USER_URL, {
-        withCredentials: true, // Ensuring cookies are sent with the request
-      });
-      console.log("User data fetched:", response.data); // Check what you're actually getting back
-      setUser(response.data);
-    } catch (error) {
-      console.error("Error fetching current user:", error);
-    }
-  };
+  const { user, addFollowing, removeFollowing } = useContext(UserContext);
 
   useEffect(() => {
     const fetchTweets = async () => {
@@ -43,11 +19,30 @@ function Homepage() {
         const loadedTweets = await getTweets();
         setTweets(loadedTweets);
       } catch (error) {
-        console.error("Fel när tweets skulle hämtas:", error);
+        console.error("Error fetching tweets:", error);
       }
     };
     fetchTweets();
   }, []);
+
+  //FILTRERA ANVÄNDARE - avvaktar med denna tills vi får profilesidan att fungera
+  // useEffect(() => {
+  //   const fetchTweets = async () => {
+  //     try {
+  //       const loadedTweets = await getTweets();
+  //       // Filtrera tweets för att endast inkludera de från användare som den inloggade användaren följer
+  //       const filteredTweets = loadedTweets.filter((tweet) =>
+  //         user.following.includes(tweet.createdBy._id)
+  //       );
+  //       setTweets(filteredTweets);
+  //     } catch (error) {
+  //       console.error("Error fetching tweets:", error);
+  //     }
+  //   };
+  //   if (user && user.following) {
+  //     fetchTweets();
+  //   }
+  // }, [user]);
 
   if (!user) {
     return <div>Loading user data...</div>;
@@ -56,27 +51,34 @@ function Homepage() {
   const addTweet = async (content, userName) => {
     try {
       const newTweet = await createTweet(content, userName);
-      console.log(newTweet);
-      // Antag att API förväntar sig användarnamnet som en del av anropet
       setTweets((prevTweets) => [newTweet, ...prevTweets]);
     } catch (error) {
       console.error("Failed to create tweet:", error);
     }
   };
 
+  //VISA FILTRERAD TWEET - avvaktar med denna
+  // const addTweet = async (content, userName) => {
+  //   try {
+  //     const newTweet = await createTweet(content, userName);
+  //     // Endast lägg till tweet om användaren följer skaparen av tweeten eller om det är användarens egna tweets
+  //     if (
+  //       user.following.includes(newTweet.createdBy._id) ||
+  //       user._id === newTweet.createdBy._id
+  //     ) {
+  //       setTweets((prevTweets) => [newTweet, ...prevTweets]);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to create tweet:", error);
+  //   }
+  // };
+
   return (
     <div className="wrapper">
       <div className="content">
         <CreateTweet addTweet={addTweet} />
         {tweets.map((tweet) => (
-          <TweetPost
-            key={tweet._id}
-            tweet={tweet}
-            // onDelete={removeTweet} // Se till att du har denna funktion definierad
-            // onLike={handleLike} // Se till att du har denna funktion definierad
-            isFollowing={isFollowing(tweet.createdBy._id)}
-            onToggleFollow={toggleFollow}
-          />
+          <TweetPost key={tweet._id} tweet={tweet} />
         ))}
       </div>
       <div className="sidebar">
