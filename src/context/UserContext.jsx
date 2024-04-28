@@ -9,8 +9,16 @@ export const UserContext = createContext();
 
 // Create a provider component
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [following, setFollowing] = useState([]);
+  const initialUser = JSON.parse(localStorage.getItem("user")) || {
+    following: [],
+  };
+
+  const [user, setUser] = useState(initialUser);
+  const [following, setFollowing] = useState(initialUser?.following || []);
+
+  const isFollowing = (userId) => {
+    return following.includes(userId);
+  };
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -18,35 +26,52 @@ export const UserProvider = ({ children }) => {
         const response = await axios.get(CURRENT_USER_URL, {
           withCredentials: true, // Ensuring cookies are sent with the request
         });
-        setUser(response.data);
+        // setUser(response.data);
+        setFollowing(response.data.following || []);
       } catch (error) {
         console.error("Error fetching current user:", error);
       }
     };
-
     fetchCurrentUser();
   }, []);
 
   const addFollowing = async (userId) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
     try {
       const response = await axios.post(
-        `${CURRENT_USER_URL}/follow/${userId}`,
-        {},
+        `${CURRENT_USER_URL}/${userId}/follow`,
+        { userId: user._id }, // Skicka med userId om det behövs för autentisering/verifiering
         { withCredentials: true }
       );
-      setFollowing((prev) => [...prev, userId]); // Update context state
+
+      // Uppdatera context state och localStorage med den returnerade användaren
+      const updatedUser = response.data;
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser); // Antag att setUser är tillgängligt via useContext(UserContext)
+      setFollowing(updatedUser.following); // Uppdatera din following state om nödvändigt
+
+      console.log("Updated user with new following:", updatedUser);
     } catch (error) {
       console.error("Failed to follow user:", error);
     }
   };
+
   const removeFollowing = async (userId) => {
     try {
       const response = await axios.post(
-        `${CURRENT_USER_URL}/unfollow/${userId}`,
-        {},
+        `${CURRENT_USER_URL}/${userId}/unfollow`,
+        { userId: user._id }, // Skicka med userId för verifiering
         { withCredentials: true }
       );
-      setFollowing((prev) => prev.filter((id) => id !== userId)); // Update context state
+
+      // Uppdatera context state och localStorage med den returnerade användaren
+      const updatedUser = response.data;
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser); // Antag att setUser är tillgängligt via useContext(UserContext)
+      setFollowing(updatedUser.following); // Uppdatera din following state
+
+      console.log("Updated user after unfollowing:", updatedUser);
     } catch (error) {
       console.error("Failed to unfollow user:", error);
     }
@@ -58,6 +83,7 @@ export const UserProvider = ({ children }) => {
         user,
         setUser,
         following,
+        isFollowing,
         setFollowing,
         addFollowing,
         removeFollowing,

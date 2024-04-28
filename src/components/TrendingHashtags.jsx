@@ -7,7 +7,6 @@ function TrendingHashtags() {
   const [tweets, setTweets] = useState([]);
   const [trendingHashtags, setTrendingHashtags] = useState([]);
 
-
   useEffect(() => {
     const fetchTweets = async () => {
       try {
@@ -33,7 +32,6 @@ function TrendingHashtags() {
 
     fetchTrendingHashtags();
   }, []);
-
 
   const extractHashtags = (tweetText) => {
     const hashtagsRegex = /#([\w\u00C0-\u00FF]+)/g; // inkluderar åäö
@@ -81,7 +79,9 @@ function TrendingHashtags() {
       <h3>Trending hashtags</h3>
       <ul>
         {trendingHashtags.map((tag, index) => (
-          <li key={index}>#{tag.tag} - {tag.count} posts</li>
+          <li key={index}>
+            #{tag.tag} - {tag.count} posts
+          </li>
         ))}
       </ul>
     </div>

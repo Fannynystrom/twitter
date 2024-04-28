@@ -18,7 +18,7 @@ const LoginForm = () => {
 
     try {
       const response = await loginUser(userData);
-      // localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem("isAuthenticated", "true");
       localStorage.setItem("user", JSON.stringify(response));
       navigate("/");
       console.log(response);

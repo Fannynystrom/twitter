@@ -1,7 +1,6 @@
-import express from 'express';
-import TwitterPost from '../models/tweetModel.js';
-import Hashtag from '../models/hashtagModel.js';
-
+import express from "express";
+import TwitterPost from "../models/tweetModel.js";
+import Hashtag from "../models/hashtagModel.js";
 
 const router = express.Router();
 
@@ -18,8 +17,6 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-
-
     const tweets = await TwitterPost.find({})
       .populate("createdBy")
       .sort({ createdAt: -1 })
@@ -52,7 +49,8 @@ router.post("/", async (req, res) => {
       hashtags: TwitterPost.extractHashtags(content),
     });
     await newTweet.save();
-    await saveHashtags(newTweet.hashtags)
+    await saveHashtags(newTweet.hashtags);
+    await newTweet.populate("createdBy");
 
     res.status(201).json(newTweet);
   } catch (error) {
@@ -88,8 +86,7 @@ const getTopHashtags = async () => {
   }
 };
 
-
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const tweets = await TwitterPost.find({}).sort({ createdAt: -1 });
     res.status(200).json(tweets);
@@ -98,7 +95,31 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/hashtags', async (req, res) => {
+router.get("/tweets/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const tweets = await TwitterPost.find({ createdBy: userId })
+    .populate("createdBy",  "username firstName lastName")  
+    .sort({ createdAt: -1 })
+      .exec();
+
+    if (tweets.length > 0) {
+      console.log(`Found ${tweets.length} tweets for user ${userId}`);
+      res.json(tweets);
+    } else {
+      console.log(`No tweets found for user ${userId}`);
+      res.status(404).send("No tweets found for this user.");
+    }
+  } catch (error) {
+    console.error('Error fetching tweets for user:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+router.get("/hashtags", async (req, res) => {
   try {
     const topHashtags = await getTopHashtags();
     res.status(200).json(topHashtags);
@@ -106,7 +127,6 @@ router.get('/hashtags', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 
 router.post("/likes/:id", async (req, res) => {
   try {
@@ -118,7 +138,6 @@ router.post("/likes/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 
 router.delete("/:id", async (req, res) => {
   try {
