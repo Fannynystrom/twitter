@@ -86,22 +86,22 @@ const getTopHashtags = async () => {
   }
 };
 
-router.get("/", async (req, res) => {
-  try {
-    const tweets = await TwitterPost.find({}).sort({ createdAt: -1 });
-    res.status(200).json(tweets);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// router.get("/", async (req, res) => {
+//   try {
+//     const tweets = await TwitterPost.find({}).sort({ createdAt: -1 });
+//     res.status(200).json(tweets);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// });
 
 router.get("/tweets/:userId", async (req, res) => {
   const { userId } = req.params;
 
   try {
     const tweets = await TwitterPost.find({ createdBy: userId })
-    .populate("createdBy",  "username firstName lastName")  
-    .sort({ createdAt: -1 })
+      .populate("createdBy", "username firstName lastName")
+      .sort({ createdAt: -1 })
       .exec();
 
     if (tweets.length > 0) {
@@ -112,12 +112,10 @@ router.get("/tweets/:userId", async (req, res) => {
       res.status(404).send("No tweets found for this user.");
     }
   } catch (error) {
-    console.error('Error fetching tweets for user:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error fetching tweets for user:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
-
-
 
 router.get("/hashtags", async (req, res) => {
   try {
