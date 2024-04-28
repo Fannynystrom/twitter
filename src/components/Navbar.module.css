@@ -54,6 +54,16 @@
   }
 }
 
+.profileName {
+  color: #f3f4e7;
+  font-weight: 300;
+  text-decoration: none;
+  letter-spacing: 1px;
+  font-size: large;
+  padding: 10px;
+  padding-bottom: 1rem;
+}
+
 .userName a {
   color: #f3f4e7;
   font-weight: 100;

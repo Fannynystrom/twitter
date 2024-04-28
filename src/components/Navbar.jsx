@@ -28,7 +28,7 @@ function Navbar() {
           <img src={logotype} alt="woofer_logo" />
         </div>
         {isLoggedIn && user ? (
-          <div className={styles.userName}>
+          <div className={styles.profileName}>
             {user.username}
             <hr />
           </div>
