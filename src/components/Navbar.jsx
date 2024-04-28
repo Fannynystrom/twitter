@@ -6,6 +6,7 @@ import logotype from "../assets/logotype_dark.svg";
 import FollowButton from "./FollowButton"; // Importera FollowButton
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
+import btnStyles from "./FollowButton.module.css";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -70,22 +71,25 @@ function Navbar() {
               )}
             </li>
           </ul>
-          <div className={styles.profilesList}>
-            <ul>
-              <h4>Woofers</h4>
-              <hr />
-              {isLoggedIn &&
-                user &&
-                users.map((userItem) => (
-                  <li key={userItem._id}>
-                    {userItem.username}
-                    {user._id !== userItem._id && !isFollowing(userItem._id) ? (
-                      <FollowButton userId={userItem._id} />
-                    ) : null}
-                  </li>
-                ))}
-            </ul>
-          </div>
+        </div>
+        <div className={styles.profilesList}>
+          <ul>
+            <h4>Woofers</h4>
+            <hr />
+            {isLoggedIn &&
+              user &&
+              users.map((userItem) => (
+                <li key={userItem._id}>
+                  {userItem.username}
+                  {user._id !== userItem._id && !isFollowing(userItem._id) ? (
+                    <FollowButton
+                      userId={userItem._id}
+                      className={btnStyles.followBtnNavbar}
+                    />
+                  ) : null}
+                </li>
+              ))}
+          </ul>
         </div>
       </div>
     </nav>

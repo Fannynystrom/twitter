@@ -58,6 +58,7 @@ function TweetPost({ tweet, onDelete, onLike, onToggleFollow }) {
                 userId={tweet.createdBy._id}
                 isFollowing={isFollowing(tweet.createdBy._id)}
                 onToggleFollow={onToggleFollow}
+                className={styles.followingBtnFeed}
               />
             )}
           </span>

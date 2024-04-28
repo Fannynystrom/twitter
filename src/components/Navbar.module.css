@@ -71,11 +71,16 @@ hr {
 }
 
 .profilesList {
-  width: 100%;
   letter-spacing: 2px;
   padding-top: 3rem;
   display: flex;
   color: white;
+}
+
+.profilesList li {
+  margin-top: 1rem;
+  font-size: smaller;
+  font-weight: 100;
 }
 
 .profilesList hr {
@@ -86,4 +91,11 @@ hr {
 .userNames {
   font-weight: 50;
   margin-top: 1rem;
+}
+
+.followBtnNavbar {
+  margin: 0;
+  color: red;
+  cursor: pointer;
+  background-color: transparent;
 }

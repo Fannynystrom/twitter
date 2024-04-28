@@ -6,9 +6,9 @@ import FollowButton from "../../components/FollowButton";
 import axios from "axios";
 import SearchBar from "../../components/Searchbar";
 import TrendingHashtags from "../../components/TrendingHashtags";
-//import styles from "./Homepage.module.css";
 import TweetPost from "../../components/TweetPost";
-import styles from "../../components/TweetPost.module.css";
+import styles from "./Profilepage.module.css";
+// import "../../index.css";
 
 const Profilepage = () => {
   const { userId: paramUserId } = useParams();
@@ -49,13 +49,20 @@ const Profilepage = () => {
         {tweets.map((tweet) => (
           <TweetPost key={tweet._id} tweet={tweet} />
         ))}
-        <h2>{user.username} följer:</h2>
-        {user.following.map((followProfile) => (
-          <li key={followProfile._id}>
-            {followProfile.username}
-            <FollowButton userId={followProfile._id} />
-          </li>
-        ))}
+        <div className="followList">
+          <h2>{user.username} följer:</h2>
+
+          {user.following.map((followProfile) => (
+            <li key={followProfile._id}>
+              {followProfile.username}
+
+              <FollowButton
+                userId={followProfile._id}
+                className={styles.followingBtnFeed}
+              />
+            </li>
+          ))}
+        </div>
       </div>
       <div className="sidebar">
         <SearchBar />

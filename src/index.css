@@ -110,6 +110,34 @@ ul {
 
 .followbtn {
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  margin-left: 1rem;
+}
+
+.followList {
+  margin-top: 2rem;
+  background-color: white;
+  box-shadow: 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  padding: 1rem;
+  width: 50%;
+}
+
+.followList li {
+  display: flex;
+  flex-direction: row;
+  padding-top: 1rem;
+}
+
+.followingBtnFeed {
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  margin: 0;
+  color: #89937e;
+  color: #c5cab9;
+  font-size: 14px;
+  cursor: pointer;
 }
