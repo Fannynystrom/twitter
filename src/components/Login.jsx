@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import "./loginRegister.css";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../API/LoginAPI";
 import axios from "axios";
+import { UserContext } from "../context/UserContext";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -18,8 +20,9 @@ const LoginForm = () => {
 
     try {
       const response = await loginUser(userData);
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("user", JSON.stringify(response));
+      setUser(response);
+      // localStorage.setItem("isAuthenticated", "true");
+      // localStorage.setItem("user", JSON.stringify(response));
       navigate("/");
       console.log(response);
       console.log("Du är inloggad!");
