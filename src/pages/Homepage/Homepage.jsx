@@ -8,21 +8,27 @@ import TweetPost from "../../components/TweetPost";
 import TrendingHashtags from "../../components/TrendingHashtags";
 import { createTweet, getTweets } from "../../API/TweetApi";
 import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Homepage() {
   const [tweets, setTweets] = useState([]);
   const { user, addFollowing, removeFollowing } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchTweets = async () => {
-      try {
-        const loadedTweets = await getTweets();
-        setTweets(loadedTweets);
-      } catch (error) {
-        console.error("Error fetching tweets:", error);
-      }
-    };
-    fetchTweets();
+    if (!user.isLoggedIn) {
+      navigate("/login");
+    } else {
+      const fetchTweets = async () => {
+        try {
+          const loadedTweets = await getTweets();
+          setTweets(loadedTweets);
+        } catch (error) {
+          console.error("Error fetching tweets:", error);
+        }
+      };
+      fetchTweets();
+    }
   }, []);
 
   //FILTRERA ANVÄNDARE - avvaktar med denna tills vi får profilesidan att fungera
@@ -43,10 +49,6 @@ function Homepage() {
   //     fetchTweets();
   //   }
   // }, [user]);
-
-  if (!user) {
-    return <div>Loading user data...</div>;
-  }
 
   const addTweet = async (content, userName) => {
     try {

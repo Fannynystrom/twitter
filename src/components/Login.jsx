@@ -20,6 +20,7 @@ const LoginForm = () => {
 
     try {
       const response = await loginUser(userData);
+      response.isLoggedIn = true;
       setUser(response);
       // localStorage.setItem("isAuthenticated", "true");
       // localStorage.setItem("user", JSON.stringify(response));

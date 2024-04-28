@@ -16,13 +16,16 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     // Hämta användardata från localStorage vid initialisering
     const savedUser = localStorage.getItem("user");
-    return savedUser ? JSON.parse(savedUser) : { following: [] };
+    return savedUser
+      ? JSON.parse(savedUser)
+      : { isLoggedIn: false, following: [] };
   });
 
   useEffect(() => {
     // Lyssna på förändringar i 'user' och uppdatera localStorage
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
+      console.log("nysparad användare", user);
     }
   }, [user]);
 
@@ -33,23 +36,23 @@ export const UserProvider = ({ children }) => {
     return following.includes(userId);
   };
 
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const response = await axios.get(CURRENT_USER_URL, {
-          withCredentials: true, // Ensuring cookies are sent with the request
-        });
-        setUser(response.data);
-        setFollowing(response.data.following || []);
-      } catch (error) {
-        console.error("Error fetching current user:", error);
-      }
-    };
-    fetchCurrentUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCurrentUser = async () => {
+  //     try {
+  //       const response = await axios.get(CURRENT_USER_URL, {
+  //         withCredentials: true, // Ensuring cookies are sent with the request
+  //       });
+  //       setUser(response.data);
+  //       setFollowing(response.data.following || []);
+  //     } catch (error) {
+  //       console.error("Error fetching current user:", error);
+  //     }
+  //   };
+  //   fetchCurrentUser();
+  // }, []);
 
   const addFollowing = async (userId) => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    // const user = JSON.parse(localStorage.getItem("user"));
 
     try {
       const response = await axios.post(
@@ -60,7 +63,7 @@ export const UserProvider = ({ children }) => {
 
       // Uppdatera context state och localStorage med den returnerade användaren
       const updatedUser = response.data;
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      // localStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser); // Antag att setUser är tillgängligt via useContext(UserContext)
       setFollowing(updatedUser.following); // Uppdatera din following state om nödvändigt
 

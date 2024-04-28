@@ -6,11 +6,12 @@ import logotype from "../assets/logotype_dark.svg";
 import FollowButton from "./FollowButton"; // Importera FollowButton
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
+
 function Navbar() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const { user, isFollowing } = useContext(UserContext);
-  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const { user, setUser, isFollowing } = useContext(UserContext);
+  // const isAuthenticated = localStorage.getItem("isAuthenticated");
   // const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -23,13 +24,13 @@ function Navbar() {
       }
     };
 
-    if (isAuthenticated) {
+    if (user.isLoggedIn) {
       fetchUsers();
     }
-  }, [isAuthenticated]);
+  }, [user.isLoggedIn]);
 
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
+    setUser({ isLoggedIn: false, following: [] });
     navigate("/login");
   };
 
@@ -39,7 +40,7 @@ function Navbar() {
         <div className={styles.logo}>
           <img src={logotype} alt="woofer_logo" />
         </div>
-        {isAuthenticated && user ? (
+        {user.isLoggedIn && user ? (
           <div className={styles.userName}>
             {user.username}
             <hr />
@@ -60,7 +61,7 @@ function Navbar() {
               <a href="/">Upptäck</a>
             </li>
             <li>
-              {isAuthenticated ? (
+              {user.isLoggedIn ? (
                 <button onClick={handleLogout}>Logga ut</button>
               ) : (
                 <button onClick={() => navigate("/login")}>Logga in</button>
@@ -71,7 +72,7 @@ function Navbar() {
             <ul>
               <h4>Woofers</h4>
               <hr />
-              {isAuthenticated &&
+              {user.isLoggedIn &&
                 user &&
                 users.map((userItem) => (
                   <li key={userItem._id}>
