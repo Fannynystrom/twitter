@@ -7,8 +7,8 @@ import axios from "axios";
 import SearchBar from "../../components/Searchbar";
 import TrendingHashtags from "../../components/TrendingHashtags";
 import TweetPost from "../../components/TweetPost";
-import styles from "./Profilepage.module.css";
-// import "../../index.css";
+import styles from "../../components/FollowButton";
+import "../../index.css";
 
 const Profilepage = () => {
   const { userId: paramUserId } = useParams();
@@ -64,23 +64,29 @@ const Profilepage = () => {
   return (
     <div className="wrapper">
       <div className="content">
-        <h1>
+        <h3>
           {showUser.firstName} <em>@{showUser.username}</em>
-        </h1>
-        {tweets.map((tweet) => (
-          <TweetPost key={tweet._id} tweet={tweet} />
-        ))}
+        </h3>
+        <div className="profileTweetsWrapper">
+          <h4>@{showUser.username}'s tweets:</h4>
+          {tweets.map((tweet) => (
+            <TweetPost key={tweet._id} tweet={tweet} />
+          ))}
+        </div>
         <div className="followList">
-          <h2>{showUser.username} följer:</h2>
+          <h3>{showUser.username} följer:</h3>
 
-          {user.following.map((followProfile) => (
+          {showUser.following?.map((followProfile) => (
             <li key={followProfile._id}>
               {followProfile.username}
-
-              <FollowButton
-                userId={followProfile._id}
-                className={styles.followingBtnFeed}
-              />
+              {showUser._id === user._id ? (
+                <FollowButton
+                  userId={followProfile._id}
+                  className={styles.followingBtnFeed}
+                />
+              ) : (
+                ""
+              )}
             </li>
           ))}
         </div>

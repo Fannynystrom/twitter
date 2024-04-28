@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import styles from "./Homepage.module.css";
-import Navbar from "../../components/Navbar";
+// import styles from "./Homepage.module.css";
+// import Navbar from "../../components/Navbar";
 import "../../index.css";
 import SearchBar from "../../components/Searchbar";
 import CreateTweet from "../../components/CreateTweet";
