@@ -24,7 +24,7 @@ const twitterPostSchema = new mongoose.Schema(
   }, { timestamps: true });
 
 twitterPostSchema.statics.extractHashtags = function(tweetText) {
-    const hashtagsRegex = /#(\w+)/g;
+    const hashtagsRegex = /#(\S+)/g;
     const hashtags = tweetText.match(hashtagsRegex);
     return hashtags ? hashtags.map(tag => tag.slice(1)) : [];
 };

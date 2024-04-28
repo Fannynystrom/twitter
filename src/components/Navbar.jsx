@@ -6,11 +6,14 @@ import logotype from "../assets/logotype_dark.svg";
 import FollowButton from "./FollowButton"; // Importera FollowButton
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
+import btnStyles from "./FollowButton.module.css";
+
 function Navbar() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const { user, isFollowing } = useContext(UserContext);
-  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const { user, setUser, isLoggedIn, setIsLoggedIn, isFollowing } =
+    useContext(UserContext);
+  // const isAuthenticated = localStorage.getItem("isAuthenticated");
   // const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -23,13 +26,14 @@ function Navbar() {
       }
     };
 
-    if (isAuthenticated) {
+    if (isLoggedIn) {
       fetchUsers();
     }
-  }, [isAuthenticated]);
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
+    setUser({ following: [] });
+    setIsLoggedIn(false);
     navigate("/login");
   };
 
@@ -39,7 +43,7 @@ function Navbar() {
         <div className={styles.logo}>
           <img src={logotype} alt="woofer_logo" />
         </div>
-        {isAuthenticated && user ? (
+        {isLoggedIn && user ? (
           <div className={styles.userName}>
             {user.username}
             <hr />
@@ -60,29 +64,32 @@ function Navbar() {
               <a href="/">Upptäck</a>
             </li>
             <li>
-              {isAuthenticated ? (
+              {isLoggedIn ? (
                 <button onClick={handleLogout}>Logga ut</button>
               ) : (
                 <button onClick={() => navigate("/login")}>Logga in</button>
               )}
             </li>
           </ul>
-          <div className={styles.profilesList}>
-            <ul>
-              <h4>Woofers</h4>
-              <hr />
-              {isAuthenticated &&
-                user &&
-                users.map((userItem) => (
-                  <li key={userItem._id}>
-                    {userItem.username}
-                    {user._id !== userItem._id && !isFollowing(userItem._id) ? (
-                      <FollowButton userId={userItem._id} />
-                    ) : null}
-                  </li>
-                ))}
-            </ul>
-          </div>
+        </div>
+        <div className={styles.profilesList}>
+          <ul>
+            <h4>Woofers</h4>
+            <hr />
+            {isLoggedIn &&
+              user &&
+              users.map((userItem) => (
+                <li key={userItem._id}>
+                  {userItem.username}
+                  {user._id !== userItem._id && !isFollowing(userItem._id) ? (
+                    <FollowButton
+                      userId={userItem._id}
+                      className={btnStyles.followBtnNavbar}
+                    />
+                  ) : null}
+                </li>
+              ))}
+          </ul>
         </div>
       </div>
     </nav>
