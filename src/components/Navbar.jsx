@@ -10,7 +10,8 @@ import { Link } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const { user, setUser, isFollowing } = useContext(UserContext);
+  const { user, setUser, isLoggedIn, setIsLoggedIn, isFollowing } =
+    useContext(UserContext);
   // const isAuthenticated = localStorage.getItem("isAuthenticated");
   // const user = JSON.parse(localStorage.getItem("user"));
 
@@ -24,13 +25,14 @@ function Navbar() {
       }
     };
 
-    if (user.isLoggedIn) {
+    if (isLoggedIn) {
       fetchUsers();
     }
-  }, [user.isLoggedIn]);
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
-    setUser({ isLoggedIn: false, following: [] });
+    setUser({ following: [] });
+    setIsLoggedIn(false);
     navigate("/login");
   };
 
@@ -40,7 +42,7 @@ function Navbar() {
         <div className={styles.logo}>
           <img src={logotype} alt="woofer_logo" />
         </div>
-        {user.isLoggedIn && user ? (
+        {isLoggedIn && user ? (
           <div className={styles.userName}>
             {user.username}
             <hr />
@@ -61,7 +63,7 @@ function Navbar() {
               <a href="/">Upptäck</a>
             </li>
             <li>
-              {user.isLoggedIn ? (
+              {isLoggedIn ? (
                 <button onClick={handleLogout}>Logga ut</button>
               ) : (
                 <button onClick={() => navigate("/login")}>Logga in</button>
@@ -72,7 +74,7 @@ function Navbar() {
             <ul>
               <h4>Woofers</h4>
               <hr />
-              {user.isLoggedIn &&
+              {isLoggedIn &&
                 user &&
                 users.map((userItem) => (
                   <li key={userItem._id}>

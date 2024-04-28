@@ -12,11 +12,13 @@ import { useNavigate } from "react-router-dom";
 
 function Homepage() {
   const [tweets, setTweets] = useState([]);
-  const { user, addFollowing, removeFollowing } = useContext(UserContext);
+  const { user, isLoggedIn, addFollowing, removeFollowing } =
+    useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user.isLoggedIn) {
+    console.log(isLoggedIn);
+    if (!isLoggedIn) {
       navigate("/login");
     } else {
       const fetchTweets = async () => {

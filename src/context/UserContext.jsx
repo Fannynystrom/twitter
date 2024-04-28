@@ -18,16 +18,32 @@ export const UserProvider = ({ children }) => {
     const savedUser = localStorage.getItem("user");
     return savedUser
       ? JSON.parse(savedUser)
-      : { isLoggedIn: false, following: [] };
+      : { isLoggedIn: "false", following: [] };
   });
 
   useEffect(() => {
     // Lyssna på förändringar i 'user' och uppdatera localStorage
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
-      console.log("nysparad användare", user);
     }
   }, [user]);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    // Hämta användardata från localStorage vid initialisering
+    const loggedInUser = localStorage.getItem("isLoggedIn");
+    if (loggedInUser === "true") {
+      return true;
+    } else return false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", isLoggedIn);
+    console.log("vad är isLoggedIn", isLoggedIn);
+    console.log(
+      "vad är localstorage.getItem",
+      localStorage.getItem("isLoggedIn")
+    );
+  }, [isLoggedIn]);
 
   // const [user, setUser] = useState(initialUser);
   const [following, setFollowing] = useState(user?.following || []);
@@ -98,6 +114,8 @@ export const UserProvider = ({ children }) => {
       value={{
         user,
         setUser,
+        isLoggedIn,
+        setIsLoggedIn,
         following,
         isFollowing,
         setFollowing,

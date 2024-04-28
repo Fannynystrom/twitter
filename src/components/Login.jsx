@@ -8,7 +8,7 @@ import { UserContext } from "../context/UserContext";
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useContext(UserContext);
+  const { setUser, setIsLoggedIn } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const LoginForm = () => {
 
     try {
       const response = await loginUser(userData);
-      response.isLoggedIn = true;
+      setIsLoggedIn("true");
       setUser(response);
       // localStorage.setItem("isAuthenticated", "true");
       // localStorage.setItem("user", JSON.stringify(response));
