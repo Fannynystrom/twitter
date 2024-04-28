@@ -25,7 +25,10 @@ function Navbar() {
     <nav className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logo}>
-          <img src={logotype} alt="woofer_logo" />
+          <a href="/">
+            {" "}
+            <img src={logotype} alt="woofer_logo" />
+          </a>
         </div>
         {isLoggedIn && user ? (
           <div className={styles.profileName}>
