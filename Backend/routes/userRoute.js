@@ -5,7 +5,10 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find().lean();
+    const users = await User.find()
+      .select("username firstName following followers")
+      .populate("following", "username firstName")
+      .lean();
     // Hantera fall där createdBy är null
     res.status(200).json(users);
   } catch (error) {
@@ -13,12 +16,12 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-
-
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).lean();
+    const user = await User.findById(req.params.id)
+      .select("username firstName following followers")
+      .populate("following", "username firstName")
+      .lean();
     // Hantera fall där createdBy är null
     res.status(200).json(user);
   } catch (error) {

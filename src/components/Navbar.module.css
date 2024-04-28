@@ -54,13 +54,24 @@
   }
 }
 
-.userName {
-  width: 100%;
+.userName a {
   color: #f3f4e7;
-  font-weight: 300;
+  font-weight: 100;
   text-decoration: none;
   letter-spacing: 1px;
-  display: block; /* Make links full width of list item */
+  padding: 10px;
+  padding-bottom: 1rem;
+}
+
+.userName:hover {
+  background-color: #89937e;
+  color: white;
+}
+.userName a:visited {
+  color: #f3f4e7;
+  font-weight: 100;
+  text-decoration: none;
+  letter-spacing: 1px;
   padding: 10px;
   padding-bottom: 1rem;
 }

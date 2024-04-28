@@ -12,31 +12,52 @@ import styles from "./Profilepage.module.css";
 
 const Profilepage = () => {
   const { userId: paramUserId } = useParams();
-  const { user } = useContext(UserContext);
+  const { user, users } = useContext(UserContext);
   const [tweets, setTweets] = useState([]);
+  const [showUser, setShowUser] = useState([]);
+  const [displayUser, setDisplayUser] = useState([]);
 
   //  localStorage för att hämta inloggad användares ID
-  const userId = paramUserId || localStorage.getItem("user")._id;
+  // const userId = paramUserId || localStorage.getItem("user")._id;
   //console.log("user info", user);
 
   useEffect(() => {
-    if (user && user._id) {
+    if (paramUserId) {
+      console.log("paramuserId is set to ", paramUserId);
+      const findUser = users.find(
+        (userOfUsers) => userOfUsers._id == paramUserId
+      );
+      console.log("this search", findUser);
+      if (findUser) {
+        setShowUser(findUser);
+      } else {
+      }
+
+      console.log("showwuser", showUser);
+    } else {
+      setShowUser(user);
+    }
+  }, [paramUserId]);
+
+  useEffect(() => {
+    if (showUser && showUser._id) {
       const fetchTweets = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/tweets/${user._id}`
+            `http://localhost:3000/tweets/${showUser._id}`
           );
-          setTweets(response.data);
+          setTweets(response.data || []);
         } catch (error) {
           console.error("Error fetching user tweets:", error);
+          setTweets([]);
         }
       };
 
       fetchTweets();
     }
-  }, [user]);
+  }, [showUser]);
 
-  if (!user) {
+  if (!showUser) {
     return <div>Loading...</div>;
   }
 
@@ -44,13 +65,13 @@ const Profilepage = () => {
     <div className="wrapper">
       <div className="content">
         <h1>
-          {user.firstName} <em>@{user.username}</em>
+          {showUser.firstName} <em>@{showUser.username}</em>
         </h1>
         {tweets.map((tweet) => (
           <TweetPost key={tweet._id} tweet={tweet} />
         ))}
         <div className="followList">
-          <h2>{user.username} följer:</h2>
+          <h2>{showUser.username} följer:</h2>
 
           {user.following.map((followProfile) => (
             <li key={followProfile._id}>
