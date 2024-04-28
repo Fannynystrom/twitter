@@ -107,3 +107,9 @@ h2 {
 ul {
   list-style-type: none;
 }
+
+.followbtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}

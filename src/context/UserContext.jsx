@@ -9,10 +9,6 @@ export const UserContext = createContext();
 
 // Create a provider component
 export const UserProvider = ({ children }) => {
-  // const initialUser = JSON.parse(localStorage.getItem("user")) || {
-  //   following: [],
-  // };
-
   const [user, setUser] = useState(() => {
     // Hämta användardata från localStorage vid initialisering
     const savedUser = localStorage.getItem("user");
@@ -49,23 +45,10 @@ export const UserProvider = ({ children }) => {
   const [following, setFollowing] = useState(user?.following || []);
 
   const isFollowing = (userId) => {
-    return following.includes(userId);
-  };
+    return following.map((user) => user._id).includes(userId);
 
-  // useEffect(() => {
-  //   const fetchCurrentUser = async () => {
-  //     try {
-  //       const response = await axios.get(CURRENT_USER_URL, {
-  //         withCredentials: true, // Ensuring cookies are sent with the request
-  //       });
-  //       setUser(response.data);
-  //       setFollowing(response.data.following || []);
-  //     } catch (error) {
-  //       console.error("Error fetching current user:", error);
-  //     }
-  //   };
-  //   fetchCurrentUser();
-  // }, []);
+    // return following.includes(userId);
+  };
 
   const addFollowing = async (userId) => {
     // const user = JSON.parse(localStorage.getItem("user"));
