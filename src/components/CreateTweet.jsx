@@ -25,6 +25,7 @@ function CreateTweet({ addTweet }) {
       const userData = JSON.parse(localStorage.getItem("user"));
 
       await addTweet(content, userData._id);
+
       setContent("");
     } catch (error) {
       console.error("Fel när tweet skulle skapas:", error);
@@ -41,7 +42,7 @@ function CreateTweet({ addTweet }) {
       <div className={styles.profileImg}></div>
       <textarea
         className={styles.tweetInput}
-        placeholder="Skriv din tweet här"
+        placeholder="Skriv din woof här"
         value={content}
         onChange={handleContentChange}
         maxLength={maxTweetLength}
@@ -50,7 +51,7 @@ function CreateTweet({ addTweet }) {
         {maxTweetLength - content.length} tecken kvar
       </div>
       <button className={styles.tweetButton} onClick={handleTweetCreation}>
-        Tweet
+        Woof
       </button>
     </div>
   );

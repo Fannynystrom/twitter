@@ -15,22 +15,6 @@ function Homepage() {
   const { user, isLoggedIn } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   console.log(isLoggedIn);
-  //   if (!isLoggedIn) {
-  //     navigate("/login");
-  //   } else {
-  //     const fetchTweets = async () => {
-  //       try {
-  //         const loadedTweets = await getTweets();
-  //         setTweets(loadedTweets);
-  //       } catch (error) {
-  //         console.error("Error fetching tweets:", error);
-  //       }
-  //     };
-  //     fetchTweets();
-  //   }
-  // }, []);
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/login");
