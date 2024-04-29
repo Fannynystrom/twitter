@@ -147,3 +147,20 @@ ul {
 .trendingList {
   font-size: small;
 }
+
+/* Profile Lists Container */
+.profileListsContainer {
+  display: flex;
+  justify-content: space-around; /* Centrerar elementen med utrymme emellan */
+  align-items: flex-start; /* Startar elementen vid toppen av containern */
+  flex-wrap: wrap; /* Ser till att elementen kan radbrytas vid mindre skärmstorlekar */
+  margin-top: 20px;
+}
+
+.collapsibleList {
+  width: 48%; /* Ger varje lista lite utrymme att andas */
+  background: #f8f8f8; /* Lätt bakgrundsfärg */
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Lägger till en lätt skugga för djup */
+  border-radius: 5px; /* Rundade hörn */
+}

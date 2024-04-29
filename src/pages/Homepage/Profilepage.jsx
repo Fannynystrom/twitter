@@ -10,13 +10,13 @@ import TweetPost from "../../components/TweetPost";
 import styles from "../../components/FollowButton";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
+import CollapsibleList from "../../components/CollapsibleList";
 
 const Profilepage = () => {
   const { userId: paramUserId } = useParams();
   const { user, isLoggedIn, users } = useContext(UserContext);
   const [tweets, setTweets] = useState([]);
   const [showUser, setShowUser] = useState([]);
-  const [displayUser, setDisplayUser] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -107,7 +107,20 @@ const Profilepage = () => {
             </li>
           ))}
         </div>
+        <div className="profileListsContainer">
+          <CollapsibleList
+            title={`${showUser.username} följer`}
+            users={showUser.following || []}
+            className="collapsibleList"
+          />
+          <CollapsibleList
+            title={`${showUser.username}'s följare`}
+            users={showUser.followers || []}
+            className="collapsibleList"
+          />
+        </div>
       </div>
+
       <div className="sidebar">
         <SearchBar />
         <TrendingHashtags />
