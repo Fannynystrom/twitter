@@ -9,33 +9,33 @@ import TrendingHashtags from "../../components/TrendingHashtags";
 import TweetPost from "../../components/TweetPost";
 import styles from "../../components/FollowButton";
 import "../../index.css";
+import { useNavigate } from "react-router-dom";
 
 const Profilepage = () => {
   const { userId: paramUserId } = useParams();
-  const { user, users } = useContext(UserContext);
+  const { user, isLoggedIn, users } = useContext(UserContext);
   const [tweets, setTweets] = useState([]);
   const [showUser, setShowUser] = useState([]);
   const [displayUser, setDisplayUser] = useState([]);
-
-  //  localStorage för att hämta inloggad användares ID
-  // const userId = paramUserId || localStorage.getItem("user")._id;
-  //console.log("user info", user);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (paramUserId) {
-      console.log("paramuserId is set to ", paramUserId);
-      const findUser = users.find(
-        (userOfUsers) => userOfUsers._id == paramUserId
-      );
-      console.log("this search", findUser);
-      if (findUser) {
-        setShowUser(findUser);
-      } else {
-      }
-
-      console.log("showwuser", showUser);
+    if (!isLoggedIn) {
+      navigate("/login");
     } else {
-      setShowUser(user);
+      if (paramUserId) {
+        console.log("paramuserId is set to ", paramUserId);
+        const findUser = users.find(
+          (userOfUsers) => userOfUsers._id == paramUserId
+        );
+        console.log("this search", findUser);
+        if (findUser) {
+          setShowUser(findUser);
+        }
+        console.log("showwuser", showUser);
+      } else {
+        setShowUser(user);
+      }
     }
   }, [paramUserId]);
 
@@ -67,6 +67,7 @@ const Profilepage = () => {
         <h3>
           {showUser.firstName} <em>@{showUser.username}</em>
         </h3>
+        <p>Här ska det stå profiltext</p>
         <div className="profileTweetsWrapper">
           <h4>@{showUser.username}'s tweets:</h4>
           {tweets.map((tweet) => (
