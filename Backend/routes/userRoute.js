@@ -6,7 +6,9 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const users = await User.find()
-      .select("username firstName following followers")
+      .select(
+        "username firstName following followers about work hometown website"
+      )
       .populate("following", "username firstName")
       .lean();
     // Hantera fall där createdBy är null
@@ -19,7 +21,9 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
-      .select("username firstName following followers")
+      .select(
+        "username firstName following followers about work hometown website"
+      )
       .populate("following", "username firstName")
       .lean();
     // Hantera fall där createdBy är null
@@ -89,7 +93,9 @@ router.post("/login", async (req, res) => {
       username: username,
       password: password,
     })
-      .select("username firstName following followers")
+      .select(
+        "username firstName following followers about work hometown website"
+      )
       .populate("following", "username firstName");
     if (!user) {
       return res.status(404).json({ message: "Användaren hittades inte" });
@@ -109,7 +115,19 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const { username, password, firstName, lastName, email } = req.body;
+    const {
+      username,
+      password,
+      firstName,
+      lastName,
+      email,
+      followers,
+      following,
+      about,
+      work,
+      hometown,
+      website,
+    } = req.body;
 
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
@@ -124,6 +142,13 @@ router.post("/register", async (req, res) => {
       firstName,
       lastName,
       email,
+      followers: followers || [],
+      following: following || [],
+      about,
+      work,
+      hometown,
+      website,
+      registrationDate: new Date(),
     });
     await newUser.save();
 
