@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import UserProfile from "../../components/UserProfile";
-
+import ProfilePictureUpload from "../../components/ProfilePicture"; 
+// import styles from "./profilepagemodule.css";
 import axios from "axios";
 import SearchBar from "../../components/Searchbar";
 import TrendingHashtags from "../../components/TrendingHashtags";
@@ -41,25 +42,32 @@ const Profilepage = () => {
   return (
     <div className="wrapper">
       <div className="content">
-     
-        <h1>
-          {user.firstName} <em>@{user.username}</em>
-        </h1>
-        
-        {tweets.map(tweet => (
-        <TweetPost key={tweet._id} tweet={tweet} />
-      ))}
-    </div>
-  
-
+        <div className={styles.profileHeader}>
+        <ProfilePictureUpload />
+          <h1>{user.firstName} <span>@{user.username}</span></h1>
+          <div className={styles.userInfo}>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>About:</strong> {user.about}</p>
+            <p><strong>Occupation:</strong> {user.occupation}</p>
+            <p><strong>Hometown:</strong> {user.hometown}</p>
+            <p><strong>Website:</strong> {user.website}</p>
+            <p><strong>Registration Date:</strong> {new Date(user.registrationDate).toLocaleDateString()}</p>
+          </div>
+        </div>
+        <div className={styles.tweetsContainer}>
+          {tweets.map(tweet => (
+            <TweetPost key={tweet._id} tweet={tweet} />
+          ))}
+        </div>
+      </div>
       <div className="sidebar">
         <SearchBar />
         <TrendingHashtags />
       </div>
       <div className="footer">FOOTER</div>
     </div>
-
   );
 };
 
 export default Profilepage;
+

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const hashtagSchema = new mongoose.Schema({
   tag: String,
@@ -8,6 +8,6 @@ const hashtagSchema = new mongoose.Schema({
   },
 });
 
-const Hashtag = mongoose.model('Hashtag', hashtagSchema);
+const Hashtag = mongoose.model("Hashtag", hashtagSchema);
 
 export default Hashtag;

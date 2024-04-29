@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 
-const {
-  Schema,
-  Types: { ObjectId },
-} = mongoose;
+const { Schema, Types: { ObjectId } } = mongoose;
 
 const UserSchema = new Schema({
   username: { type: String, required: true },
@@ -13,6 +10,11 @@ const UserSchema = new Schema({
   email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
   followers: [{ type: ObjectId, ref: "User" }], // Lista av användar-IDs som följer denna användare
   following: [{ type: ObjectId, ref: "User" }], // Lista av användar-IDs som denna användare följer
+  about: { type: String }, 
+  occupation: { type: String }, 
+  hometown: { type: String }, 
+  website: { type: String },
+  registrationDate: { type: Date, default: Date.now } 
 });
 
 const User = mongoose.model("User", UserSchema);
