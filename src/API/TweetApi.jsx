@@ -4,15 +4,27 @@ const API_URL = "http://localhost:3000/api/tweets";
 
 export const getTweets = async () => {
   try {
-    console.log(API_URL, "url")
+    console.log(API_URL, "url");
     const response = await axios.get(API_URL);
-    console.log("det funkar")
+    console.log("det funkar");
     return response.data;
   } catch (error) {
     console.error("Kunde inte hämta tweets:", error);
     throw error;
   }
 };
+
+// export const getOnlyFollowingsTweets = async () => {
+//   try {
+//     console.log(API_URL, "url");
+//     const response = await axios.get(API_URL);
+//     console.log("det funkar");
+//     return response.data;
+//   } catch (error) {
+//     console.error("Kunde inte hämta tweets:", error);
+//     throw error;
+//   }
+// };
 
 export const createTweet = async (content, username) => {
   try {

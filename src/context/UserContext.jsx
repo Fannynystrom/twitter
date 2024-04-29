@@ -9,6 +9,7 @@ export const UserContext = createContext();
 
 // Create a provider component
 export const UserProvider = ({ children }) => {
+  const [users, setUsers] = useState([]);
   const [user, setUser] = useState(() => {
     // Hämta användardata från localStorage vid initialisering
     const savedUser = localStorage.getItem("user");
@@ -39,6 +40,21 @@ export const UserProvider = ({ children }) => {
       "vad är localstorage.getItem",
       localStorage.getItem("isLoggedIn")
     );
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(CURRENT_USER_URL);
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Failed to fetch users", error);
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchUsers();
+    }
   }, [isLoggedIn]);
 
   // const [user, setUser] = useState(initialUser);
@@ -97,6 +113,8 @@ export const UserProvider = ({ children }) => {
       value={{
         user,
         setUser,
+        users,
+        setUsers,
         isLoggedIn,
         setIsLoggedIn,
         following,

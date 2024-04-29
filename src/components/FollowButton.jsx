@@ -15,7 +15,6 @@ const FollowButton = ({ userId, className }) => {
     } else {
       addFollowing(userId);
     }
-    s;
   };
 
   return (

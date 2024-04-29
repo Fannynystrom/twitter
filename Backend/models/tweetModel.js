@@ -1,4 +1,3 @@
-// models/tweetModel.js
 import mongoose from "mongoose";
 
 const twitterPostSchema = new mongoose.Schema(

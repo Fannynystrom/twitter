@@ -1,3 +1,4 @@
-button {
-  color: green;
+myTweets {
+  display: flex;
+  background-color: red;
 }

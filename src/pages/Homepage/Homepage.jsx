@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import styles from "./Homepage.module.css";
-import Navbar from "../../components/Navbar";
+// import styles from "./Homepage.module.css";
+// import Navbar from "../../components/Navbar";
 import "../../index.css";
 import SearchBar from "../../components/Searchbar";
 import CreateTweet from "../../components/CreateTweet";
@@ -12,26 +12,48 @@ import { useNavigate } from "react-router-dom";
 
 function Homepage() {
   const [tweets, setTweets] = useState([]);
-  const { user, isLoggedIn, addFollowing, removeFollowing } =
-    useContext(UserContext);
+  const { user, isLoggedIn } = useContext(UserContext);
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   console.log(isLoggedIn);
+  //   if (!isLoggedIn) {
+  //     navigate("/login");
+  //   } else {
+  //     const fetchTweets = async () => {
+  //       try {
+  //         const loadedTweets = await getTweets();
+  //         setTweets(loadedTweets);
+  //       } catch (error) {
+  //         console.error("Error fetching tweets:", error);
+  //       }
+  //     };
+  //     fetchTweets();
+  //   }
+  // }, []);
   useEffect(() => {
-    console.log(isLoggedIn);
     if (!isLoggedIn) {
       navigate("/login");
     } else {
       const fetchTweets = async () => {
         try {
           const loadedTweets = await getTweets();
-          setTweets(loadedTweets);
+          if (user && user.following.length > 0) {
+            const followingIds = user.following.map((follow) => follow._id); // filtrera enbart de man följers IDn
+            const filteredTweets = loadedTweets.filter(
+              (tweet) => followingIds.includes(tweet.createdBy._id) // Filtrera tweetsen därefter
+            );
+            setTweets(filteredTweets);
+          } else {
+            setTweets([]);
+          }
         } catch (error) {
           console.error("Error fetching tweets:", error);
         }
       };
       fetchTweets();
     }
-  }, []);
+  }, [isLoggedIn, user, navigate]);
 
   //FILTRERA ANVÄNDARE - avvaktar med denna tills vi får profilesidan att fungera
   // useEffect(() => {
@@ -55,7 +77,12 @@ function Homepage() {
   const addTweet = async (content, userName) => {
     try {
       const newTweet = await createTweet(content, userName);
-      setTweets((prevTweets) => [newTweet, ...prevTweets]);
+      if (
+        user.following.includes(newTweet.createdBy._id) ||
+        user._id === newTweet.createdBy._id
+      ) {
+        setTweets((prevTweets) => [newTweet, ...prevTweets]);
+      }
     } catch (error) {
       console.error("Failed to create tweet:", error);
     }
