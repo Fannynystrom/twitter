@@ -10,13 +10,13 @@ import TweetPost from "../../components/TweetPost";
 import styles from "../../components/FollowButton";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
+import CollapsibleList from "../../components/CollapsibleList";
 
 const Profilepage = () => {
   const { userId: paramUserId } = useParams();
   const { user, isLoggedIn, users } = useContext(UserContext);
   const [tweets, setTweets] = useState([]);
-  const [showUser, setShowUser] = useState([]);
-  const [displayUser, setDisplayUser] = useState([]);
+  const [showUser, setShowUser] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,7 +32,6 @@ const Profilepage = () => {
         if (findUser) {
           setShowUser(findUser);
         }
-        console.log("showwuser", showUser);
       } else {
         setShowUser(user);
       }
@@ -41,6 +40,8 @@ const Profilepage = () => {
 
   useEffect(() => {
     if (showUser && showUser._id) {
+      console.log("Följare:", showUser.followers);
+      console.log("Följer:", showUser.following);
       const fetchTweets = async () => {
         try {
           const response = await axios.get(
@@ -60,6 +61,7 @@ const Profilepage = () => {
   if (!showUser) {
     return <div>Loading...</div>;
   }
+  const isOwner = showUser._id === user._id;
 
   return (
     <div className="wrapper">
@@ -84,6 +86,20 @@ const Profilepage = () => {
             "No details provided."
           )}
         </p>
+        <div className="profileListsContainer">
+          <CollapsibleList
+            title={`${showUser.username} följer`}
+            users={showUser.following || []}
+            isOwner={isOwner}
+            className="collapsibleList"
+          />
+          <CollapsibleList
+            title={`${showUser.username}'s följare`}
+            users={showUser.followers || []}
+            className="collapsibleList"
+          />
+        </div>
+
         <div className="profileTweetsWrapper">
           <h4>@{showUser.username}'s tweets:</h4>
           {tweets.map((tweet) => (
@@ -108,6 +124,7 @@ const Profilepage = () => {
           ))}
         </div>
       </div>
+
       <div className="sidebar">
         <SearchBar />
         <TrendingHashtags />

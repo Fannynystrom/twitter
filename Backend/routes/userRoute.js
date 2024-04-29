@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
         "username firstName following followers about work hometown website"
       )
       .populate("following", "username firstName")
+      .populate("followers", "username firstName")
       .lean();
     // Hantera fall där createdBy är null
     res.status(200).json(users);
@@ -25,6 +26,7 @@ router.get("/:id", async (req, res) => {
         "username firstName following followers about work hometown website"
       )
       .populate("following", "username firstName")
+      .populate("followers", "username firstName")
       .lean();
     // Hantera fall där createdBy är null
     res.status(200).json(user);
@@ -45,7 +47,9 @@ router.post("/:id/follow", async (req, res) => {
         $addToSet: { following: targetUserId },
       },
       { new: true }
-    ).populate("following", "username firstName"); // 'new: true' returnerar dokumentet efter uppdateringen
+    )
+      .populate("following", "username firstName")
+      .populate("followers", "username firstName"); // 'new: true' returnerar dokumentet efter uppdateringen
 
     await User.findByIdAndUpdate(targetUserId, {
       $addToSet: { followers: userId },
@@ -96,7 +100,8 @@ router.post("/login", async (req, res) => {
       .select(
         "username firstName following followers about work hometown website"
       )
-      .populate("following", "username firstName");
+      .populate("following", "username firstName")
+      .populate("followers", "username firstName");
     if (!user) {
       return res.status(404).json({ message: "Användaren hittades inte" });
     }
