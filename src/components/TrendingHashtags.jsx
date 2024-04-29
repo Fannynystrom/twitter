@@ -11,10 +11,9 @@ function TrendingHashtags() {
     const fetchTweets = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/tweets");
-        console.log('respons', response.data.tweets)
+        console.log("respons", response.data.tweets);
         setTweets(response.data.tweets);
-        console.log('tweets' , tweets)
-
+        console.log("tweets", tweets);
       } catch (error) {
         console.error("Error fetching tweets:", error);
       }
@@ -37,17 +36,16 @@ function TrendingHashtags() {
   }, []);
 
   const extractHashtags = (tweetText) => {
-    const hashtagsRegex = /#(\S+)/g; // inkluderar allt utom mellanslag    
+    const hashtagsRegex = /#(\S+)/g; // inkluderar allt utom mellanslag
     const hashtags = tweetText.match(hashtagsRegex);
     return hashtags ? hashtags.map((tag) => tag.slice(1)) : [];
-  }
-
+  };
 
   const saveTweet = async (tweetText) => {
     const hashtags = extractHashtags(tweetText);
-    console.log('#', hashtags)
+    console.log("#", hashtags);
     if (hashtags && hashtags.length > 0) {
-      console.log('inne i if')
+      console.log("inne i if");
       hashtags.forEach(async (tag) => {
         try {
           await axios.post("http://localhost:3000/api/hashtags", { tag });
@@ -62,11 +60,11 @@ function TrendingHashtags() {
   useEffect(() => {
     if (tweets && tweets.length > 0) {
       tweets.forEach((tweet) => {
-        saveTweet(tweet.content); 
-        console.log('tweet: ', tweets)
+        saveTweet(tweet.content);
+        console.log("tweet: ", tweets);
       });
-    } 
-    console.log('inga tecken: ', tweets)
+    }
+    console.log("inga tecken: ", tweets);
   }, [tweets]);
 
   const getTrendingHashtags = async () => {
@@ -82,13 +80,12 @@ function TrendingHashtags() {
     getTrendingHashtags();
   }, []);
 
-
   return (
     <div className={styles.trendingBox}>
       <h3>Trending hashtags</h3>
       <ul>
         {trendingHashtags.map((tag, index) => (
-          <li key={index}>
+          <li key={index} className="trendingList">
             #{tag.tag} - {tag.count} posts
           </li>
         ))}
