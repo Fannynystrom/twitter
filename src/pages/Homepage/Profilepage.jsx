@@ -67,7 +67,23 @@ const Profilepage = () => {
         <h3>
           {showUser.firstName} <em>@{showUser.username}</em>
         </h3>
-        <p>Här ska det stå profiltext</p>
+        <p>About: {showUser.about || "No details provided."}</p>
+        <p>Work: {showUser.work || "No details provided."}</p>
+        <p>Hometown: {showUser.hometown || "No details provided."}</p>
+        <p>
+          Website:{" "}
+          {showUser.website ? (
+            <a
+              href={showUser.website}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {showUser.website}
+            </a>
+          ) : (
+            "No details provided."
+          )}
+        </p>
         <div className="profileTweetsWrapper">
           <h4>@{showUser.username}'s tweets:</h4>
           {tweets.map((tweet) => (
