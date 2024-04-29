@@ -1,8 +1,8 @@
-// CollapsibleList.jsx
 import React, { useState } from "react";
+import FollowButton from "./FollowButton";
 import styles from "./CollapsibleList.module.css"; // Se till att rätt sökväg används
 
-const CollapsibleList = ({ title, users }) => {
+const CollapsibleList = ({ title, users, isOwner }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleList = () => {
@@ -20,9 +20,24 @@ const CollapsibleList = ({ title, users }) => {
       </h3>
       {isOpen && (
         <ul>
-          {users.map((user) => (
-            <li key={user._id}>{user.username}</li>
-          ))}
+          {users.length > 0 ? (
+            users.map((user) => (
+              <li key={user._id}>
+                {user.username}
+                {isOwner && (
+                  <FollowButton
+                    userId={user._id}
+                    action={
+                      title.includes("följare") ? "removeFollower" : "unfollow"
+                    }
+                    className={styles.followingBtnFeed}
+                  />
+                )}
+              </li>
+            ))
+          ) : (
+            <li>Inga användare att visa</li>
+          )}
         </ul>
       )}
     </div>
