@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { createTweet } from "../API/TweetApi";
 import styles from "./CreateTweet.module.css";
 import { UserContext } from "../context/UserContext";
+import profileAvatar from "../assets/woffer.png";
 
 function CreateTweet({ addTweet }) {
   const maxTweetLength = 140;
@@ -39,7 +40,11 @@ function CreateTweet({ addTweet }) {
 
   return (
     <div className={styles.createTweetBox}>
-      <div className={styles.profileImg}></div>
+      <img
+        src={profileAvatar}
+        alt="profileavatar"
+        className={styles.profileImg}
+      />
       <textarea
         className={styles.tweetInput}
         placeholder="Skriv din woof här"

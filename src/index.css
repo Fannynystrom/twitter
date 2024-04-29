@@ -85,8 +85,6 @@ h2 {
 
 .footer {
   grid-area: ft;
-  background-color: black;
-  color: white;
   text-align: center;
   padding-top: 1rem;
   font-size: x-large;
@@ -144,4 +142,8 @@ ul {
 
 .profileTweetsWrapper {
   margin-top: 3rem;
+}
+
+.trendingList {
+  font-size: small;
 }
