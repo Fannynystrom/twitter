@@ -6,10 +6,9 @@ import { deleteTweet, likeTweet } from "../API/TweetApi";
 import { UserContext } from "../context/UserContext";
 
 function TweetPost({ tweet, onDelete, onLike, onToggleFollow }) {
-  const { isFollowing } = useContext(UserContext);
-
-  const isAuthenticated = localStorage.getItem("isAuthenticated");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { user, isFollowing } = useContext(UserContext);
+  // const isAuthenticated = localStorage.getItem("isAuthenticated");
+  // const user = JSON.parse(localStorage.getItem("user"));
 
   function timeSince(date) {
     const seconds = Math.floor((new Date() - date) / 1000);
@@ -58,6 +57,7 @@ function TweetPost({ tweet, onDelete, onLike, onToggleFollow }) {
                 userId={tweet.createdBy._id}
                 isFollowing={isFollowing(tweet.createdBy._id)}
                 onToggleFollow={onToggleFollow}
+                className={styles.followingBtnFeed}
               />
             )}
           </span>

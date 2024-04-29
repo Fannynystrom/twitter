@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import ".././index.css";
+import styles from "./FollowButton.module.css";
 
-const FollowButton = ({ userId }) => {
+const FollowButton = ({ userId, className }) => {
   const { isFollowing, addFollowing, removeFollowing } =
     useContext(UserContext);
 
@@ -16,7 +18,7 @@ const FollowButton = ({ userId }) => {
   };
 
   return (
-    <button onClick={handleFollowClick}>
+    <button onClick={handleFollowClick} className={className}>
       {following ? "Unfollow" : "Follow"}
     </button>
   );

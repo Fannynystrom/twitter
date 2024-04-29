@@ -54,13 +54,34 @@
   }
 }
 
-.userName {
-  width: 100%;
+.profileName {
   color: #f3f4e7;
   font-weight: 300;
   text-decoration: none;
   letter-spacing: 1px;
-  display: block; /* Make links full width of list item */
+  font-size: large;
+  padding: 10px;
+  padding-bottom: 1rem;
+}
+
+.userName a {
+  color: #f3f4e7;
+  font-weight: 100;
+  text-decoration: none;
+  letter-spacing: 1px;
+  padding: 10px;
+  padding-bottom: 1rem;
+}
+
+.userName:hover {
+  background-color: #89937e;
+  color: white;
+}
+.userName a:visited {
+  color: #f3f4e7;
+  font-weight: 100;
+  text-decoration: none;
+  letter-spacing: 1px;
   padding: 10px;
   padding-bottom: 1rem;
 }
@@ -77,6 +98,12 @@ hr {
   color: white;
 }
 
+.profilesList li {
+  margin-top: 1rem;
+  font-size: smaller;
+  font-weight: 100;
+}
+
 .profilesList hr {
   margin-bottom: 1rem;
   width: 50%;
@@ -85,4 +112,11 @@ hr {
 .userNames {
   font-weight: 50;
   margin-top: 1rem;
+}
+
+.followBtnNavbar {
+  margin: 0;
+  color: red;
+  cursor: pointer;
+  background-color: transparent;
 }

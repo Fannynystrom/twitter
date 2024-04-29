@@ -6,30 +6,18 @@ import logotype from "../assets/logotype_dark.svg";
 import FollowButton from "./FollowButton"; // Importera FollowButton
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
+import btnStyles from "./FollowButton.module.css";
+
 function Navbar() {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
-  const { user, isFollowing } = useContext(UserContext);
-  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const { user, setUser, users, isLoggedIn, setIsLoggedIn, isFollowing } =
+    useContext(UserContext);
+  // const isAuthenticated = localStorage.getItem("isAuthenticated");
   // const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/users");
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Failed to fetch users", error);
-      }
-    };
-
-    if (isAuthenticated) {
-      fetchUsers();
-    }
-  }, [isAuthenticated]);
-
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
+    setUser({ following: [] });
+    setIsLoggedIn(false);
     navigate("/login");
   };
 
@@ -37,10 +25,13 @@ function Navbar() {
     <nav className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logo}>
-          <img src={logotype} alt="woofer_logo" />
+          <a href="/">
+            {" "}
+            <img src={logotype} alt="woofer_logo" />
+          </a>
         </div>
-        {isAuthenticated && user ? (
-          <div className={styles.userName}>
+        {isLoggedIn && user ? (
+          <div className={styles.profileName}>
             {user.username}
             <hr />
           </div>
@@ -60,29 +51,35 @@ function Navbar() {
               <a href="/">Upptäck</a>
             </li>
             <li>
-              {isAuthenticated ? (
+              {isLoggedIn ? (
                 <button onClick={handleLogout}>Logga ut</button>
               ) : (
                 <button onClick={() => navigate("/login")}>Logga in</button>
               )}
             </li>
           </ul>
-          <div className={styles.profilesList}>
-            <ul>
-              <h4>Woofers</h4>
-              <hr />
-              {isAuthenticated &&
-                user &&
-                users.map((userItem) => (
-                  <li key={userItem._id}>
+        </div>
+        <div className={styles.profilesList}>
+          <ul>
+            <h4>Woofers</h4>
+            <hr />
+            {isLoggedIn &&
+              user &&
+              users.map((userItem) => (
+                <li className={styles.userName} key={userItem._id}>
+                  <Link to={`/profile/${userItem._id}`}>
                     {userItem.username}
+
                     {user._id !== userItem._id && !isFollowing(userItem._id) ? (
-                      <FollowButton userId={userItem._id} />
+                      <FollowButton
+                        userId={userItem._id}
+                        className={btnStyles.followBtnNavbar}
+                      />
                     ) : null}
-                  </li>
-                ))}
-            </ul>
-          </div>
+                  </Link>
+                </li>
+              ))}
+          </ul>
         </div>
       </div>
     </nav>

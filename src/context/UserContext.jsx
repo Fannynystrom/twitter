@@ -9,34 +9,65 @@ export const UserContext = createContext();
 
 // Create a provider component
 export const UserProvider = ({ children }) => {
-  const initialUser = JSON.parse(localStorage.getItem("user")) || {
-    following: [],
-  };
-
-  const [user, setUser] = useState(initialUser);
-  const [following, setFollowing] = useState(initialUser?.following || []);
-
-  const isFollowing = (userId) => {
-    return following.includes(userId);
-  };
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(() => {
+    // Hämta användardata från localStorage vid initialisering
+    const savedUser = localStorage.getItem("user");
+    return savedUser
+      ? JSON.parse(savedUser)
+      : { isLoggedIn: "false", following: [] };
+  });
 
   useEffect(() => {
-    const fetchCurrentUser = async () => {
+    // Lyssna på förändringar i 'user' och uppdatera localStorage
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+  }, [user]);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    // Hämta användardata från localStorage vid initialisering
+    const loggedInUser = localStorage.getItem("isLoggedIn");
+    if (loggedInUser === "true") {
+      return true;
+    } else return false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", isLoggedIn);
+    console.log("vad är isLoggedIn", isLoggedIn);
+    console.log(
+      "vad är localstorage.getItem",
+      localStorage.getItem("isLoggedIn")
+    );
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
       try {
-        const response = await axios.get(CURRENT_USER_URL, {
-          withCredentials: true, // Ensuring cookies are sent with the request
-        });
-        // setUser(response.data);
-        setFollowing(response.data.following || []);
+        const response = await axios.get(CURRENT_USER_URL);
+        setUsers(response.data);
       } catch (error) {
-        console.error("Error fetching current user:", error);
+        console.error("Failed to fetch users", error);
       }
     };
-    fetchCurrentUser();
-  }, []);
+
+    if (isLoggedIn) {
+      fetchUsers();
+    }
+  }, [isLoggedIn]);
+
+  // const [user, setUser] = useState(initialUser);
+  const [following, setFollowing] = useState(user?.following || []);
+
+  const isFollowing = (userId) => {
+    return following.map((user) => user._id).includes(userId);
+
+    // return following.includes(userId);
+  };
 
   const addFollowing = async (userId) => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    // const user = JSON.parse(localStorage.getItem("user"));
 
     try {
       const response = await axios.post(
@@ -47,7 +78,7 @@ export const UserProvider = ({ children }) => {
 
       // Uppdatera context state och localStorage med den returnerade användaren
       const updatedUser = response.data;
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      // localStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser); // Antag att setUser är tillgängligt via useContext(UserContext)
       setFollowing(updatedUser.following); // Uppdatera din following state om nödvändigt
 
@@ -82,6 +113,10 @@ export const UserProvider = ({ children }) => {
       value={{
         user,
         setUser,
+        users,
+        setUsers,
+        isLoggedIn,
+        setIsLoggedIn,
         following,
         isFollowing,
         setFollowing,

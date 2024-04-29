@@ -139,7 +139,11 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find().lean();
+    const users = await User.find()
+      .select("username firstName following followers")
+      .populate("following", "username firstName")
+      .lean();
+    // Hantera fall där createdBy är null
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -148,10 +152,11 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).lean();
-    if (!user) {
-      return res.status(404).json({ message: "Användaren hittades inte" });
-    }
+    const user = await User.findById(req.params.id)
+      .select("username firstName following followers")
+      .populate("following", "username firstName")
+      .lean();
+    // Hantera fall där createdBy är null
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });

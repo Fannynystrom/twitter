@@ -2,61 +2,93 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import UserProfile from "../../components/UserProfile";
-import ProfilePictureUpload from "../../components/ProfilePicture"; 
-// import styles from "./profilepagemodule.css";
+import FollowButton from "../../components/FollowButton";
 import axios from "axios";
 import SearchBar from "../../components/Searchbar";
 import TrendingHashtags from "../../components/TrendingHashtags";
-//import styles from "./Homepage.module.css";
 import TweetPost from "../../components/TweetPost";
-import styles from "../../components/TweetPost.module.css"
+import styles from "../../components/FollowButton";
+import "../../index.css";
+import { useNavigate } from "react-router-dom";
 
 const Profilepage = () => {
   const { userId: paramUserId } = useParams();
-  const { user } = useContext(UserContext);
+  const { user, isLoggedIn, users } = useContext(UserContext);
   const [tweets, setTweets] = useState([]);
-
-  //  localStorage för att hämta inloggad användares ID
-  const userId = paramUserId || localStorage.getItem("user")._id;
-  //console.log("user info", user);
+  const [showUser, setShowUser] = useState([]);
+  const [displayUser, setDisplayUser] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (user && user._id) {
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      if (paramUserId) {
+        console.log("paramuserId is set to ", paramUserId);
+        const findUser = users.find(
+          (userOfUsers) => userOfUsers._id == paramUserId
+        );
+        console.log("this search", findUser);
+        if (findUser) {
+          setShowUser(findUser);
+        }
+        console.log("showwuser", showUser);
+      } else {
+        setShowUser(user);
+      }
+    }
+  }, [paramUserId]);
+
+  useEffect(() => {
+    if (showUser && showUser._id) {
       const fetchTweets = async () => {
         try {
-          const response = await axios.get(`http://localhost:3000/tweets/${user._id}`);
-          setTweets(response.data);
+          const response = await axios.get(
+            `http://localhost:3000/tweets/${showUser._id}`
+          );
+          setTweets(response.data || []);
         } catch (error) {
-          console.error('Error fetching user tweets:', error);
+          console.error("Error fetching user tweets:", error);
+          setTweets([]);
         }
       };
 
       fetchTweets();
     }
-  }, [user]);
+  }, [showUser]);
 
-  if (!user) {
+  if (!showUser) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="wrapper">
       <div className="content">
-        <div className={styles.profileHeader}>
-        <ProfilePictureUpload />
-          <h1>{user.firstName} <span>@{user.username}</span></h1>
-          <div className={styles.userInfo}>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>About:</strong> {user.about}</p>
-            <p><strong>Occupation:</strong> {user.occupation}</p>
-            <p><strong>Hometown:</strong> {user.hometown}</p>
-            <p><strong>Website:</strong> {user.website}</p>
-            <p><strong>Registration Date:</strong> {new Date(user.registrationDate).toLocaleDateString()}</p>
-          </div>
-        </div>
-        <div className={styles.tweetsContainer}>
-          {tweets.map(tweet => (
+        <h3>
+          {showUser.firstName} <em>@{showUser.username}</em>
+        </h3>
+        <p>Här ska det stå profiltext</p>
+        <div className="profileTweetsWrapper">
+          <h4>@{showUser.username}'s tweets:</h4>
+          {tweets.map((tweet) => (
             <TweetPost key={tweet._id} tweet={tweet} />
+          ))}
+        </div>
+        <div className="followList">
+          <h3>{showUser.username} följer:</h3>
+
+          {showUser.following?.map((followProfile) => (
+            <li key={followProfile._id}>
+              {followProfile.username}
+              {showUser._id === user._id ? (
+                <FollowButton
+                  userId={followProfile._id}
+                  className={styles.followingBtnFeed}
+                />
+              ) : (
+                ""
+              )}
+            </li>
           ))}
         </div>
       </div>
@@ -70,4 +102,3 @@ const Profilepage = () => {
 };
 
 export default Profilepage;
-
