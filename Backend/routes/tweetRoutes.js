@@ -43,14 +43,18 @@ router.post("/", async (req, res) => {
     //     .json({ message: "createdBy (userId) is required." });
     // }
 
+    console.log("hej2")
     const newTweet = new TwitterPost({
       content,
       createdBy, // createdBy fylls med det userId som skickas från klienten
       hashtags: TwitterPost.extractHashtags(content),
     });
+    console.log("hej3", newTweet);
     await newTweet.save();
+    console.log("hej4");
     await saveHashtags(newTweet.hashtags);
-    await newTweet.populate("createdBy");
+    console.log("hej5");
+    //await newTweet.populate("createdBy");
 
     res.status(201).json(newTweet);
   } catch (error) {
