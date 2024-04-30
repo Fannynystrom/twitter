@@ -54,7 +54,7 @@ const SearchBar = () => {
       </form>
       {error && <p className={styles.errorMessage}>{error}</p>}
       <div className={styles.searchResults}>
-        <h2>Users</h2>
+        <h4>Users</h4>
         <ul>
           {searchResults.users.map((user, index) => (
             <li key={index} className={styles.resultItem}>
@@ -64,7 +64,7 @@ const SearchBar = () => {
         </ul>
       </div>
       <div className={styles.searchResults}>
-        <h2>Posts</h2>
+        <h4>Posts</h4>
         <ul>
           {searchResults.tweets.map((tweet, index) => (
             <li key={index} className={styles.resultItem}>
