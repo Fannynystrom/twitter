@@ -74,7 +74,9 @@ router.post("/:id/unfollow", async (req, res) => {
         $pull: { following: targetUserId },
       },
       { new: true }
-    ).populate("following"); // 'new: true' returnerar dokumentet efter uppdateringen
+    )
+      .populate("following")
+      .populate("followers");
 
     await User.findByIdAndUpdate(targetUserId, {
       $pull: { followers: userId },

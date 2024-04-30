@@ -11,6 +11,7 @@ import styles from "../../components/FollowButton";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import CollapsibleList from "../../components/CollapsibleList";
+import Footer from "../../components/Footer";
 
 const Profilepage = () => {
   const { userId: paramUserId } = useParams();
@@ -24,11 +25,9 @@ const Profilepage = () => {
       navigate("/login");
     } else {
       if (paramUserId) {
-        console.log("paramuserId is set to ", paramUserId);
         const findUser = users.find(
           (userOfUsers) => userOfUsers._id == paramUserId
         );
-        console.log("this search", findUser);
         if (findUser) {
           setShowUser(findUser);
         }
@@ -40,8 +39,6 @@ const Profilepage = () => {
 
   useEffect(() => {
     if (showUser && showUser._id) {
-      console.log("Följare:", showUser.followers);
-      console.log("Följer:", showUser.following);
       const fetchTweets = async () => {
         try {
           const response = await axios.get(
@@ -106,30 +103,15 @@ const Profilepage = () => {
             <TweetPost key={tweet._id} tweet={tweet} />
           ))}
         </div>
-        <div className="followList">
-          <h3>{showUser.username} följer:</h3>
-
-          {showUser.following?.map((followProfile) => (
-            <li key={followProfile._id}>
-              {followProfile.username}
-              {showUser._id === user._id ? (
-                <FollowButton
-                  userId={followProfile._id}
-                  className={styles.followingBtnFeed}
-                />
-              ) : (
-                ""
-              )}
-            </li>
-          ))}
-        </div>
       </div>
 
       <div className="sidebar">
         <SearchBar />
         <TrendingHashtags />
       </div>
-      <div className="footer">FOOTER</div>
+      <div className="footer">
+        <Footer />
+      </div>
     </div>
   );
 };
