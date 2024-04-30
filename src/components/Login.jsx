@@ -16,17 +16,13 @@ const LoginForm = () => {
     e.preventDefault();
 
     const userData = { username, password };
-    console.log(userData);
 
     try {
       const response = await loginUser(userData);
       setIsLoggedIn("true");
       setUser(response);
-      // localStorage.setItem("isAuthenticated", "true");
-      // localStorage.setItem("user", JSON.stringify(response));
-      navigate("/");
       console.log(response);
-      console.log("Du är inloggad!");
+      navigate("/");
     } catch (error) {
       console.error("Något gick fel:", error);
     }

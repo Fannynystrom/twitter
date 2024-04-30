@@ -86,7 +86,10 @@ function TrendingHashtags() {
       <ul>
         {trendingHashtags.map((tag, index) => (
           <li key={index} className="trendingList">
-            #{tag.tag} - {tag.count} posts
+            <em>
+              {" "}
+              <b> #{tag.tag}</b> - {tag.count} posts
+            </em>
           </li>
         ))}
       </ul>

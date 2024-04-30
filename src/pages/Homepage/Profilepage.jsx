@@ -11,6 +11,8 @@ import styles from "../../components/FollowButton";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import CollapsibleList from "../../components/CollapsibleList";
+import Footer from "../../components/Footer";
+import profileAvatar from "../../assets/woffer.png";
 
 const Profilepage = () => {
   const { userId: paramUserId } = useParams();
@@ -24,11 +26,9 @@ const Profilepage = () => {
       navigate("/login");
     } else {
       if (paramUserId) {
-        console.log("paramuserId is set to ", paramUserId);
         const findUser = users.find(
           (userOfUsers) => userOfUsers._id == paramUserId
         );
-        console.log("this search", findUser);
         if (findUser) {
           setShowUser(findUser);
         }
@@ -40,8 +40,6 @@ const Profilepage = () => {
 
   useEffect(() => {
     if (showUser && showUser._id) {
-      console.log("Följare:", showUser.followers);
-      console.log("Följer:", showUser.following);
       const fetchTweets = async () => {
         try {
           const response = await axios.get(
@@ -66,26 +64,46 @@ const Profilepage = () => {
   return (
     <div className="wrapper">
       <div className="content">
-        <h3>
-          {showUser.firstName} <em>@{showUser.username}</em>
-        </h3>
-        <p>About: {showUser.about || "No details provided."}</p>
-        <p>Work: {showUser.work || "No details provided."}</p>
-        <p>Hometown: {showUser.hometown || "No details provided."}</p>
-        <p>
-          Website:{" "}
-          {showUser.website ? (
-            <a
-              href={showUser.website}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {showUser.website}
-            </a>
-          ) : (
-            "No details provided."
-          )}
-        </p>
+        <div className="profileArea">
+          <div className="profileHead">
+            <div className="profilePageImg">
+              <img src={profileAvatar} alt="profileavatar" />
+            </div>
+            <div className="profilePageTitle">
+              <h3>
+                {showUser.firstName} <br />
+                <em>@{showUser.username}</em>
+              </h3>
+            </div>
+          </div>
+          <div className="profileBody">
+            <p>
+              Om mig: <em>{showUser.about || "No details provided."}</em>
+            </p>
+            <p>
+              Sysselsättning: <em>{showUser.work || "No details provided."}</em>
+            </p>
+            <p>
+              Hemstad:<em> {showUser.hometown || "No details provided."}</em>
+            </p>
+            <p>
+              Hemsida:{" "}
+              <em>
+                {showUser.website ? (
+                  <a
+                    href={showUser.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {showUser.website}
+                  </a>
+                ) : (
+                  "No details provided."
+                )}
+              </em>{" "}
+            </p>
+          </div>
+        </div>
         <div className="profileListsContainer">
           <CollapsibleList
             title={`${showUser.username} följer`}
@@ -106,30 +124,15 @@ const Profilepage = () => {
             <TweetPost key={tweet._id} tweet={tweet} />
           ))}
         </div>
-        <div className="followList">
-          <h3>{showUser.username} följer:</h3>
-
-          {showUser.following?.map((followProfile) => (
-            <li key={followProfile._id}>
-              {followProfile.username}
-              {showUser._id === user._id ? (
-                <FollowButton
-                  userId={followProfile._id}
-                  className={styles.followingBtnFeed}
-                />
-              ) : (
-                ""
-              )}
-            </li>
-          ))}
-        </div>
       </div>
 
       <div className="sidebar">
         <SearchBar />
         <TrendingHashtags />
       </div>
-      <div className="footer">FOOTER</div>
+      <div className="footer">
+        <Footer />
+      </div>
     </div>
   );
 };
