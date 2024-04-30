@@ -9,6 +9,7 @@
   display: flex; /* Gör att text och pil kan ordnas horisontellt */
   align-items: center;
   font-weight: 200;
+  font-size: medium;
 }
 
 .header:hover {
