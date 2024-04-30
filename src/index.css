@@ -167,3 +167,57 @@ ul {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Lägger till en lätt skugga för djup */
   border-radius: 5px; /* Rundade hörn */
 }
+
+.profileArea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.profileHead {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+.profilePageImg {
+  display: flex;
+  width: 20%;
+}
+
+.profilePageImg img {
+  display: flex;
+  width: 80%;
+}
+
+.profilePageTitle {
+  display: flex;
+  font-size: x-large;
+  width: 80%;
+  align-items: center;
+}
+
+.profilePageTitle h3 {
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.profilePageTitle em {
+  font-size: large;
+  letter-spacing: 2px;
+}
+
+.profileBody {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top: 1px solid #314528;
+  border-bottom: 1px solid #314528;
+}
+
+.profileBody p {
+  font-size: medium;
+  font-weight: 50;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
