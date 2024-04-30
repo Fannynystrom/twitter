@@ -4,7 +4,6 @@ import styles from "./CollapsibleList.module.css"; // Se till att rätt sökväg
 
 const CollapsibleList = ({ title, users, isOwner }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleList = () => {
     setIsOpen(!isOpen);
   };
@@ -26,6 +25,7 @@ const CollapsibleList = ({ title, users, isOwner }) => {
                 {user.username}
                 {isOwner && (
                   <FollowButton
+                    key={user._id}
                     userId={user._id}
                     action={
                       title.includes("följare") ? "removeFollower" : "unfollow"

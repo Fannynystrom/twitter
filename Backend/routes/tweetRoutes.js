@@ -113,7 +113,7 @@ router.get("/tweets/:userId", async (req, res) => {
       res.json(tweets);
     } else {
       console.log(`No tweets found for user ${userId}`);
-      res.status(404).send("No tweets found for this user.");
+      res.status(200).json([]);
     }
   } catch (error) {
     console.error("Error fetching tweets for user:", error);
