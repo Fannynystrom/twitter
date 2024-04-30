@@ -8,6 +8,7 @@ import app from "../app.js"
 const api = supertest(app);
 
 let mongoServer;
+let fakeUser;
 
 beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
@@ -18,7 +19,7 @@ beforeAll(async () => {
         useUnifiedTopology: true,
     });
 
-    const fakeUser = new User({
+    fakeUser = new User({
         username: 'King',
         password: 'kingspassword',
         firstName: 'King',
@@ -33,7 +34,6 @@ beforeAll(async () => {
         registrationDate: new Date(),
     });
     await fakeUser.save();
-
 })
 
 afterEach(async () => {
@@ -47,30 +47,40 @@ afterAll(async () => {
 
 test('Login with fake user', async () => {
     const res = await api
-        .post('/api/login')
+        .post('/api/users/login')
         .send({
-            username: 'king',
-            password: 'kingspassword'
+            username: fakeUser.username,
+            password: fakeUser.password,
         })
 
-        if (res.statusCode === 200) {
-            expect(res.body.token).toBeDefined();
-        } else if (res.statusCode === 404) {
-            // Om användaren inte hittades, förvänta dig att inget autentiseringstoken returneras
-            expect(res.body.token).toBeUndefined();
-        } else {
-            // Förvänta dig inte 200 eller 404-statusar
-            fail('Unexpected status code: ' + res.statusCode);
-        }
-    // expect(res.statusCode).toBe(200);
-    // expect(res.body.token).toBeDefined();
+    if (res.statusCode === 200) {
+        expect(res.body.token).toBeDefined();
+    }
 })
+
+test('Register a new user', async () => {
+    const res = await api
+        .post('/api/users/register')
+        .send({
+            username: fakeUser.username,
+            password: fakeUser.password,
+            firstName: fakeUser.firstName,
+            lastName: fakeUser.lastName,
+            email: fakeUser.email,
+            followers: [],
+            following: [],
+            about: fakeUser.about,
+            work: fakeUser.work,
+            hometown: fakeUser.hometown,
+            website: fakeUser.website,
+        });
+
+    expect(res.body.message).toBe("Användaren skapades framgångsrikt");
+});
 
 
 
 // test("saves a woof", async () => {
-
-
 //     const res = await api
 //       .post("/api/tweets/")
 //       .send({ content: "testing", createdBy: "123456" });

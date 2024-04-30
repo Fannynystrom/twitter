@@ -105,10 +105,8 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "Användaren hittades inte" });
     }
-
-    // Kontrollera lösenordet (utan hash)
     if (user.password !== password) {
-      // return res.status(401).json({ message: "Fel lösenord" });
+      return res.status(401).json({ message: "Fel lösenord" });
     }
 
     res.status(200).json(user);
