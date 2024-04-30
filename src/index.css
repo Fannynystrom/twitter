@@ -146,6 +146,7 @@ ul {
 
 .trendingList {
   font-size: small;
+  text-align: start;
 }
 
 /* Profile Lists Container */
@@ -231,4 +232,9 @@ ul {
   justify-content: center;
   align-items: center;
   gap: 1rem;
+}
+
+ol,
+ul {
+  padding-left: 0 !important;
 }
