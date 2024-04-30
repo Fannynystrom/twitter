@@ -221,3 +221,14 @@ ul {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+
+.avatar {
+  max-width: 3rem;
+}
+
+.footercontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
