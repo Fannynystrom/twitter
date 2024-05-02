@@ -18,6 +18,11 @@
   left: 0; /* Align it to the left */
   top: 0; /* Align it to the top */
   overflow-y: auto; /* Enable scrolling if content is too long */
+  transition: transform 0.3s ease-in-out; /* Animering för att glida in/ut */
+  transform: translateX(-100%); /* Starta utanför skärmen */
+}
+.container.active {
+  transform: translateX(0); /* Flytta in på skärmen */
 }
 
 .logo img {
