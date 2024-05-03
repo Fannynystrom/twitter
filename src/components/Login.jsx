@@ -21,7 +21,6 @@ const LoginForm = () => {
       const response = await loginUser(userData);
       setIsLoggedIn("true");
       setUser(response);
-      console.log(response);
       navigate("/");
     } catch (error) {
       console.error("Något gick fel:", error);

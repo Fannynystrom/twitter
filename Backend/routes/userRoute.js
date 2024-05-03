@@ -48,6 +48,7 @@ router.post("/:id/follow", async (req, res) => {
       },
       { new: true }
     )
+      .select("-password")
       .populate("following", "username firstName")
       .populate("followers", "username firstName"); // 'new: true' returnerar dokumentet efter uppdateringen
 
@@ -75,6 +76,7 @@ router.post("/:id/unfollow", async (req, res) => {
       },
       { new: true }
     )
+      .select("-password")
       .populate("following")
       .populate("followers");
 
