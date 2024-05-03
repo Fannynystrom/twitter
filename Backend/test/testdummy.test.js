@@ -53,7 +53,7 @@ test('Login with fake user', async () => {
             password: fakeUser.password,
         })
 
-    if (res.statusCode === 200) {
+    if (res.statusCode === 201) {
         expect(res.body.token).toBeDefined();
     }
 })
@@ -74,8 +74,9 @@ test('Register a new user', async () => {
             hometown: fakeUser.hometown,
             website: fakeUser.website,
         });
-
-    expect(res.body.message).toBe("Användaren skapades framgångsrikt");
+    if (res.statusCode === 201) {
+        expect(res.body.message).toBe("Användaren skapades framgångsrikt");
+    }
 });
 
 

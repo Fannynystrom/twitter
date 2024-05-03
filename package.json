@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start:test": "NODE_ENV=test node app.js",
+    "test": "jest --verbose --runInBand",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -26,5 +29,10 @@
     "react-router-dom": "^6.22.3",
     "socket.io-client": "^4.7.5",
     "vite": "^5.2.9"
+  },
+  "devDependencies": {
+    "cypress": "^13.8.1",
+    "eslint-plugin-cypress": "^3.0.3",
+    "playwright": "^1.43.1"
   }
 }
