@@ -43,7 +43,7 @@ const Profilepage = () => {
       const fetchTweets = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/tweets/${showUser._id}`
+            `http://localhost:3000/api/tweets/${showUser._id}`
           );
           setTweets(response.data || []);
         } catch (error) {

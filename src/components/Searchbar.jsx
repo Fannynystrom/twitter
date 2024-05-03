@@ -15,9 +15,7 @@ const SearchBar = () => {
     console.log(searchTerm);
   };
 
-  useEffect(() => {
-    console.log("Updaterad sökterm:", searchTerm);
-  }, [searchTerm]);
+  useEffect(() => {}, [searchTerm]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

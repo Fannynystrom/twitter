@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
     //     .json({ message: "createdBy (userId) is required." });
     // }
 
-    console.log("hej2")
+    console.log("hej2");
     const newTweet = new TwitterPost({
       content,
       createdBy, // createdBy fylls med det userId som skickas från klienten
@@ -99,7 +99,7 @@ const getTopHashtags = async () => {
 //   }
 // });
 
-router.get("/tweets/:userId", async (req, res) => {
+router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
 
   try {

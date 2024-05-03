@@ -48,6 +48,7 @@ router.post("/:id/follow", async (req, res) => {
       },
       { new: true }
     )
+      .select("-password")
       .populate("following", "username firstName")
       .populate("followers", "username firstName"); // 'new: true' returnerar dokumentet efter uppdateringen
 
@@ -75,6 +76,7 @@ router.post("/:id/unfollow", async (req, res) => {
       },
       { new: true }
     )
+      .select("-password")
       .populate("following")
       .populate("followers");
 
@@ -97,19 +99,21 @@ router.post("/login", async (req, res) => {
     // Hitta användaren i databasen
     const user = await User.findOne({
       username: username,
-      password: password,
+      // password: password,
     })
       .select(
-        "username firstName following followers about work hometown website"
+        "username password firstName following followers about work hometown website"
       )
       .populate("following", "username firstName")
-      .populate("followers", "username firstName");
+      .populate("followers", "username firstName")
+      .lean();
     if (!user) {
       return res.status(404).json({ message: "Användaren hittades inte" });
     }
     if (user.password !== password) {
       return res.status(401).json({ message: "Fel lösenord" });
     }
+    delete user.password;
 
     res.status(201).json(user);
   } catch (error) {
