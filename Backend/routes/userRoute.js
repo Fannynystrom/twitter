@@ -114,7 +114,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Fel lösenord" });
     }
     delete user.password;
-    console.log(user);
+
     res.status(200).json(user);
   } catch (error) {
     console.error(error);

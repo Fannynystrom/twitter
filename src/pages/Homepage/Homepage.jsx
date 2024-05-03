@@ -23,14 +23,11 @@ function Homepage() {
       const fetchTweets = async () => {
         try {
           const loadedTweets = await getTweets();
-          console.log("loaded tweets", loadedTweets);
-          console.log(user);
           if (user && user.following.length > 0) {
             const followingIds = user.following.map((follow) => follow._id); // filtrera enbart de man följers IDn
             const filteredTweets = loadedTweets.filter(
               (tweet) => followingIds.includes(tweet.createdBy._id) // Filtrera tweetsen därefter
             );
-            console.log("filteredTweets", filteredTweets);
             setTweets(filteredTweets);
           } else {
             setTweets([]);
