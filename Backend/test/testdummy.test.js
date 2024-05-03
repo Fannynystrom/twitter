@@ -5,7 +5,8 @@ import supertest from "supertest";
 import app from "../../src/App";
 const api = supertest(app);
 
-let mongoServer; 
+let mongoServer;
+let fakeUser;
 
 beforeEach(async () => {
     mongoServer = await MongoMemoryServer.create();
