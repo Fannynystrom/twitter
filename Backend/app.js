@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 
-
 import userRoute from "./routes/userRoute.js";
 import tweetRoutes from "./routes/tweetRoutes.js";
 import hashtagRoutes from "./routes/hashtagRoutes.js";
