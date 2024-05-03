@@ -46,8 +46,9 @@ body {
   background-color: var(--light-green-1);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  font-weight: 300;
+  font-weight: 200;
   line-height: 1;
+  font-size: calc(1em + 0.5vw);
 }
 
 h2 {
@@ -70,16 +71,47 @@ h2 {
 
 @media (max-width: 768px) {
   .wrapper {
-    grid-template-columns: 200px 1fr; /* Sidebar disappears or turns into a popup/menu on smaller screens */
+    grid-template-columns: 1fr; /* Tar bort sidebar och använder en kolumn layout */
     grid-template-areas:
-      "nav main sd"
-      "nav main sd"
-      "nav main sd"
-      "ft ft";
+      "nav"
+      "main"
+      "ft";
   }
 
-  .sidebar {
-    display: none; /* Optionally hide the sidebar on smaller screens */
+  .sidebar,
+  .profileTweetsWrapper,
+  .followList {
+    display: none; /* Gömmer vissa element på mindre skärmar */
+  }
+
+  .content,
+  .profileListsContainer {
+    margin-top: 1em;
+    width: 90%; /* Gör huvudinnehållet bredare på små skärmar */
+    justify-self: center;
+  }
+
+  .collapsibleList {
+    width: 100%; /* Gör listorna bredare på små skärmar */
+  }
+
+  .footer {
+    font-size: medium; /* Anpassar storleken på footertext */
+  }
+
+  h2,
+  .profilePageTitle h3 {
+    font-size: large; /* Minskar rubrikstorlekarna på små skärmar */
+  }
+}
+@media (max-width: 480px) {
+  body {
+    font-size: calc(0.9em + 0.5vw); /* Minskar fontstorleken ytterligare */
+  }
+
+  h2,
+  .profilePageTitle h3 {
+    font-size: medium; /* Minskar ytterligare för mycket små skärmar */
   }
 }
 
