@@ -83,7 +83,7 @@ const RegisterForm = () => {
                 </div>
               )
           )}
-          <button type="submit">Register</button>
+          <button id="register" type="submit">Register</button>
           {formData.error && <p className="error">{formData.error}</p>}
         </form>
       </div>

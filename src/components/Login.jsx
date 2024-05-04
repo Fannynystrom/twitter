@@ -51,7 +51,7 @@ const LoginForm = () => {
             />
           </div>
           <button type="submit">Login</button>
-          <button type="button" onClick={() => navigate("/register")}>
+          <button type="button" id="registerButton" onClick={() => navigate("/register")}>
             Registrera dig
           </button>
         </form>

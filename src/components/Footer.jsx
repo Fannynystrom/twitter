@@ -24,6 +24,7 @@ const Footer = () => {
   return (
     <>
       <Button
+        id="logoutButton"
         variant="primary"
         style={{ backgroundColor: "#314528" }}
         onClick={handleShow}
