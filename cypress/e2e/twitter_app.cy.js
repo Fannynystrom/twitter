@@ -27,7 +27,7 @@ describe('Register', () => {
   })
 });
 
-describe('Login', () => {
+describe('Login and logout', () => {
   it('should log in successfully with valid credentials', () => {
     cy.visit('http://localhost:5173/login');
     
@@ -43,7 +43,7 @@ describe('Login', () => {
   });
 });
 
-describe('Profile checkout', () => {
+describe('Profile checkout, followers and folloing', () => {
   it('should log in successfully with valid credentials', () => {
     cy.visit('http://localhost:5173/login');
     
@@ -63,7 +63,7 @@ describe('Profile checkout', () => {
 });
 
 
-describe('Post woof', () => {
+describe('Post woof and use search function', () => {
   it('should log in successfully with valid credentials', () => {
     cy.visit('http://localhost:5173/');
     
@@ -83,9 +83,8 @@ describe('Post woof', () => {
     cy.get('#woofpost').type('#CarroTheTester');
     cy.wait(500)
     cy.get('#woofsubmit').click();
-    cy.wait(500000000000)
+    cy.wait(500)
     cy.contains('Profil').click();
- 
+
   });
 });
-
