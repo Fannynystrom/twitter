@@ -1,12 +1,9 @@
-
-
 name: CI
 
 on:
   push:
     branches:
-      
-main
+      - main
 
 jobs:
   build:
@@ -16,25 +13,20 @@ jobs:
       mongodb:
         image: mongo
         ports:
-          
-27017:27017
-      options: --name mongodb
+          - 27017:27017
+        options: --name mongodb
 
     steps:
-      
-name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      
-name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 20
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20
 
-      
-name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-      
-name: Run tests
-      run: npm run test
+      - name: Run tests
+        run: npm run test
