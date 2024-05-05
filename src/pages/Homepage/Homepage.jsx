@@ -12,40 +12,33 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 
 function Homepage() {
-  function CreateTweet() {
-    return (
-      <div className={styles.createTweetBox}>
-        <div className={styles.profileImg} />
-        <div className={styles.createInput}>
-          <textarea placeholder="Skriv din tweet här" />
-        </div>
-        <button>Tweet</button>
-      </div>
-    );
-  }
+  const [tweets, setTweets] = useState([]);
+  const { user, isLoggedIn } = useContext(UserContext);
+  const navigate = useNavigate();
 
-  function TweetPost() {
-    return (
-      <div className={styles.tweetBox}>
-        <div className="tweetHeader">
-          <h3>Laban Labansson</h3> <em>@laban</em>
-        </div>
-        <div className={styles.tweetBody}>
-          <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.
-          </p>
-        </div>
-        <div className={styles.tweetButtons}>
-          <button>Gilla</button>
-          <button>Kommentera</button>
-          <button>Retweeta</button>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      const fetchTweets = async () => {
+        try {
+          const loadedTweets = await getTweets();
+          if (user && user.following.length > 0) {
+            const followingIds = user.following.map((follow) => follow._id); // filtrera enbart de man följers IDn
+            const filteredTweets = loadedTweets.filter(
+              (tweet) => followingIds.includes(tweet.createdBy._id) // Filtrera tweetsen därefter
+            );
+            setTweets(filteredTweets);
+          } else {
+            setTweets([]);
+          }
+        } catch (error) {
+          console.error("Error fetching tweets:", error);
+        }
+      };
+      fetchTweets();
+    }
+  }, [isLoggedIn, user, navigate]);
 
   const addTweet = async (content, userName) => {
     try {
@@ -60,22 +53,6 @@ function Homepage() {
       console.error("Failed to create tweet:", error);
     }
   };
-
-  //VISA FILTRERAD TWEET - avvaktar med denna
-  // const addTweet = async (content, userName) => {
-  //   try {
-  //     const newTweet = await createTweet(content, userName);
-  //     // Endast lägg till tweet om användaren följer skaparen av tweeten eller om det är användarens egna tweets
-  //     if (
-  //       user.following.includes(newTweet.createdBy._id) ||
-  //       user._id === newTweet.createdBy._id
-  //     ) {
-  //       setTweets((prevTweets) => [newTweet, ...prevTweets]);
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to create tweet:", error);
-  //   }
-  // };
 
   return (
     <div className="wrapper">

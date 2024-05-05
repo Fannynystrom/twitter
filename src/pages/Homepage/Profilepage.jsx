@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
-import UserProfile from "../../components/UserProfile";
 import FollowButton from "../../components/FollowButton";
 import axios from "axios";
 import SearchBar from "../../components/Searchbar";
@@ -126,20 +125,20 @@ const Profilepage = () => {
         </div>
       </div>
 
-          {showUser.following?.map((followProfile) => (
-            <li key={followProfile._id}>
-              {followProfile.username}
-              {showUser._id === user._id ? (
-                <FollowButton
-                  userId={followProfile._id}
-                  className={styles.followingBtnFeed}
-                />
-              ) : (
-                ""
-              )}
-            </li>
-          ))}
-       
+      {showUser.following?.map((followProfile) => (
+        <li key={followProfile._id}>
+          {followProfile.username}
+          {showUser._id === user._id ? (
+            <FollowButton
+              userId={followProfile._id}
+              className={styles.followingBtnFeed}
+            />
+          ) : (
+            ""
+          )}
+        </li>
+      ))}
+
       <div className="sidebar">
         <SearchBar />
         <TrendingHashtags />
