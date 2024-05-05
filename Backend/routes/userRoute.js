@@ -140,8 +140,16 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const users = await User.find()
+<<<<<<< HEAD
       .select("username firstName following followers")
       .populate("following", "username firstName")
+=======
+      .select(
+        "username firstName following followers about work hometown website"
+      )
+      .populate("following", "username firstName")
+      .populate("followers", "username firstName")
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
       .lean();
     // Hantera fall där createdBy är null
     res.status(200).json(users);
@@ -153,8 +161,16 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
+<<<<<<< HEAD
       .select("username firstName following followers")
       .populate("following", "username firstName")
+=======
+      .select(
+        "username firstName following followers about work hometown website"
+      )
+      .populate("following", "username firstName")
+      .populate("followers", "username firstName")
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
       .lean();
     // Hantera fall där createdBy är null
     res.status(200).json(user);
@@ -163,6 +179,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -171,6 +188,89 @@ router.post("/login", async (req, res) => {
       return res.status(404).json({ message: "Användaren hittades inte" });
     }
     res.status(200).json(user);
+=======
+// POST /api/users/:id/follow
+router.post("/:id/follow", async (req, res) => {
+  const userId = req.body.userId; // Få användar-ID från request body istället
+  const targetUserId = req.params.id;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $addToSet: { following: targetUserId },
+      },
+      { new: true }
+    )
+      .select("-password")
+      .populate("following", "username firstName")
+      .populate("followers", "username firstName"); // 'new: true' returnerar dokumentet efter uppdateringen
+
+    await User.findByIdAndUpdate(targetUserId, {
+      $addToSet: { followers: userId },
+    });
+
+    res.status(200).json(updatedUser); // Skicka tillbaka den uppdaterade användaren
+  } catch (error) {
+    console.error("Error following user:", error);
+    res.status(500).send("Error following user.");
+  }
+});
+
+// POST /api/users/:id/unfollow
+router.post("/:id/unfollow", async (req, res) => {
+  const userId = req.body.userId; // Få användar-ID från request body istället
+  const targetUserId = req.params.id;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { following: targetUserId },
+      },
+      { new: true }
+    )
+      .select("-password")
+      .populate("following")
+      .populate("followers");
+
+    await User.findByIdAndUpdate(targetUserId, {
+      $pull: { followers: userId },
+    });
+
+    res.status(200).json(updatedUser); // Skicka tillbaka den uppdaterade användaren
+  } catch (error) {
+    console.error("Error unfollowing user:", error);
+    res.status(500).send("Error unfollowing user.");
+  }
+});
+
+// Route för inloggning
+router.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Hitta användaren i databasen
+    const user = await User.findOne({
+      username: username,
+      // password: password,
+    })
+      .select(
+        "username password firstName following followers about work hometown website"
+      )
+      .populate("following", "username firstName")
+      .populate("followers", "username firstName")
+      .lean();
+    if (!user) {
+      return res.status(404).json({ message: "Användaren hittades inte" });
+    }
+    if (user.password !== password) {
+      return res.status(401).json({ message: "Fel lösenord" });
+    }
+    delete user.password;
+
+    res.status(201).json(user);
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
   } catch (error) {
     res.status(500).json({ message: "Något gick fel vid inloggningen" });
   }
@@ -178,7 +278,24 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
+<<<<<<< HEAD
     const { username, password, firstName, lastName, email, about, occupation, hometown, website } = req.body;
+=======
+    const {
+      username,
+      password,
+      firstName,
+      lastName,
+      email,
+      followers,
+      following,
+      about,
+      work,
+      hometown,
+      website,
+    } = req.body;
+
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
       return res.status(400).json({
@@ -191,10 +308,20 @@ router.post("/register", async (req, res) => {
       firstName,
       lastName,
       email,
+<<<<<<< HEAD
       about,
       occupation,
       hometown,
       website
+=======
+      followers: followers || [],
+      following: following || [],
+      about,
+      work,
+      hometown,
+      website,
+      registrationDate: new Date(),
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
     });
     await newUser.save();
     res.status(201).json({ message: "Användaren skapades framgångsrikt" });

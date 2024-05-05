@@ -9,6 +9,10 @@ import TrendingHashtags from "../../components/TrendingHashtags";
 import { createTweet, getTweets } from "../../API/TweetApi";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
+=======
+import Footer from "../../components/Footer";
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
 
 function Homepage() {
   const [tweets, setTweets] = useState([]);
@@ -100,7 +104,9 @@ function Homepage() {
         <SearchBar />
         <TrendingHashtags />
       </div>
-      <div className="footer">FOOTER</div>
+      <div className="footer">
+        <Footer />
+      </div>
     </div>
   );
 }

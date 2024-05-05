@@ -43,14 +43,18 @@ router.post("/", async (req, res) => {
     //     .json({ message: "createdBy (userId) is required." });
     // }
 
+    console.log("hej2");
     const newTweet = new TwitterPost({
       content,
       createdBy, // createdBy fylls med det userId som skickas från klienten
       hashtags: TwitterPost.extractHashtags(content),
     });
+    console.log("hej3", newTweet);
     await newTweet.save();
+    console.log("hej4");
     await saveHashtags(newTweet.hashtags);
-    await newTweet.populate("createdBy");
+    console.log("hej5");
+    //await newTweet.populate("createdBy");
 
     res.status(201).json(newTweet);
   } catch (error) {
@@ -95,7 +99,7 @@ const getTopHashtags = async () => {
 //   }
 // });
 
-router.get("/tweets/:userId", async (req, res) => {
+router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
 
   try {
@@ -109,7 +113,7 @@ router.get("/tweets/:userId", async (req, res) => {
       res.json(tweets);
     } else {
       console.log(`No tweets found for user ${userId}`);
-      res.status(404).send("No tweets found for this user.");
+      res.status(200).json([]);
     }
   } catch (error) {
     console.error("Error fetching tweets for user:", error);

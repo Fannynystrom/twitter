@@ -69,6 +69,7 @@ function Navbar() {
                 <li className={styles.userName} key={userItem._id}>
                   <Link to={`/profile/${userItem._id}`}>
                     {userItem.username}
+<<<<<<< HEAD
 
                     {user._id !== userItem._id && !isFollowing(userItem._id) ? (
                       <FollowButton
@@ -77,6 +78,15 @@ function Navbar() {
                       />
                     ) : null}
                   </Link>
+=======
+                  </Link>
+                  {user._id !== userItem._id && !isFollowing(userItem._id) ? (
+                    <FollowButton
+                      userId={userItem._id}
+                      className={btnStyles.followBtnNavbar}
+                    />
+                  ) : null}
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
                 </li>
               ))}
           </ul>

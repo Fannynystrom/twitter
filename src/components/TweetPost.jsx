@@ -4,6 +4,7 @@ import styles from "./TweetPost.module.css";
 import FollowButton from "./FollowButton";
 import { deleteTweet, likeTweet } from "../API/TweetApi";
 import { UserContext } from "../context/UserContext";
+import profileAvatar from "../assets/woffer.png";
 
 function TweetPost({ tweet, onDelete, onLike, onToggleFollow }) {
   const { user, isFollowing } = useContext(UserContext);
@@ -43,7 +44,11 @@ function TweetPost({ tweet, onDelete, onLike, onToggleFollow }) {
   return (
     <div className={styles.tweetBox}>
       <div className={styles.tweetHeader}>
-        <div className={styles.profileImg}></div>
+        <img
+          src={profileAvatar}
+          alt="profileavatar"
+          className={styles.profileImg}
+        />
         <div className={styles.tweetHeaderContent}>
           {tweet.createdBy.firstName} <em>@{tweet.createdBy.username}</em>
           <span className={styles.tweetRelativeTime}>

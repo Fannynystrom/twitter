@@ -4,9 +4,13 @@ const API_URL = "http://localhost:3000/api/tweets";
 
 export const getTweets = async () => {
   try {
+<<<<<<< HEAD
     console.log(API_URL, "url");
     const response = await axios.get(API_URL);
     console.log("det funkar");
+=======
+    const response = await axios.get(API_URL);
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
     return response.data;
   } catch (error) {
     console.error("Kunde inte hämta tweets:", error);

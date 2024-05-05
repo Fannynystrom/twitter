@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import { useState, useContext } from "react";
 // import "./loginRegister.css";
 // import { useNavigate } from "react-router-dom";
@@ -68,6 +69,8 @@
 // export default LoginForm;
 
 
+=======
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
 import { useState, useContext } from "react";
 import "./loginRegister.css";
 import { useNavigate } from "react-router-dom";
@@ -76,8 +79,13 @@ import axios from "axios";
 import { UserContext } from "../context/UserContext";
 
 const LoginForm = () => {
+<<<<<<< HEAD
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+=======
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
   const { setUser, setIsLoggedIn } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -86,15 +94,16 @@ const LoginForm = () => {
     e.preventDefault();
 
     const userData = { username, password };
-    console.log(userData);
 
     try {
       const response = await loginUser(userData);
+<<<<<<< HEAD
       setIsLoggedIn(true);
+=======
+      setIsLoggedIn("true");
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
       setUser(response);
       navigate("/");
-      console.log(response);
-      console.log("Du är inloggad!");
     } catch (error) {
       console.error("Något gick fel:", error);
     }
@@ -126,7 +135,7 @@ const LoginForm = () => {
             />
           </div>
           <button type="submit">Login</button>
-          <button type="button" onClick={() => navigate("/register")}>
+          <button type="button" id="registerButton" onClick={() => navigate("/register")}>
             Registrera dig
           </button>
         </form>

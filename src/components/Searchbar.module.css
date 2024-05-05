@@ -24,9 +24,10 @@
   margin: 20px 0;
 }
 
-.searchResults h2 {
-  border-bottom: 1px solid #ddd;
+.searchResults h4 {
+  border-bottom: 1px solid #c5cab9;
   padding-bottom: 5px;
+  color: #314528;
 }
 
 .searchResults ul {

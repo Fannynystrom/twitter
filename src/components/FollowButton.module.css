@@ -17,3 +17,32 @@
   color: black;
   cursor: pointer;
 }
+<<<<<<< HEAD
+=======
+
+.collapsibleHeader {
+  cursor: pointer;
+  user-select: none; /* förhindrar textmarkering */
+  padding: 10px;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.collapsibleHeader:hover {
+  background-color: #f0f0f0; /* Lätt grå bakgrund på hover */
+}
+
+.collapsibleHeader::after {
+  content: "▼"; /* Standardikon: nedåtpil */
+  font-size: 12px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
+}
+
+.collapsibleHeader.open::after {
+  transform: translateY(-50%) rotate(180deg); /* Roterar pilen när listan är öppen */
+}
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a

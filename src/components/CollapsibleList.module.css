@@ -1,0 +1,32 @@
+/* CollapsibleList.module.css */
+.header {
+  cursor: pointer;
+  user-select: none; /* förhindrar textmarkering */
+  padding: 10px;
+  padding-right: 30px; /* Ger extra utrymme till höger för pilen */
+  position: relative;
+  transition: background-color 0.3s ease;
+  display: flex; /* Gör att text och pil kan ordnas horisontellt */
+  align-items: center;
+  font-weight: 200;
+  font-size: medium;
+}
+
+.header:hover {
+  background-color: #f0f0f0;
+}
+
+.header::after {
+  content: "▼";
+  font-size: 12px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-left: auto;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
+}
+
+.open::after {
+  transform: translateY(-50%) rotate(90deg);
+}

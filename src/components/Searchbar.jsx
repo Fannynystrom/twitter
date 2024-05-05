@@ -96,9 +96,7 @@ const SearchBar = () => {
     console.log(searchTerm);
   };
 
-  useEffect(() => {
-    console.log("Updaterad sökterm:", searchTerm);
-  }, [searchTerm]);
+  useEffect(() => {}, [searchTerm]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -135,7 +133,7 @@ const SearchBar = () => {
       </form>
       {error && <p className={styles.errorMessage}>{error}</p>}
       <div className={styles.searchResults}>
-        <h2>Users</h2>
+        <h4>Users</h4>
         <ul>
           {searchResults.users.map((user, index) => (
             <li key={index} className={styles.resultItem}>
@@ -145,7 +143,11 @@ const SearchBar = () => {
         </ul>
       </div>
       <div className={styles.searchResults}>
+<<<<<<< HEAD
         <h2>Woofs</h2>
+=======
+        <h4>Posts</h4>
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
         <ul>
           {searchResults.tweets.map((tweet, index) => (
             <li key={index} className={styles.resultItem}>

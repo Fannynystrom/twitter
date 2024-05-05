@@ -46,8 +46,9 @@ body {
   background-color: var(--light-green-1);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  font-weight: 300;
+  font-weight: 200;
   line-height: 1;
+  font-size: calc(1em + 0.5vw);
 }
 
 h2 {
@@ -70,23 +71,52 @@ h2 {
 
 @media (max-width: 768px) {
   .wrapper {
-    grid-template-columns: 200px 1fr; /* Sidebar disappears or turns into a popup/menu on smaller screens */
+    grid-template-columns: 1fr; /* Tar bort sidebar och använder en kolumn layout */
     grid-template-areas:
-      "nav main sd"
-      "nav main sd"
-      "nav main sd"
-      "ft ft";
+      "nav"
+      "main"
+      "ft";
   }
 
-  .sidebar {
-    display: none; /* Optionally hide the sidebar on smaller screens */
+  .sidebar,
+  .profileTweetsWrapper,
+  .followList {
+    display: none; /* Gömmer vissa element på mindre skärmar */
+  }
+
+  .content,
+  .profileListsContainer {
+    margin-top: 1em;
+    width: 90%; /* Gör huvudinnehållet bredare på små skärmar */
+    justify-self: center;
+  }
+
+  .collapsibleList {
+    width: 100%; /* Gör listorna bredare på små skärmar */
+  }
+
+  .footer {
+    font-size: medium; /* Anpassar storleken på footertext */
+  }
+
+  h2,
+  .profilePageTitle h3 {
+    font-size: large; /* Minskar rubrikstorlekarna på små skärmar */
+  }
+}
+@media (max-width: 480px) {
+  body {
+    font-size: calc(0.9em + 0.5vw); /* Minskar fontstorleken ytterligare */
+  }
+
+  h2,
+  .profilePageTitle h3 {
+    font-size: medium; /* Minskar ytterligare för mycket små skärmar */
   }
 }
 
 .footer {
   grid-area: ft;
-  background-color: black;
-  color: white;
   text-align: center;
   padding-top: 1rem;
   font-size: x-large;
@@ -145,3 +175,101 @@ ul {
 .profileTweetsWrapper {
   margin-top: 3rem;
 }
+<<<<<<< HEAD
+=======
+
+.trendingList {
+  font-size: small;
+  text-align: start;
+}
+
+/* Profile Lists Container */
+.profileListsContainer {
+  display: flex;
+  justify-content: space-around; /* Centrerar elementen med utrymme emellan */
+  align-items: flex-start; /* Startar elementen vid toppen av containern */
+  flex-wrap: wrap; /* Ser till att elementen kan radbrytas vid mindre skärmstorlekar */
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.collapsibleList {
+  width: 48%; /* Ger varje lista lite utrymme att andas */
+  background: #f8f8f8; /* Lätt bakgrundsfärg */
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Lägger till en lätt skugga för djup */
+  border-radius: 5px; /* Rundade hörn */
+}
+
+.profileArea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.profileHead {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+.profilePageImg {
+  display: flex;
+  width: 20%;
+}
+
+.profilePageImg img {
+  display: flex;
+  width: 80%;
+}
+
+.profilePageTitle {
+  display: flex;
+  font-size: x-large;
+  width: 80%;
+  align-items: center;
+}
+
+.profilePageTitle h3 {
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.profilePageTitle em {
+  font-size: large;
+  letter-spacing: 2px;
+}
+
+.profileBody {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top: 1px solid #314528;
+  border-bottom: 1px solid #314528;
+}
+
+.profileBody p {
+  font-size: medium;
+  font-weight: 50;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.avatar {
+  max-width: 3rem;
+}
+
+.footercontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+ol,
+ul {
+  padding-left: 0 !important;
+}
+>>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
