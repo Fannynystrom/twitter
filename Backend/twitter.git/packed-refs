@@ -1,8 +1,0 @@
-# pack-refs with: peeled fully-peeled sorted 
-9d4eae64d103711933d4f9a918dbb32f548e8f25 refs/heads/LoginSignUp
-7ac671dce58381d91b55aebf08ad5e4e99903cf1 refs/heads/backend
-85cfeb942ab7245d91f507d69324f5a1caf30d28 refs/heads/development
-7a5f0c15f1cc46b69d1c30baecee5792b5758cd5 refs/heads/main
-aecbbbde9040f9715c8a47b87a49bdd4a3b35918 refs/pull/1/head
-85cfeb942ab7245d91f507d69324f5a1caf30d28 refs/pull/2/head
-7ac671dce58381d91b55aebf08ad5e4e99903cf1 refs/pull/3/head

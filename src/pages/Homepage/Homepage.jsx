@@ -1,11 +1,18 @@
-import React, { useState } from "react";
-import styles from "./Homepage.module.css";
-import Navbar from "../../components/Navbar";
+import React, { useState, useEffect, useContext } from "react";
+// import styles from "./Homepage.module.css";
+// import Navbar from "../../components/Navbar";
 import "../../index.css";
+import SearchBar from "../../components/Searchbar";
+import CreateTweet from "../../components/CreateTweet";
+import TweetPost from "../../components/TweetPost";
+import TrendingHashtags from "../../components/TrendingHashtags";
+import { createTweet, getTweets } from "../../API/TweetApi";
+import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
 
 function Homepage() {
   function CreateTweet() {
-    console.log("hejhej");
     return (
       <div className={styles.createTweetBox}>
         <div className={styles.profileImg} />
@@ -40,42 +47,51 @@ function Homepage() {
     );
   }
 
-  function SearchBar() {
-    return <div className={styles.searchBox}>SÖKFÄLT</div>;
-  }
+  const addTweet = async (content, userName) => {
+    try {
+      const newTweet = await createTweet(content, userName);
+      if (
+        user.following.includes(newTweet.createdBy._id) ||
+        user._id === newTweet.createdBy._id
+      ) {
+        setTweets((prevTweets) => [newTweet, ...prevTweets]);
+      }
+    } catch (error) {
+      console.error("Failed to create tweet:", error);
+    }
+  };
 
-  function Trending() {
-    return (
-      <div className={styles.trendingBox}>
-        <h3>Trendande tweets</h3>
-        <ul>
-          <li>Lista med tweets</li>
-          <li>Lista med tweets</li>
-          <li>Lista med tweets</li>
-        </ul>
-      </div>
-    );
-  }
+  //VISA FILTRERAD TWEET - avvaktar med denna
+  // const addTweet = async (content, userName) => {
+  //   try {
+  //     const newTweet = await createTweet(content, userName);
+  //     // Endast lägg till tweet om användaren följer skaparen av tweeten eller om det är användarens egna tweets
+  //     if (
+  //       user.following.includes(newTweet.createdBy._id) ||
+  //       user._id === newTweet.createdBy._id
+  //     ) {
+  //       setTweets((prevTweets) => [newTweet, ...prevTweets]);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to create tweet:", error);
+  //   }
+  // };
 
   return (
     <div className="wrapper">
       <div className="content">
-        <div className={styles.tweetFeedContainer}>
-          <div className={styles.tweetFeed}>
-            <CreateTweet />
-
-            <TweetPost />
-            <TweetPost />
-            <TweetPost />
-            <TweetPost />
-          </div>
-        </div>
+        <CreateTweet addTweet={addTweet} />
+        {tweets.map((tweet) => (
+          <TweetPost key={tweet._id} tweet={tweet} />
+        ))}
       </div>
       <div className="sidebar">
         <SearchBar />
-        <Trending />
+        <TrendingHashtags />
       </div>
-      <div className="footer">FOOTER</div>
+      <div className="footer">
+        <Footer />
+      </div>
     </div>
   );
 }

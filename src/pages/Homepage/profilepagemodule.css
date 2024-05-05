@@ -1,0 +1,38 @@
+/* profilepage.module.css */
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .content {
+    flex-grow: 1;
+  }
+  
+  .profileHeader {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+  }
+  
+  .profileHeader h1 {
+    margin-bottom: 10px;
+  }
+  
+  .profileHeader h1 em {
+    font-style: italic;
+  }
+  
+  .tweetsContainer {
+    margin-top: 20px;
+  }
+  
+  .sidebar {
+    width: 200px;
+  }
+  
+  .footer {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
