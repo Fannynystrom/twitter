@@ -143,11 +143,7 @@ const SearchBar = () => {
         </ul>
       </div>
       <div className={styles.searchResults}>
-<<<<<<< HEAD
-        <h2>Woofs</h2>
-=======
         <h4>Posts</h4>
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
         <ul>
           {searchResults.tweets.map((tweet, index) => (
             <li key={index} className={styles.resultItem}>

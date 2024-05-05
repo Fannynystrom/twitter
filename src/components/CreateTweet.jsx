@@ -56,11 +56,7 @@ function CreateTweet({ addTweet }) {
       <div className={charCountClass}>
         {maxTweetLength - content.length} tecken kvar
       </div>
-<<<<<<< HEAD
-      <button className={styles.tweetButton} onClick={handleTweetCreation}>
-=======
       <button id='woofsubmit' className={styles.tweetButton} onClick={handleTweetCreation}>
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
         Woof
       </button>
     </div>

@@ -37,11 +37,7 @@ function TrendingHashtags() {
   }, []);
 
   const extractHashtags = (tweetText) => {
-<<<<<<< HEAD
-    const hashtagsRegex = /#(\S+)/g; // inkluderar allt utom mellanslag    
-=======
     const hashtagsRegex = /#(\S+)/g; // inkluderar allt utom mellanslag
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
     const hashtags = tweetText.match(hashtagsRegex);
     return hashtags ? hashtags.map((tag) => tag.slice(1)) : [];
   }
@@ -86,10 +82,6 @@ function TrendingHashtags() {
     getTrendingHashtags();
   }, []);
 
-<<<<<<< HEAD
-
-=======
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
   return (
     <div className={styles.trendingBox}>
       <h3>Trending hashtags</h3>
@@ -107,8 +99,4 @@ function TrendingHashtags() {
   );
 }
 
-<<<<<<< HEAD
 export default TrendingHashtags;
-=======
-export default TrendingHashtags;
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a

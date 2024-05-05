@@ -15,11 +15,7 @@ export const UserProvider = ({ children }) => {
     const savedUser = localStorage.getItem("user");
     return savedUser
       ? JSON.parse(savedUser)
-<<<<<<< HEAD
-      : { isLoggedIn: "false", following: [] };
-=======
       : { isLoggedIn: "false", following: [], followers: [] };
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
   });
 
   useEffect(() => {
@@ -39,14 +35,6 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("isLoggedIn", isLoggedIn);
-<<<<<<< HEAD
-    console.log("vad är isLoggedIn", isLoggedIn);
-    console.log(
-      "vad är localstorage.getItem",
-      localStorage.getItem("isLoggedIn")
-    );
-=======
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
   }, [isLoggedIn]);
 
   useEffect(() => {

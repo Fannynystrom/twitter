@@ -293,21 +293,6 @@ import "./loginRegister.css";
 import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
-<<<<<<< HEAD
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [about, setAbout] = useState(""); // Nytt fält
-  const [occupation, setOccupation] = useState(""); // Nytt fält
-  const [hometown, setHometown] = useState(""); // Nytt fält
-  const [website, setWebsite] = useState(""); // Nytt fält
-  const [registrationDate, setRegistrationDate] = useState(""); // Nytt fält
-  const [error, setError] = useState(""); 
-  const navigate = useNavigate();
-=======
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -321,7 +306,6 @@ const RegisterForm = () => {
     website: "",
     error: "",
   });
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -329,43 +313,9 @@ const RegisterForm = () => {
       setFormData((prev) => ({ ...prev, error: "Lösenorden matchar inte." }));
       return;
     }
-<<<<<<< HEAD
-  
-    const userData = {
-      username,
-      password,
-      firstName,
-      lastName,
-      email,
-      about, 
-      occupation,
-      hometown,
-      website,
-      registrationDate
-    };
-  
-=======
-
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
     try {
       const { confirmPassword, error, ...userData } = formData;
       await registerUser(userData);
-<<<<<<< HEAD
-      // Nollställ formuläret
-      setUsername("");
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-      setAbout("");
-      setOccupation("");
-      setHometown("");
-      setWebsite("");
-      setRegistrationDate("");
-      setError("");
-      navigate("/login"); 
-=======
       setFormData({
         username: "",
         password: "",
@@ -380,7 +330,6 @@ const RegisterForm = () => {
         error: "",
       });
       navigate("/login");
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
     } catch (error) {
       setFormData((prev) => ({
         ...prev,
@@ -395,114 +344,6 @@ const RegisterForm = () => {
       <div className="form-container">
         <h2>Register</h2>
         <form onSubmit={handleSubmit}>
-<<<<<<< HEAD
-          <div>
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="firstName">Firstname:</label>
-            <input
-              type="text"
-              id="firstName"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="lastName">Lastname:</label>
-            <input
-              type="text"
-              id="lastName"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password:</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </div>
-          {/* Lägg till nya fält */}
-          <div>
-            <label htmlFor="about">About:</label>
-            <textarea
-              id="about"
-              value={about}
-              onChange={(e) => setAbout(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="occupation">Occupation:</label>
-            <input
-              type="text"
-              id="occupation"
-              value={occupation}
-              onChange={(e) => setOccupation(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="hometown">Hometown:</label>
-            <input
-              type="text"
-              id="hometown"
-              value={hometown}
-              onChange={(e) => setHometown(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="website">Website:</label>
-            <input
-              type="url"
-              id="website"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="registrationDate">Registration Date:</label>
-            <input
-              type="date"
-              id="registrationDate"
-              value={registrationDate}
-              onChange={(e) => setRegistrationDate(e.target.value)}
-            />
-          </div>
-          <button type="submit">Register</button>
-=======
           {Object.entries(formData).map(
             ([key, value]) =>
               key !== "error" && (
@@ -532,7 +373,6 @@ const RegisterForm = () => {
           )}
           <button id="register" type="submit">Register</button>
           {formData.error && <p className="error">{formData.error}</p>}
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
         </form>
       </div>
     </div>
