@@ -2,30 +2,14 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import supertest from "supertest";
 
-<<<<<<< HEAD
-import app from "../../src/App";
-=======
 import User from '../models/userModel.js'
 import app from "../app.js"
 
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
 const api = supertest(app);
 
 let mongoServer;
 let fakeUser;
 
-<<<<<<< HEAD
-beforeEach(async () => {
-    mongoServer = await MongoMemoryServer.create();
-    const mongoUri = mongoServer.getUri();
-    await mongoose.connect(mongoUri);
-  });
-  
-  afterEach(async () => {
-    await mongoose.disconnect();
-    await mongoServer.stop();
-  });
-=======
 beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
     const mongoUri = mongoServer.getUri();
@@ -104,4 +88,3 @@ test('Register a new user', async () => {
 //     expect(res.statusCode).toBe(201);
 //     expect(res.body.content).toBe("testing");
 // });
->>>>>>> a2fe2cfe4e08565ae157deeede8060f8fbcd712a
