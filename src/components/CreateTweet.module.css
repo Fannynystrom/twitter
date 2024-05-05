@@ -21,7 +21,7 @@
   resize: none;
   background-color: transparent;
 }
-.profileImg {
+.profileImg img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
