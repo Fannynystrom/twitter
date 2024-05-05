@@ -39,7 +39,7 @@ const LoginForm = () => {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              required
+              required=""
             />
           </div>
           <div>
@@ -49,11 +49,15 @@ const LoginForm = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
+              required=""
             />
           </div>
           <button type="submit">Login</button>
-          <button type="button" id="registerButton" onClick={() => navigate("/register")}>
+          <button
+            type="button"
+            id="registerButton"
+            onClick={() => navigate("/register")}
+          >
             Registrera dig
           </button>
         </form>

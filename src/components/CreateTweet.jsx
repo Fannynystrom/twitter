@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
-import { createTweet } from "../API/TweetApi";
 import styles from "./CreateTweet.module.css";
 import { UserContext } from "../context/UserContext";
 import profileAvatar from "../assets/woffer.png";
 
 function CreateTweet({ addTweet }) {
+  console.log(profileAvatar);
   const maxTweetLength = 140;
   const [content, setContent] = useState("");
   const { user } = useContext(UserContext);
@@ -23,11 +23,14 @@ function CreateTweet({ addTweet }) {
       return;
     }
     try {
-      const userData = JSON.parse(localStorage.getItem("user"));
+      const userData = user ? JSON.parse(localStorage.getItem("user")) : null;
 
-      await addTweet(content, userData._id);
-
-      setContent("");
+      if (userData && content.trim()) {
+        await addTweet(content, userData._id);
+        setContent("");
+      } else {
+        alert("You must be logged in and the tweet cannot be empty.");
+      }
     } catch (error) {
       console.error("Fel när tweet skulle skapas:", error);
     }
@@ -40,11 +43,9 @@ function CreateTweet({ addTweet }) {
 
   return (
     <div className={styles.createTweetBox}>
-      <img
-        src={profileAvatar}
-        alt="profileavatar"
-        className={styles.profileImg}
-      />
+      <div className={styles.profileImg}>
+        <img src={profileAvatar} alt="profileavatar" />
+      </div>
       <textarea
         className={styles.tweetInput}
         placeholder="Skriv din woof här"
@@ -56,7 +57,11 @@ function CreateTweet({ addTweet }) {
       <div className={charCountClass}>
         {maxTweetLength - content.length} tecken kvar
       </div>
-      <button id='woofsubmit' className={styles.tweetButton} onClick={handleTweetCreation}>
+      <button
+        id="woofsubmit"
+        className={styles.tweetButton}
+        onClick={handleTweetCreation}
+      >
         Woof
       </button>
     </div>
