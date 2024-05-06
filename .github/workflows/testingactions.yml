@@ -8,22 +8,35 @@ jobs:
   backend-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 14.x
           cache: 'npm'
-      - run: npm ci --prefix backend/test
-      - run: npm install --prefix backend/test   # Lägg till denna rad för att säkerställa att alla beroenden är installerade
-      - run: npm test --prefix backend/test || exit 1
+
+      - name: Install backend dependencies
+        run: npm ci --prefix Backend/test
+
+      - name: Run backend tests
+        run: npm test --prefix Backend/test || exit 1
 
   frontend-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 14.x
           cache: 'npm'
-      - run: npm ci --prefix frontendtest
-      - run: npm test --prefix frontendtest || exit 1
+
+      - name: Install frontend dependencies
+        run: npm ci --prefix Frontend/test
+
+      - name: Run frontend tests
+        run: npm test --prefix Frontend/test || exit 1
