@@ -18,13 +18,13 @@ jobs:
           cache: 'npm'
 
       - name: Install backend dependencies
-        run: npm ci --prefix Backend/test
+        run: npm ci --prefix Backend
 
       - name: Run backend tests
         run: npm test --prefix Backend/test || exit 1
 
       - name: Install frontend dependencies
-        run: npm ci --prefix Frontend/test
+        run: npm ci --prefix src
 
       - name: Run frontend tests
         run: npm test --prefix frontendtest || exit 1
