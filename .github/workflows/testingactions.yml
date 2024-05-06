@@ -28,5 +28,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install MongoDB client
+        run: npm install mongoose
+
       - name: Run tests
         run: npm run test
