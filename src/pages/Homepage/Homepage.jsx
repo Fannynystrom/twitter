@@ -24,9 +24,11 @@ function Homepage() {
         try {
           const loadedTweets = await getTweets();
           if (user && user.following.length > 0) {
-            const followingIds = user.following.map((follow) => follow._id); // filtrera enbart de man följers IDn
+            const followingIds = user.following.map((follow) => follow._id);
             const filteredTweets = loadedTweets.filter(
-              (tweet) => followingIds.includes(tweet.createdBy._id) // Filtrera tweetsen därefter
+              (tweet) =>
+                followingIds.includes(tweet.createdBy._id) ||
+                tweet.createdBy._id === user._id
             );
             setTweets(filteredTweets);
           } else {
@@ -44,7 +46,9 @@ function Homepage() {
     try {
       const newTweet = await createTweet(content, userName);
       if (
-        user.following.includes(newTweet.createdBy._id) ||
+        user.following
+          .map((follow) => follow._id)
+          .includes(newTweet.createdBy._id) ||
         user._id === newTweet.createdBy._id
       ) {
         setTweets((prevTweets) => [newTweet, ...prevTweets]);
